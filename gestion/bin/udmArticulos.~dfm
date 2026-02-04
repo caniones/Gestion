@@ -1,0 +1,550 @@
+object dmArticulos: TdmArticulos
+  OldCreateOrder = False
+  OnCreate = DataModuleCreate
+  Left = 640
+  Top = 237
+  Height = 322
+  Width = 399
+  object dspArticulos: TDataSetProvider
+    DataSet = ibdsArticulos
+    Left = 32
+    Top = 56
+  end
+  object ibtArticulos: TIBTransaction
+    Active = False
+    DefaultDatabase = dmConexion.IBDatabase
+    Params.Strings = (
+      'read_committed'
+      'rec_version'
+      'nowait')
+    AutoStopAction = saNone
+    Left = 32
+    Top = 8
+  end
+  object ibdsArticulos: TIBDataSet
+    Database = dmConexion.IBDatabase
+    Transaction = ibtArticulos
+    OnCalcFields = ibdsArticulosCalcFields
+    OnNewRecord = ibdsArticulosNewRecord
+    BufferChunks = 1000
+    CachedUpdates = False
+    DeleteSQL.Strings = (
+      'UPDATE ARTICULOS SET'
+      'FECHA_BAJA = '#39'NOW'#39
+      'WHERE IDARTICULO = :IDARTICULO')
+    InsertSQL.Strings = (
+      
+        'INSERT INTO ARTICULOS (IDARTICULO, CODIGO_INTERNO, DESCRIPCION, ' +
+        'STOCK, PUNTO_REPOSICION, IDLINEA, IDRUBRO, IDPROVEEDOR, FECHA_AC' +
+        'TPRECIO, FECHA_COMPRA, COSTO_UNITARIO, IDMONEDA, UTILIDAD, IVA, ' +
+        'CONTROL_STOCK, IDTITULO, PRECIO_PUBLICO)'
+      ' VALUES ('
+      ':IDARTICULO, '
+      'UPPER(:CODIGO_INTERNO), '
+      ':DESCRIPCION, '
+      ':STOCK, '
+      ':PUNTO_REPOSICION, '
+      ':IDLINEA, '
+      ':IDRUBRO, '
+      ':IDPROVEEDOR, '
+      #39'NOW'#39', '
+      ':FECHA_COMPRA,'
+      ':COSTO_UNITARIO, '
+      ':IDMONEDA,'
+      ':UTILIDAD, '
+      ':IVA,'
+      ':CONTROL_STOCK,'
+      ':IDTITULO,'
+      ':PRECIO_PUBLICO'
+      ')')
+    SelectSQL.Strings = (
+      
+        'SELECT A.IDARTICULO, A.CODIGO_INTERNO, A.DESCRIPCION, A.STOCK, A' +
+        '.PUNTO_REPOSICION, '
+      
+        '  A.IDLINEA, L.DESCRIPCION AS LINEA, A.IDRUBRO, R.DESCRIPCION AS' +
+        ' RUBRO, A.IDPROVEEDOR,'
+      
+        '  P.NOMBRE_FANTASIA AS PROVEEDOR, A.FECHA_BAJA, A.FECHA_ACTPRECI' +
+        'O, A.FECHA_COMPRA, '
+      
+        '  A.COSTO_UNITARIO, A.IDMONEDA, M.MONEDA,  A.UTILIDAD, A.IVA, A.' +
+        'CONTROL_STOCK, A.IDTITULO, A.PRECIO_PUBLICO'
+      'FROM ARTICULOS A'
+      'INNER JOIN LINEAS L ON L.IDLINEA = A.IDLINEA'
+      'INNER JOIN RUBROS R ON R.IDRUBRO = A.IDRUBRO'
+      'INNER JOIN PROVEEDORES P ON P.IDPROVEEDOR = A.IDPROVEEDOR'
+      'INNER JOIN MONEDAS M ON M.IDMONEDA = A.IDMONEDA'
+      'WHERE A.CODIGO_INTERNO <> '#39#39
+      'ORDER BY 3')
+    ModifySQL.Strings = (
+      'UPDATE ARTICULOS'
+      'SET'
+      ' CODIGO_INTERNO= UPPER(:CODIGO_INTERNO),'
+      ' DESCRIPCION= :DESCRIPCION,'
+      ' STOCK= :STOCK,'
+      ' PUNTO_REPOSICION = :PUNTO_REPOSICION,'
+      ' IDLINEA= :IDLINEA,'
+      ' IDRUBRO= :IDRUBRO,'
+      ' IDPROVEEDOR= :IDPROVEEDOR,'
+      ' FECHA_BAJA= :FECHA_BAJA,'
+      ' FECHA_ACTPRECIO= :FECHA_ACTPRECIO,'
+      ' FECHA_COMPRA= :FECHA_COMPRA,'
+      ' COSTO_UNITARIO= :COSTO_UNITARIO,'
+      ' IDMONEDA = :IDMONEDA,'
+      ' UTILIDAD= :UTILIDAD,'
+      ' IVA= :IVA,'
+      ' CONTROL_STOCK= :CONTROL_STOCK,'
+      ' IDTITULO = :IDTITULO,'
+      ' PRECIO_PUBLICO = :PRECIO_PUBLICO'
+      'WHERE IDARTICULO = :IDARTICULO')
+    GeneratorField.Field = 'IDARTICULO'
+    GeneratorField.Generator = 'GEN_IDARTICULO'
+    Left = 32
+    Top = 104
+    object ibdsArticulosIDARTICULO: TIntegerField
+      FieldName = 'IDARTICULO'
+      Origin = 'ARTICULOS.IDARTICULO'
+      Required = True
+    end
+    object ibdsArticulosCODIGO_INTERNO: TIBStringField
+      FieldName = 'CODIGO_INTERNO'
+      Origin = 'ARTICULOS.CODIGO_INTERNO'
+      Required = True
+    end
+    object ibdsArticulosDESCRIPCION: TIBStringField
+      FieldName = 'DESCRIPCION'
+      Origin = 'ARTICULOS.DESCRIPCION'
+      Required = True
+      Size = 200
+    end
+    object ibdsArticulosSTOCK: TIBBCDField
+      FieldName = 'STOCK'
+      Origin = 'ARTICULOS.STOCK'
+      Required = True
+      Precision = 9
+      Size = 4
+    end
+    object ibdsArticulosPUNTO_REPOSICION: TIBBCDField
+      FieldName = 'PUNTO_REPOSICION'
+      Origin = 'ARTICULOS.PUNTO_REPOSICION'
+      Required = True
+      Precision = 9
+      Size = 4
+    end
+    object ibdsArticulosIDLINEA: TIntegerField
+      FieldName = 'IDLINEA'
+      Origin = 'ARTICULOS.IDLINEA'
+      Required = True
+    end
+    object ibdsArticulosIDRUBRO: TIntegerField
+      FieldName = 'IDRUBRO'
+      Origin = 'ARTICULOS.IDRUBRO'
+      Required = True
+    end
+    object ibdsArticulosIDPROVEEDOR: TIntegerField
+      FieldName = 'IDPROVEEDOR'
+      Origin = 'ARTICULOS.IDPROVEEDOR'
+      Required = True
+    end
+    object ibdsArticulosFECHA_BAJA: TDateField
+      FieldName = 'FECHA_BAJA'
+      Origin = 'ARTICULOS.FECHA_BAJA'
+    end
+    object ibdsArticulosFECHA_ACTPRECIO: TDateField
+      FieldName = 'FECHA_ACTPRECIO'
+      Origin = 'ARTICULOS.FECHA_ACTPRECIO'
+      Required = True
+    end
+    object ibdsArticulosFECHA_COMPRA: TDateField
+      FieldName = 'FECHA_COMPRA'
+      Origin = 'ARTICULOS.FECHA_COMPRA'
+      Required = True
+    end
+    object ibdsArticulosCOSTO_UNITARIO: TIBBCDField
+      FieldName = 'COSTO_UNITARIO'
+      Origin = 'ARTICULOS.COSTO_UNITARIO'
+      Required = True
+      DisplayFormat = '$#,##0.00'
+      EditFormat = '#,##0.00'
+      Precision = 18
+      Size = 4
+    end
+    object ibdsArticulosIDMONEDA: TIntegerField
+      FieldName = 'IDMONEDA'
+      Origin = 'ARTICULOS.IDMONEDA'
+      Required = True
+    end
+    object ibdsArticulosUTILIDAD: TIBBCDField
+      FieldName = 'UTILIDAD'
+      Origin = 'ARTICULOS.UTILIDAD'
+      Required = True
+      DisplayFormat = '%0.00'
+      EditFormat = '0.##'
+      Precision = 18
+      Size = 4
+    end
+    object ibdsArticulosIVA: TIBBCDField
+      FieldName = 'IVA'
+      Origin = 'ARTICULOS.IVA'
+      Required = True
+      DisplayFormat = '%0.00'
+      EditFormat = '0.##'
+      Precision = 18
+      Size = 4
+    end
+    object ibdsArticulosPRECIO_COSTO: TFloatField
+      FieldKind = fkCalculated
+      FieldName = 'PRECIO_COSTO'
+      OnChange = ibdsArticulosPRECIO_COSTOChange
+      DisplayFormat = '$#,##0.00'
+      EditFormat = '#,##0.00'
+      Calculated = True
+    end
+    object ibdsArticulosPRECIO_SIN_IVA: TFloatField
+      FieldKind = fkCalculated
+      FieldName = 'PRECIO_SIN_IVA'
+      DisplayFormat = '$#,##0.00'
+      EditFormat = '#,##0.00'
+      Calculated = True
+    end
+    object ibdsArticulosPORCENTAJE_IVA: TFloatField
+      FieldKind = fkCalculated
+      FieldName = 'PORCENTAJE_IVA'
+      DisplayFormat = '$#,##0.00'
+      EditFormat = '#,##0.00'
+      Calculated = True
+    end
+    object ibdsArticulosPRECIO_FINAL: TFloatField
+      FieldKind = fkCalculated
+      FieldName = 'PRECIO_FINAL'
+      DisplayFormat = '$#,##0.00'
+      EditFormat = '#,##0.00'
+      Calculated = True
+    end
+    object ibdsArticulosCONTROL_STOCK: TIntegerField
+      FieldName = 'CONTROL_STOCK'
+      Origin = 'ARTICULOS.CONTROL_STOCK'
+      Required = True
+    end
+    object ibdsArticulosIDTITULO: TIntegerField
+      FieldName = 'IDTITULO'
+      Origin = 'ARTICULOS.IDTITULO'
+      Required = True
+    end
+    object ibdsArticulosPRECIO_PUBLICO: TIBBCDField
+      DisplayLabel = 'PRECIO PUBLICO'
+      FieldName = 'PRECIO_PUBLICO'
+      Origin = 'ARTICULOS.PRECIO_PUBLICO'
+      Required = True
+      DisplayFormat = '$#,##0.00'
+      EditFormat = '#,##0.00'
+      Precision = 18
+      Size = 4
+    end
+    object ibdsArticulosLINEA: TIBStringField
+      FieldName = 'LINEA'
+      Origin = 'LINEAS.DESCRIPCION'
+      Size = 50
+    end
+    object ibdsArticulosRUBRO: TIBStringField
+      FieldName = 'RUBRO'
+      Origin = 'RUBROS.DESCRIPCION'
+      Size = 50
+    end
+    object ibdsArticulosPROVEEDOR: TIBStringField
+      FieldName = 'PROVEEDOR'
+      Origin = 'PROVEEDORES.NOMBRE_FANTASIA'
+      Size = 50
+    end
+    object ibdsArticulosMONEDA: TIBStringField
+      FieldName = 'MONEDA'
+      Origin = 'MONEDAS.MONEDA'
+      Size = 50
+    end
+  end
+  object ibqRubros: TIBQuery
+    Database = dmConexion.IBDatabase
+    Transaction = dmConexion.ibTransac
+    BufferChunks = 1000
+    CachedUpdates = False
+    SQL.Strings = (
+      'SELECT IDRUBRO, DESCRIPCION'
+      'FROM RUBROS'
+      'ORDER BY 2')
+    Left = 224
+    Top = 8
+    object ibqRubrosIDRUBRO: TIntegerField
+      FieldName = 'IDRUBRO'
+      Origin = 'RUBROS.IDRUBRO'
+      Required = True
+    end
+    object ibqRubrosDESCRIPCION: TIBStringField
+      FieldName = 'DESCRIPCION'
+      Origin = 'RUBROS.DESCRIPCION'
+      Required = True
+      Size = 50
+    end
+  end
+  object ibqLineas: TIBQuery
+    Database = dmConexion.IBDatabase
+    Transaction = ibtArticulos
+    BufferChunks = 1000
+    CachedUpdates = False
+    SQL.Strings = (
+      'SELECT IDLINEA, DESCRIPCION '
+      'FROM LINEAS'
+      'ORDER BY 2')
+    Left = 224
+    Top = 56
+    object ibqLineasIDLINEA: TIntegerField
+      FieldName = 'IDLINEA'
+      Origin = 'LINEAS.IDLINEA'
+      Required = True
+    end
+    object ibqLineasDESCRIPCION: TIBStringField
+      FieldName = 'DESCRIPCION'
+      Origin = 'LINEAS.DESCRIPCION'
+      Required = True
+      Size = 50
+    end
+  end
+  object ibqProveedores: TIBQuery
+    Database = dmConexion.IBDatabase
+    Transaction = ibtArticulos
+    BufferChunks = 1000
+    CachedUpdates = False
+    SQL.Strings = (
+      'SELECT IDPROVEEDOR, NOMBRE_FANTASIA'
+      'FROM PROVEEDORES'
+      'ORDER BY 2')
+    Left = 304
+    Top = 8
+    object ibqProveedoresIDPROVEEDOR: TIntegerField
+      FieldName = 'IDPROVEEDOR'
+      Origin = 'PROVEEDORES.IDPROVEEDOR'
+      Required = True
+    end
+    object ibqProveedoresNOMBRE_FANTASIA: TIBStringField
+      FieldName = 'NOMBRE_FANTASIA'
+      Origin = 'PROVEEDORES.NOMBRE_FANTASIA'
+      Required = True
+      Size = 50
+    end
+  end
+  object ibqValidarCodigoInterno: TIBQuery
+    Database = dmConexion.IBDatabase
+    Transaction = ibtArticulos
+    BufferChunks = 1000
+    CachedUpdates = False
+    SQL.Strings = (
+      'SELECT COUNT(*)'
+      'FROM ARTICULOS'
+      'WHERE UPPER(CODIGO_INTERNO) = UPPER(:CODIGO_INTERNO)'
+      'AND IDARTICULO <> :ID')
+    Left = 128
+    Top = 8
+    ParamData = <
+      item
+        DataType = ftString
+        Name = 'CODIGO_INTERNO'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'ID'
+        ParamType = ptInput
+      end>
+    object ibqValidarCodigoInternoCOUNT: TIntegerField
+      FieldName = 'COUNT'
+      Required = True
+    end
+  end
+  object ibqDuplicados: TIBQuery
+    Database = dmConexion.IBDatabase
+    Transaction = ibtArticulos
+    BufferChunks = 1000
+    CachedUpdates = False
+    SQL.Strings = (
+      
+        'SELECT CODIGO_INTERNO, DESCRIPCION, STOCK, PUNTO_REPOSICION, IDL' +
+        'INEA, IDRUBRO, IDPROVEEDOR, FECHA_COMPRA, COSTO_UNITARIO, IDMONE' +
+        'DA, UTILIDAD, IVA, CONTROL_STOCK, IDTITULO, PRECIO_PUBLICO'
+      'FROM ARTICULOS'
+      'WHERE IDARTICULO= :IDARTICULO')
+    Left = 32
+    Top = 152
+    ParamData = <
+      item
+        DataType = ftInteger
+        Name = 'IDARTICULO'
+        ParamType = ptInput
+        Size = 4
+      end>
+    object ibqDuplicadosCODIGO_INTERNO: TIBStringField
+      FieldName = 'CODIGO_INTERNO'
+      Origin = 'ARTICULOS.CODIGO_INTERNO'
+      Required = True
+    end
+    object ibqDuplicadosDESCRIPCION: TIBStringField
+      FieldName = 'DESCRIPCION'
+      Origin = 'ARTICULOS.DESCRIPCION'
+      Required = True
+      Size = 200
+    end
+    object ibqDuplicadosSTOCK: TIBBCDField
+      FieldName = 'STOCK'
+      Origin = 'ARTICULOS.STOCK'
+      Required = True
+      Precision = 9
+      Size = 4
+    end
+    object ibqDuplicadosPUNTO_REPOSICION: TIBBCDField
+      FieldName = 'PUNTO_REPOSICION'
+      Origin = 'ARTICULOS.PUNTO_REPOSICION'
+      Required = True
+      Precision = 9
+      Size = 4
+    end
+    object ibqDuplicadosIDLINEA: TIntegerField
+      FieldName = 'IDLINEA'
+      Origin = 'ARTICULOS.IDLINEA'
+      Required = True
+    end
+    object ibqDuplicadosIDRUBRO: TIntegerField
+      FieldName = 'IDRUBRO'
+      Origin = 'ARTICULOS.IDRUBRO'
+      Required = True
+    end
+    object ibqDuplicadosIDPROVEEDOR: TIntegerField
+      FieldName = 'IDPROVEEDOR'
+      Origin = 'ARTICULOS.IDPROVEEDOR'
+      Required = True
+    end
+    object ibqDuplicadosFECHA_COMPRA: TDateField
+      FieldName = 'FECHA_COMPRA'
+      Origin = 'ARTICULOS.FECHA_COMPRA'
+      Required = True
+    end
+    object ibqDuplicadosCOSTO_UNITARIO: TIBBCDField
+      FieldName = 'COSTO_UNITARIO'
+      Origin = 'ARTICULOS.COSTO_UNITARIO'
+      Required = True
+      Precision = 18
+      Size = 4
+    end
+    object ibqDuplicadosIDMONEDA: TIntegerField
+      FieldName = 'IDMONEDA'
+      Origin = 'ARTICULOS.IDMONEDA'
+      Required = True
+    end
+    object ibqDuplicadosUTILIDAD: TIBBCDField
+      FieldName = 'UTILIDAD'
+      Origin = 'ARTICULOS.UTILIDAD'
+      Required = True
+      Precision = 18
+      Size = 4
+    end
+    object ibqDuplicadosIVA: TIBBCDField
+      FieldName = 'IVA'
+      Origin = 'ARTICULOS.IVA'
+      Required = True
+      Precision = 18
+      Size = 4
+    end
+    object ibqDuplicadosCONTROL_STOCK: TIntegerField
+      FieldName = 'CONTROL_STOCK'
+      Origin = 'ARTICULOS.CONTROL_STOCK'
+      Required = True
+    end
+    object ibqDuplicadosIDTITULO: TIntegerField
+      FieldName = 'IDTITULO'
+      Origin = 'ARTICULOS.IDTITULO'
+      Required = True
+    end
+    object ibqDuplicadosPRECIO_PUBLICO: TIBBCDField
+      FieldName = 'PRECIO_PUBLICO'
+      Origin = 'ARTICULOS.PRECIO_PUBLICO'
+      Required = True
+      Precision = 18
+      Size = 4
+    end
+  end
+  object ibqTitulos: TIBQuery
+    Database = dmConexion.IBDatabase
+    Transaction = ibtArticulos
+    BufferChunks = 1000
+    CachedUpdates = False
+    SQL.Strings = (
+      'SELECT IDTITULO, DESCRIPCION'
+      'FROM TITULOS'
+      'ORDER BY 2')
+    Left = 224
+    Top = 104
+    object ibqTitulosIDTITULO: TIntegerField
+      FieldName = 'IDTITULO'
+      Origin = 'TITULOS.IDTITULO'
+      Required = True
+    end
+    object ibqTitulosDESCRIPCION: TIBStringField
+      FieldName = 'DESCRIPCION'
+      Origin = 'TITULOS.DESCRIPCION'
+      Required = True
+      Size = 50
+    end
+  end
+  object ibqFechas: TIBQuery
+    Database = dmConexion.IBDatabase
+    Transaction = ibtArticulos
+    BufferChunks = 1000
+    CachedUpdates = False
+    SQL.Strings = (
+      'SELECT DISTINCT FECHA_ACTPRECIO'
+      'FROM ARTICULOS'
+      'ORDER BY 1')
+    Left = 304
+    Top = 56
+    object ibqFechasFECHA_ACTPRECIO: TDateField
+      FieldName = 'FECHA_ACTPRECIO'
+      Origin = 'ARTICULOS.FECHA_ACTPRECIO'
+      Required = True
+    end
+  end
+  object ibqMonedas: TIBQuery
+    Database = dmConexion.IBDatabase
+    Transaction = dmConexion.ibTransac
+    BufferChunks = 1000
+    CachedUpdates = False
+    SQL.Strings = (
+      
+        'SELECT r.IDMONEDA, r.MONEDA||'#39' - '#39'||r.COTIZACION AS MONEDA, r.CO' +
+        'TIZACION, r.SIGNO'
+      'FROM MONEDAS r')
+    Left = 304
+    Top = 104
+    object ibqMonedasIDMONEDA: TIntegerField
+      FieldName = 'IDMONEDA'
+      Origin = 'MONEDAS.IDMONEDA'
+      Required = True
+    end
+    object ibqMonedasMONEDA: TIBStringField
+      FieldName = 'MONEDA'
+      Required = True
+      Size = 65
+    end
+    object ibqMonedasCOTIZACION: TIBBCDField
+      FieldName = 'COTIZACION'
+      Origin = 'MONEDAS.COTIZACION'
+      Required = True
+      DisplayFormat = '$#,##0.00'
+      EditFormat = '#,##0.00'
+      Precision = 9
+      Size = 4
+    end
+    object ibqMonedasSIGNO: TIBStringField
+      FieldName = 'SIGNO'
+      Origin = 'MONEDAS.SIGNO'
+      Size = 10
+    end
+  end
+end

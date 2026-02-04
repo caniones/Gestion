@@ -1,0 +1,150 @@
+unit udmRecibos;
+
+interface
+
+uses
+  SysUtils, Classes, IBCustomDataSet, IBDatabase, DB, DBClient, Provider,
+  IBQuery, IBStoredProc;
+
+type
+  TdmRecibos = class(TDataModule)
+    ibtRecibos: TIBTransaction;
+    ibdsRecibos: TIBDataSet;
+    dspRecibos: TDataSetProvider;
+    ibdsRecibosIDRECIBO: TIntegerField;
+    ibdsRecibosNUMERO: TIntegerField;
+    ibdsRecibosFECHA: TDateField;
+    ibdsRecibosIDCLIENTE: TIntegerField;
+    ibdsRecibosIMPORTE: TIBBCDField;
+    ibqFormasPagos: TIBQuery;
+    ibqFormasPagosIDFORMAPAGO: TIntegerField;
+    ibqFormasPagosDESCRIPCION: TIBStringField;
+    ibdsRecibosIDFORMAPAGO: TIntegerField;
+    ibdsRecibosFORMAPAGO: TStringField;
+    ibspControlCtaCte: TIBStoredProc;
+    ibspControlCtaCtePSSALDO: TIBBCDField;
+    ibspControlCtaCtePSMENSAJE: TIBStringField;
+    ibqClientes: TIBQuery;
+    ibqClientesIDCLIENTE: TIntegerField;
+    ibqClientesNOMBRE: TIBStringField;
+    ibdsRecibosCLIENTE: TStringField;
+    ibspAnularRecibo: TIBStoredProc;
+    ibdsRecibosANULADO: TIntegerField;
+    ibdsRecibosIDPAGO: TIntegerField;
+    dsClientes: TDataSource;
+    ibqSaldo: TIBQuery;
+    ibqUltimoPago: TIBQuery;
+    ibqSaldoSALDO: TIBBCDField;
+    ibqUltimoPagoFECHA: TDateTimeField;
+    ibqFormasPagosCOEFICIENTE: TIBBCDField;
+    ibdsRecibosIMPORTERECARGO: TFloatField;
+    procedure ibdsRecibosNewRecord(DataSet: TDataSet);
+    procedure ibdsRecibosCalcFields(DataSet: TDataSet);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    procedure cargarRecibo();
+    procedure nuevoRecibo();
+    procedure anularRecibo();
+    procedure grabarRecibo();
+    procedure cancelarRecibo();
+  end;
+
+var
+  dmRecibos: TdmRecibos;
+
+implementation
+
+uses dmConex;
+
+{$R *.dfm}
+
+procedure TdmRecibos.grabarRecibo;
+begin
+  ibdsRecibos.CheckBrowseMode;
+  try
+    ibspControlCtaCte.Close;
+    ibspControlCtaCte.ParamByName('PEID_NROCOMPROBANTE').AsInteger:=0;
+    ibspControlCtacte.ParamByName('PEIDRECIBO').AsInteger:=
+      ibdsRecibosIDRECIBO.AsInteger;
+    ibspControlCtaCte.ParamByName('PEIDCLIENTE').AsInteger:=
+      ibdsRecibosIDCLIENTE.AsInteger;
+    ibspControlCtaCte.Prepare;
+    ibdsRecibos.Edit;
+    ibdsRecibosNUMERO.AsInteger:=dmConexion.getSecuencia('RECIBO');
+    ibdsRecibos.Post;
+    ibdsRecibos.ApplyUpdates;
+    ibspControlCtaCte.ExecProc;
+    ibtRecibos.Commit;
+  except
+    ibtRecibos.Rollback;
+  end;
+  ibqClientes.Close;
+  self.cargarRecibo;
+end;
+
+procedure TdmRecibos.ibdsRecibosNewRecord(DataSet: TDataSet);
+begin
+  ibdsRecibosNUMERO.AsInteger:=0;
+  ibdsRecibosFECHA.AsDateTime:=date;
+  ibdsRecibosIDCLIENTE.AsInteger:=0; // cliente VARIOS
+  ibdsRecibosIMPORTE.AsFloat:=0;
+end;
+
+procedure TdmRecibos.cancelarRecibo;
+begin
+  ibdsRecibos.Cancel;
+  ibdsRecibos.First;
+end;
+
+procedure TdmRecibos.cargarRecibo;
+begin
+  // abro el datasat
+  ibdsRecibos.Close;
+  ibdsRecibos.Open;
+  ibdsRecibos.First;
+end;
+
+procedure TdmRecibos.nuevoRecibo;
+begin
+  // cargo los dataset para el nuevo recibo
+  // formas de pago
+  ibqFormasPagos.Close;
+  ibqFormasPagos.Open;
+  ibqFormasPagos.Last;
+  ibqFormasPagos.First;
+  // los clientes
+  ibqClientes.Close;
+  ibqClientes.Open;
+  ibqClientes.Last;
+  ibqClientes.First;
+  // el saldo
+  ibqSaldo.Close;
+  ibqSaldo.Open;
+  // fecha del último pago
+  ibqUltimoPago.Close;
+  ibqUltimoPago.Open;
+  ibdsRecibos.Insert;
+end;
+
+procedure TdmRecibos.anularRecibo;
+begin
+  // anulo el recibo seleccionado
+  ibdsRecibos.Delete;
+  try
+    ibtRecibos.Commit;
+  except
+    ibtRecibos.Rollback;
+  end;
+  self.cargarRecibo;
+end;
+
+procedure TdmRecibos.ibdsRecibosCalcFields(DataSet: TDataSet);
+begin
+  // calculo el importe con recargo según la forma de pago
+  ibdsRecibosIMPORTERECARGO.AsFloat:=ibdsRecibosIMPORTE.AsFloat*
+    ibqFormasPagosCOEFICIENTE.AsFloat;
+end;
+
+end.

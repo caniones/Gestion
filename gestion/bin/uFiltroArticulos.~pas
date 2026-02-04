@@ -1,0 +1,303 @@
+unit uFiltroArticulos;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, uImputForm, StdCtrls, Buttons, ExtCtrls, DBCtrls, DB, ComCtrls;
+
+type
+  TfrmFiltroArticulos = class(TfrmImput)
+    dblcLinea: TDBLookupComboBox;
+    dblcRubro: TDBLookupComboBox;
+    dblcProveedor: TDBLookupComboBox;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    dsLineas: TDataSource;
+    dsRubros: TDataSource;
+    dsProveedores: TDataSource;
+    dsFechas: TDataSource;
+    Label5: TLabel;
+    dblcTitulo: TDBLookupComboBox;
+    dsTitulos: TDataSource;
+    lbLinea: TListBox;
+    lbRubro: TListBox;
+    lbProveedor: TListBox;
+    lbTitulo: TListBox;
+    lbFecha: TListBox;
+    btnVer: TSpeedButton;
+    btnLimpiar: TSpeedButton;
+    dblcFecha: TDBLookupComboBox;
+    lbDescripcion: TListBox;
+    lbCodigoInterno: TListBox;
+    Label6: TLabel;
+    Label7: TLabel;
+    dblcCodigoInterno: TDBLookupComboBox;
+    dblcDescripcion: TDBLookupComboBox;
+    dsArticulos: TDataSource;
+    btnCsv: TSpeedButton;
+    procedure FormCreate(Sender: TObject);
+    procedure dblcLineaClick(Sender: TObject);
+    procedure dblcRubroClick(Sender: TObject);
+    procedure dblcProveedorClick(Sender: TObject);
+    procedure dblcTituloClick(Sender: TObject);
+    procedure btnLimpiarClick(Sender: TObject);
+    procedure btnVerClick(Sender: TObject);
+    procedure dblcFechaClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure btnSalirClick(Sender: TObject);
+    procedure dblcCodigoInternoClick(Sender: TObject);
+    procedure dblcDescripcionClick(Sender: TObject);
+  private
+    FsProveedor: string;
+    FsTitulos: string;
+    FsLineas: string;
+    FsRubros: string;
+    FsFechas: string;
+    FrepPara: string;
+    FsCodigoInterno: string;
+    procedure SetsFechas(const Value: string);
+    procedure SetsLineas(const Value: string);
+    procedure SetsProveedor(const Value: string);
+    procedure SetsRubros(const Value: string);
+    procedure SetsTitulos(const Value: string);
+    procedure SetrepPara(const Value: string);
+    procedure SetsCodigoInterno(const Value: string);
+  private
+    { Private declarations }
+    property sCodigoInterno:string read FsCodigoInterno write SetsCodigoInterno;
+    property sLineas:string read FsLineas write SetsLineas;
+    property sRubros:string read FsRubros write SetsRubros;
+    property sProveedor:string read FsProveedor write SetsProveedor;
+    property sTitulos:string read FsTitulos write SetsTitulos;
+    property sFechas:string read FsFechas write SetsFechas;
+    property repPara:string read FrepPara write SetrepPara;
+    procedure limpiarReporte();
+  public
+    { Public declarations }
+    procedure verComo (como:string);
+  end;
+
+var
+  frmFiltroArticulos: TfrmFiltroArticulos;
+
+implementation
+
+uses udmArticulos, uRepBase, uRepListaPrecioArt, uRepStockArt;
+
+var
+  dm:TdmArticulos;
+
+{$R *.dfm}
+
+{ TfrmFiltroArticulos }
+
+procedure TfrmFiltroArticulos.FormCreate(Sender: TObject);
+begin
+  inherited;
+  dm:=TdmArticulos.Create(self);
+  self.limpiarReporte; // limpio / inicializo las property
+end;
+
+procedure TfrmFiltroArticulos.verComo(como: string);
+begin
+  if como = 'PRECIO' then
+    // el Filtro es para crear una lista de precio
+    begin
+    self.SetrepPara(como);
+    lInfo.Caption:='Artículos';
+    lRequeridos.Caption:='Elija los parámetros para generar el listado de Precios';
+    self.Caption:=self.Caption+'Lista de precios';
+    end;
+  if como = 'STOCK' then
+    // el Filtro es para crear una lista de stock
+    begin
+    self.SetrepPara(como);
+    lInfo.Caption:='Artículos';
+    lRequeridos.Caption:='Elija los parámetros para generar el listado de Stock';
+    self.Caption:=self.Caption+'Estado del stock';
+    end;
+end;
+
+procedure TfrmFiltroArticulos.FormShow(Sender: TObject);
+begin
+  inherited;
+  dblcLinea.SetFocus;
+end;
+
+procedure TfrmFiltroArticulos.dblcCodigoInternoClick(Sender: TObject);
+begin
+  inherited;
+  self.SetsCodigoInterno(dblcCodigoInterno.KeyValue);
+  lbCodigoInterno.Items.Add(dblcCodigoInterno.Text);
+  lbCodigoInterno.ItemIndex:=lbCodigoInterno.Items.Count-1;
+end;
+
+procedure TfrmFiltroArticulos.dblcDescripcionClick(Sender: TObject);
+begin
+  inherited;
+  self.SetsCodigoInterno(dblcDescripcion.KeyValue);
+  lbDescripcion.Items.add(dblcDescripcion.text);
+  lbDescripcion.ItemIndex:=lbDescripcion.Items.Count-1;
+end;
+
+procedure TfrmFiltroArticulos.dblcLineaClick(Sender: TObject);
+begin
+  inherited;
+  self.SetsLineas(dblcLinea.KeyValue);
+  lbLinea.Items.Add(dblcLinea.Text);
+  lbLinea.ItemIndex:=lbLinea.Items.Count-1;
+end;
+
+procedure TfrmFiltroArticulos.dblcRubroClick(Sender: TObject);
+begin
+  inherited;
+  self.SetsRubros(dblcRubro.KeyValue);
+  lbRubro.Items.Add(dblcRubro.Text);
+  lbRubro.ItemIndex:=lbRubro.Items.Count-1;
+end;
+
+procedure TfrmFiltroArticulos.dblcProveedorClick(Sender: TObject);
+begin
+  inherited;
+  self.SetsProveedor(dblcProveedor.KeyValue);
+  lbProveedor.Items.Add(dblcProveedor.Text);
+  lbProveedor.ItemIndex:=lbProveedor.Items.Count-1;
+end;
+
+procedure TfrmFiltroArticulos.dblcTituloClick(Sender: TObject);
+begin
+  inherited;
+  self.SetsTitulos(dblcTitulo.KeyValue);
+  lbTitulo.Items.Add(dblcTitulo.Text);
+  lbTitulo.ItemIndex:=lbTitulo.Items.Count-1;
+end;
+
+procedure TfrmFiltroArticulos.dblcFechaClick(Sender: TObject);
+begin
+  inherited;
+  self.SetsFechas(dblcFecha.Text);
+  lbFecha.Items.Add(dblcFecha.Text);
+  lbFecha.ItemIndex:=lbFecha.Items.Count-1;
+end;
+
+procedure TfrmFiltroArticulos.btnLimpiarClick(Sender: TObject);
+begin
+  inherited;
+  // limpio los datos del reporte
+  self.limpiarReporte;
+  lbCodigoInterno.Clear;
+  lbDescripcion.Clear;
+  lbLinea.Clear;
+  lbRubro.Clear;
+  lbProveedor.Clear;
+  lbTitulo.Clear;
+  lbFecha.Clear;
+end;
+
+procedure TfrmFiltroArticulos.limpiarReporte;
+begin
+  // limpio todas las property
+  FsCodigoInterno:='';
+  FsProveedor:='';
+  FsTitulos:='';
+  FsLineas:='';
+  FsRubros:='';
+  FsFechas:='';
+end;
+
+procedure TfrmFiltroArticulos.btnVerClick(Sender: TObject);
+var
+  FRepPrecios:TfrmRepListaPrecioArt;
+  FRepStock:TfrmRepStockArt;
+begin
+  inherited;
+  // vista previa del reporte
+  if FrepPara = 'PRECIO' then
+    begin
+    // muestro una lista de precio
+    FRepPrecios:=TfrmRepListaPrecioArt.Create(self);
+    try
+      FRepPrecios.imprimir(FsLineas, FsRubros, FsProveedor, FsTitulos, FsFechas
+      , FsCodigoInterno);
+    finally
+      FRepPrecios.Free;
+    end;
+    end;
+  if FrepPara = 'STOCK' then
+    begin
+    // muestro una lista de stock
+    FRepStock:=TfrmRepStockArt.Create(self);
+    try
+      FRepStock.imprimir(FsLineas, FsRubros, FsProveedor, FsTitulos, FsFechas,
+      FsCodigoInterno);
+    finally
+      FRepStock.Free;
+    end;
+    end;
+end;
+
+procedure TfrmFiltroArticulos.SetsCodigoInterno(const Value: string);
+begin
+  if FsCodigoInterno = '' then
+    FsCodigoInterno:=Value
+  else
+    FsCodigoInterno:=FsCodigoInterno+', '+FsCodigoInterno;
+end;
+
+procedure TfrmFiltroArticulos.SetsFechas(const Value: string);
+begin
+  if FsFechas = '' then
+    FsFechas := ''''+Value+''''
+  else
+    FsFechas := FsFechas+', '+''''+Value+'''';
+    // las 4 '''' lo que hace es agregar un ' dentro de la cadena, para que
+    // funcione bien el SQL
+end;
+
+procedure TfrmFiltroArticulos.SetsLineas(const Value: string);
+begin
+  if FsLineas = '' then
+    FsLineas := Value
+  else
+    FsLineas := FsLineas+', '+Value;
+end;
+
+procedure TfrmFiltroArticulos.SetsProveedor(const Value: string);
+begin
+  if FsProveedor = '' then
+    FsProveedor := Value
+  else
+    FsProveedor := FsProveedor+', '+Value;
+end;
+
+procedure TfrmFiltroArticulos.SetsRubros(const Value: string);
+begin
+  if FsRubros = '' then
+    FsRubros := Value
+  else
+    FsRubros := FsRubros+', '+Value;
+end;
+
+procedure TfrmFiltroArticulos.SetsTitulos(const Value: string);
+begin
+  if FsTitulos = '' then
+    FsTitulos := Value
+  else
+    FsTitulos := FsTitulos+', '+Value;
+end;
+
+procedure TfrmFiltroArticulos.SetrepPara(const Value: string);
+begin
+  FrepPara := Value;
+end;
+
+procedure TfrmFiltroArticulos.btnSalirClick(Sender: TObject);
+begin
+  inherited;
+  self.Close;
+end;
+
+end.

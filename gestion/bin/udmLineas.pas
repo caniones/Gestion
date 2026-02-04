@@ -1,0 +1,84 @@
+unit udmLineas;
+
+interface
+
+uses
+  SysUtils, Classes, IBQuery, DB, IBCustomDataSet, IBDatabase, Provider;
+
+type
+  TdmLineas = class(TDataModule)
+    dspLineas: TDataSetProvider;
+    ibtLineas: TIBTransaction;
+    ibdsLineas: TIBDataSet;
+    ibqValidar: TIBQuery;
+    ibqPermisoBaja: TIBQuery;
+    ibdsLineasIDLINEA: TIntegerField;
+    ibdsLineasDESCRIPCION: TIBStringField;
+    ibqValidarCOUNT: TIntegerField;
+    ibqPermisoBajaCOUNT: TIntegerField;
+    procedure DataModuleCreate(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    procedure grabar();
+    function validar():boolean;
+    function permisoBaja():boolean;
+  end;
+
+var
+  dmLineas: TdmLineas;
+
+implementation
+
+uses dmConex;
+
+{$R *.dfm}
+
+procedure TdmLineas.DataModuleCreate(Sender: TObject);
+begin
+  ibdsLineas.Open;
+end;
+
+procedure TdmLineas.grabar;
+var
+  Marca:TBookmarkStr;
+begin
+  Marca:=ibdsLineas.Bookmark;
+  ibdsLineas.CheckBrowseMode;
+  try
+    ibdsLineas.ApplyUpdates;
+    ibtLineas.Commit;
+  except
+    ibtLineas.Rollback;
+  end;
+  ibdsLineas.Open;
+  ibdsLineas.Bookmark:=Marca;
+end;
+
+function TdmLineas.permisoBaja: boolean;
+begin
+  // verifica que la linea no posea articulos
+  ibqPermisoBaja.Close;
+  ibqPermisoBaja.ParamByName('IDLINEA').AsInteger:=ibdsLineasIDLINEA.AsInteger;
+  ibqPermisoBaja.Open;
+  if ibqPermisoBaja.Fields[0].AsInteger >= 1 then
+    result:=False
+  else
+    result:=True;
+end;
+
+function TdmLineas.validar: boolean;
+begin
+  // valida que no exista un mismo nombre con distinto id, asi no hay duplicado
+  ibqValidar.Close;
+  ibqValidar.ParamByName('NOMBRE').AsString:=ibdsLineasDESCRIPCION.AsString;
+  ibqValidar.ParamByName('ID').AsInteger:=ibdsLineasIDLINEA.AsInteger;
+  ibqValidar.Open;
+  if ibqValidar.Fields[0].AsInteger >= 1 then
+    result:=True
+  else
+    result:=False;
+end;
+
+end.

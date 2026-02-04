@@ -1,0 +1,377 @@
+inherited frmRepDetalleCtasClientes: TfrmRepDetalleCtasClientes
+  Left = 388
+  Top = 180
+  Caption = 'frmRepDetalleCtasClientes'
+  OldCreateOrder = True
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited qrBase: TQuickRep
+    DataSet = ibqMaster
+    Functions.DATA = (
+      '0'
+      '0'
+      #39#39)
+    Page.Values = (
+      100.000000000000000000
+      2970.000000000000000000
+      200.000000000000000000
+      2100.000000000000000000
+      200.000000000000000000
+      100.000000000000000000
+      0.000000000000000000)
+    inherited PageHeaderBand1: TQRBand
+      Size.Values = (
+        182.562500000000000000
+        1801.812500000000000000)
+      inherited QRLabel3: TQRLabel
+        Size.Values = (
+          44.979166666666670000
+          994.833333333333300000
+          21.166666666666670000
+          378.354166666666700000)
+        FontSize = 10
+      end
+      inherited QRSysData1: TQRSysData
+        Size.Values = (
+          44.979166666666670000
+          1397.000000000000000000
+          21.166666666666670000
+          179.916666666666700000)
+        FontSize = 10
+      end
+      inherited qrlRenglon1: TQRLabel
+        Size.Values = (
+          79.375000000000000000
+          21.166666666666670000
+          2.645833333333333000
+          455.083333333333300000)
+        FontSize = 18
+      end
+      inherited qrlRenglon2: TQRLabel
+        Size.Values = (
+          44.979166666666670000
+          21.166666666666670000
+          76.729166666666670000
+          259.291666666666700000)
+        FontSize = 10
+      end
+      inherited qrlRenglon3: TQRLabel
+        Size.Values = (
+          44.979166666666670000
+          21.166666666666670000
+          124.354166666666700000
+          232.833333333333300000)
+        FontSize = 10
+      end
+    end
+    inherited PageFooterBand2: TQRBand
+      Top = 201
+      Size.Values = (
+        74.083333333333330000
+        1801.812500000000000000)
+      inherited QRLabel12: TQRLabel
+        Size.Values = (
+          44.979166666666670000
+          1553.104166666667000000
+          34.395833333333330000
+          132.291666666666700000)
+        FontSize = 10
+      end
+      inherited QRSysData4: TQRSysData
+        Size.Values = (
+          44.979166666666670000
+          1714.500000000000000000
+          34.395833333333330000
+          121.708333333333300000)
+        FontSize = 10
+      end
+    end
+    object ColumnHeaderBand1: TQRBand
+      Left = 76
+      Top = 145
+      Width = 681
+      Height = 32
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      AlignToBottom = False
+      Color = clWhite
+      ForceNewColumn = False
+      ForceNewPage = False
+      Size.Values = (
+        84.666666666666670000
+        1801.812500000000000000)
+      BandType = rbColumnHeader
+      object QRLabel1: TQRLabel
+        Left = 8
+        Top = 8
+        Width = 40
+        Height = 17
+        Frame.Color = clBlack
+        Frame.DrawTop = False
+        Frame.DrawBottom = False
+        Frame.DrawLeft = False
+        Frame.DrawRight = False
+        Size.Values = (
+          44.979166666666670000
+          21.166666666666670000
+          21.166666666666670000
+          105.833333333333300000)
+        Alignment = taLeftJustify
+        AlignToBand = False
+        AutoSize = True
+        AutoStretch = False
+        Caption = 'Fecha'
+        Color = clWhite
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Arial'
+        Font.Style = [fsBold]
+        ParentFont = False
+        Transparent = False
+        WordWrap = True
+        FontSize = 10
+      end
+      object QRLabel2: TQRLabel
+        Left = 88
+        Top = 8
+        Width = 46
+        Height = 17
+        Frame.Color = clBlack
+        Frame.DrawTop = False
+        Frame.DrawBottom = False
+        Frame.DrawLeft = False
+        Frame.DrawRight = False
+        Size.Values = (
+          44.979166666666670000
+          232.833333333333300000
+          21.166666666666670000
+          121.708333333333300000)
+        Alignment = taLeftJustify
+        AlignToBand = False
+        AutoSize = True
+        AutoStretch = False
+        Caption = 'Detalle'
+        Color = clWhite
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Arial'
+        Font.Style = [fsBold]
+        ParentFont = False
+        Transparent = False
+        WordWrap = True
+        FontSize = 10
+      end
+      object QRLabel4: TQRLabel
+        Left = 621
+        Top = 8
+        Width = 50
+        Height = 17
+        Frame.Color = clBlack
+        Frame.DrawTop = False
+        Frame.DrawBottom = False
+        Frame.DrawLeft = False
+        Frame.DrawRight = False
+        Size.Values = (
+          44.979166666666670000
+          1643.062500000000000000
+          21.166666666666670000
+          132.291666666666700000)
+        Alignment = taRightJustify
+        AlignToBand = False
+        AutoSize = True
+        AutoStretch = False
+        Caption = 'Importe'
+        Color = clWhite
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Arial'
+        Font.Style = [fsBold]
+        ParentFont = False
+        Transparent = False
+        WordWrap = True
+        FontSize = 10
+      end
+    end
+    object QRSubDetail1: TQRSubDetail
+      Left = 76
+      Top = 177
+      Width = 681
+      Height = 24
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      AlignToBottom = False
+      Color = clWhite
+      ForceNewColumn = False
+      ForceNewPage = False
+      Size.Values = (
+        63.500000000000000000
+        1801.812500000000000000)
+      Master = qrBase
+      DataSet = ibqMaster
+      PrintBefore = False
+      PrintIfEmpty = True
+      object QRDBText1: TQRDBText
+        Left = 96
+        Top = 8
+        Width = 89
+        Height = 17
+        Frame.Color = clBlack
+        Frame.DrawTop = False
+        Frame.DrawBottom = False
+        Frame.DrawLeft = False
+        Frame.DrawRight = False
+        Size.Values = (
+          44.979166666666670000
+          254.000000000000000000
+          21.166666666666670000
+          235.479166666666700000)
+        Alignment = taLeftJustify
+        AlignToBand = False
+        AutoSize = True
+        AutoStretch = False
+        Color = clWhite
+        DataSet = ibqMaster
+        DataField = 'DESCRIPCION'
+        Transparent = False
+        WordWrap = True
+        FontSize = 10
+      end
+      object QRDBText2: TQRDBText
+        Left = 16
+        Top = 8
+        Width = 45
+        Height = 17
+        Frame.Color = clBlack
+        Frame.DrawTop = False
+        Frame.DrawBottom = False
+        Frame.DrawLeft = False
+        Frame.DrawRight = False
+        Size.Values = (
+          44.979166666666670000
+          42.333333333333330000
+          21.166666666666670000
+          119.062500000000000000)
+        Alignment = taLeftJustify
+        AlignToBand = False
+        AutoSize = True
+        AutoStretch = False
+        Color = clWhite
+        DataSet = ibqMaster
+        DataField = 'FECHA'
+        Transparent = False
+        WordWrap = True
+        FontSize = 10
+      end
+      object QRDBText3: TQRDBText
+        Left = 603
+        Top = 8
+        Width = 59
+        Height = 17
+        Frame.Color = clBlack
+        Frame.DrawTop = False
+        Frame.DrawBottom = False
+        Frame.DrawLeft = False
+        Frame.DrawRight = False
+        Size.Values = (
+          44.979166666666670000
+          1595.437500000000000000
+          21.166666666666670000
+          156.104166666666700000)
+        Alignment = taRightJustify
+        AlignToBand = False
+        AutoSize = True
+        AutoStretch = False
+        Color = clWhite
+        DataSet = ibqMaster
+        DataField = 'IMPORTE'
+        Transparent = False
+        WordWrap = True
+        FontSize = 10
+      end
+    end
+  end
+  object ibqMaster: TIBQuery
+    Database = dmConexion.IBDatabase
+    Transaction = dmConexion.ibTransac
+    BufferChunks = 1000
+    CachedUpdates = False
+    SQL.Strings = (
+      
+        'SELECT CAST(C.FECHA AS DATE) AS FECHA, I.CANTIDAD||'#39' - '#39'||A.DESC' +
+        'RIPCION AS DESCRIPCION, I.CANTIDAD*I.PRECIO AS IMPORTE'
+      'FROM ITEMS I'
+      'INNER JOIN ARTICULOS A ON A.IDARTICULO = I.IDARTICULO'
+      
+        'INNER JOIN COMPROBANTES C ON C.ID_NROCOMPROBANTE = I.ID_NROCOMPR' +
+        'OBANTE'
+      'WHERE I.ID_NROCOMPROBANTE IN (SELECT r.ID_NROCOMPROBANTE'
+      '                                FROM COMPROBANTES r'
+      '                                WHERE r.IDFORMAPAGO = 500'
+      '                                AND R.IDCLIENTE = :IDCLIENTE'
+      
+        '                                AND R.FECHA BETWEEN :DESDE AND :' +
+        'HASTA)'
+      'UNION'
+      'SELECT FECHA, '#39'PAGO NUMERO '#39'||r.NUMERO, r.IMPORTE*-1'
+      'FROM RECIBOS r'
+      'WHERE R.IDCLIENTE = :IDCLIENTE'
+      'AND R.FECHA BETWEEN :DESDE AND :HASTA'
+      'AND R.ANULADO = 0'
+      'ORDER BY 1')
+    Left = 40
+    Top = 112
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'IDCLIENTE'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'DESDE'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'HASTA'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'IDCLIENTE'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'DESDE'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'HASTA'
+        ParamType = ptUnknown
+      end>
+    object ibqMasterFECHA: TDateField
+      FieldName = 'FECHA'
+      Required = True
+    end
+    object ibqMasterDESCRIPCION: TIBStringField
+      FieldName = 'DESCRIPCION'
+      Required = True
+      Size = 215
+    end
+    object ibqMasterIMPORTE: TFloatField
+      FieldName = 'IMPORTE'
+      Required = True
+    end
+  end
+end

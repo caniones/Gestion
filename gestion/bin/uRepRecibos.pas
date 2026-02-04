@@ -1,0 +1,87 @@
+unit uRepRecibos;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, ExtCtrls, QuickRpt, DB, IBCustomDataSet, IBQuery, QRCtrls;
+
+type
+  TfrmRepRecibos = class(TForm)
+    qrRecibo: TQuickRep;
+    PageHeaderBand1: TQRBand;
+    PageFooterBand1: TQRBand;
+    SummaryBand1: TQRBand;
+    ibqMaestro: TIBQuery;
+    QRDBText1: TQRDBText;
+    QRDBText2: TQRDBText;
+    QRDBText4: TQRDBText;
+    QRLabel1: TQRLabel;
+    qrlRenglon1: TQRLabel;
+    QRLabel3: TQRLabel;
+    QRLabel4: TQRLabel;
+    QRLabel5: TQRLabel;
+    QRLabel6: TQRLabel;
+    QRLabel7: TQRLabel;
+    QRLabel8: TQRLabel;
+    qrdbtNombre: TQRDBText;
+    ibqMaestroNUMERO: TIntegerField;
+    ibqMaestroFECHA: TDateField;
+    ibqMaestroIDCLIENTE: TIntegerField;
+    ibqMaestroNOMBRE: TIBStringField;
+    ibqMaestroIMPORTE: TIBBCDField;
+    qrlRenglon2: TQRLabel;
+    ibqSaldo: TIBQuery;
+    ibqSaldoSALDO: TIBBCDField;
+    QRLabel10: TQRLabel;
+    QRDBText3: TQRDBText;
+    qrlRenglon3: TQRLabel;
+    procedure qrReciboBeforePrint(Sender: TCustomQuickRep;
+      var PrintReport: Boolean);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    procedure imprimir(const idRecibo: integer);
+  end;
+
+var
+  frmRepRecibos: TfrmRepRecibos;
+
+implementation
+
+uses udmRecibos, uPublicos;
+
+{$R *.dfm}
+
+{ TfrmRepRecibos }
+
+procedure TfrmRepRecibos.imprimir(const idRecibo: integer);
+begin
+  ibqMaestro.Close;
+  ibqMaestro.ParamByName('IDRECIBO').AsInteger:=idRecibo;
+  ibqMaestro.Open;
+  ibqSaldo.Close;
+  ibqSaldo.ParamByName('IDCLIENTE').AsInteger:=
+    ibqMaestro.FieldByName('IDCLIENTE').AsInteger;
+  ibqSaldo.Open;
+  qrRecibo.PrinterSetup;
+  if qrRecibo.PrinterSettings.Copies > 0 then
+    qrRecibo.Print;
+end;
+
+procedure TfrmRepRecibos.qrReciboBeforePrint(Sender: TCustomQuickRep;
+  var PrintReport: Boolean);
+begin
+  // cargo los datos del negocio desde el .ini
+  qrlRenglon1.Caption:=uPublicos.LeerIni(ChangeFileExt(Application.ExeName,
+    '.INI'), 'IMPRESION', 'RENGLON1', 'NEGOCIO');
+  qrlRenglon2.Caption:=uPublicos.LeerIni(ChangeFileExt(Application.ExeName,
+    '.INI'), 'IMPRESION', 'RENGLON2', 'TEL');
+  qrlRenglon3.Caption:=uPublicos.LeerIni(ChangeFileExt(Application.ExeName,
+    '.INI'), 'IMPRESION', 'RENGLON3', 'DIRECCION');
+  // titulo del reporte
+  qrRecibo.ReportTitle:=qrRecibo.ReportTitle+' - '+ibqMaestroNUMERO.AsString;
+end;
+
+end.

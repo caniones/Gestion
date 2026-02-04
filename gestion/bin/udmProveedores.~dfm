@@ -1,0 +1,371 @@
+object dmProveedores: TdmProveedores
+  OldCreateOrder = False
+  OnCreate = DataModuleCreate
+  Left = 771
+  Top = 268
+  Height = 282
+  Width = 367
+  object dspProveedores: TDataSetProvider
+    DataSet = ibdsProveedores
+    Left = 32
+    Top = 56
+  end
+  object ibdsProveedores: TIBDataSet
+    Database = dmConexion.IBDatabase
+    Transaction = ibtProveedores
+    BufferChunks = 1000
+    CachedUpdates = False
+    DeleteSQL.Strings = (
+      'UPDATE PROVEEDORES'
+      'SET FECHA_BAJA= '#39'NOW'#39
+      'WHERE IDPROVEEDOR = :IDPROVEEDOR')
+    InsertSQL.Strings = (
+      
+        'INSERT INTO PROVEEDORES (IDPROVEEDOR, IDSITUACION, CUIT, NOMBRE_' +
+        'FANTASIA, NOMBRE_REAL, DIRECCION, CODIGO_POSTAL, IDLOCALIDAD, TE' +
+        'LEFONO_UNO, TELEFONO_DOS, TELEFONO_TRES, NUMERO_FAX, EMAIL)'
+      ' VALUES ('
+      ':IDPROVEEDOR, '
+      ':IDSITUACION, '
+      ':CUIT,'
+      ':NOMBRE_FANTASIA, '
+      ':NOMBRE_REAL, '
+      ':DIRECCION, '
+      ':CODIGO_POSTAL, '
+      ':IDLOCALIDAD, '
+      ':TELEFONO_UNO, '
+      ':TELEFONO_DOS, '
+      ':TELEFONO_TRES, '
+      ':NUMERO_FAX, '
+      ':EMAIL'
+      ')')
+    SelectSQL.Strings = (
+      
+        'SELECT P.IDPROVEEDOR, P.IDSITUACION, P.CUIT, P.NOMBRE_FANTASIA, ' +
+        'P.NOMBRE_REAL, '
+      
+        '  P.DIRECCION, P.CODIGO_POSTAL, P.IDLOCALIDAD, L.NOMBRE||'#39' - '#39'||' +
+        ' PR.NOMBRE AS LOCALIDAD, '
+      
+        '  P.TELEFONO_UNO, P.TELEFONO_DOS, P.TELEFONO_TRES, P.NUMERO_FAX,' +
+        ' P.EMAIL, P.FECHA_BAJA'
+      'FROM PROVEEDORES P'
+      'INNER JOIN LOCALIDADES L ON L.IDLOCALIDAD = P.IDLOCALIDAD'
+      'INNER JOIN PROVINCIAS PR ON PR.IDPROVINCIA = L.IDPROVINCIA'
+      'ORDER BY 4')
+    ModifySQL.Strings = (
+      'UPDATE PROVEEDORES'
+      'SET'
+      'IDSITUACION= :IDSITUACION, '
+      'CUIT = :CUIT,'
+      'NOMBRE_FANTASIA= :NOMBRE_FANTASIA, '
+      'NOMBRE_REAL= :NOMBRE_REAL, '
+      'DIRECCION= :DIRECCION, '
+      'CODIGO_POSTAL= :CODIGO_POSTAL,'
+      'IDLOCALIDAD= :IDLOCALIDAD, '
+      'TELEFONO_UNO= :TELEFONO_UNO,'
+      'TELEFONO_DOS= :TELEFONO_DOS,'
+      'TELEFONO_TRES= :TELEFONO_TRES,'
+      'NUMERO_FAX= :NUMERO_FAX,'
+      'EMAIL= :EMAIL,'
+      'FECHA_BAJA = :FECHA_BAJA'
+      'WHERE IDPROVEEDOR = :IDPROVEEDOR')
+    GeneratorField.Field = 'IDPROVEEDOR'
+    GeneratorField.Generator = 'GEN_IDPROVEEDOR'
+    Left = 32
+    Top = 104
+    object ibdsProveedoresIDPROVEEDOR: TIntegerField
+      FieldName = 'IDPROVEEDOR'
+      Origin = 'PROVEEDORES.IDPROVEEDOR'
+      Required = True
+    end
+    object ibdsProveedoresIDSITUACION: TIntegerField
+      FieldName = 'IDSITUACION'
+      Origin = 'PROVEEDORES.IDSITUACION'
+      Required = True
+    end
+    object ibdsProveedoresNOMBRE_FANTASIA: TIBStringField
+      FieldName = 'NOMBRE_FANTASIA'
+      Origin = 'PROVEEDORES.NOMBRE_FANTASIA'
+      Required = True
+      Size = 50
+    end
+    object ibdsProveedoresNOMBRE_REAL: TIBStringField
+      FieldName = 'NOMBRE_REAL'
+      Origin = 'PROVEEDORES.NOMBRE_REAL'
+      Required = True
+      Size = 50
+    end
+    object ibdsProveedoresDIRECCION: TIBStringField
+      FieldName = 'DIRECCION'
+      Origin = 'PROVEEDORES.DIRECCION'
+      Required = True
+      Size = 50
+    end
+    object ibdsProveedoresCODIGO_POSTAL: TIBStringField
+      FieldName = 'CODIGO_POSTAL'
+      Origin = 'PROVEEDORES.CODIGO_POSTAL'
+      Size = 13
+    end
+    object ibdsProveedoresIDLOCALIDAD: TIntegerField
+      FieldName = 'IDLOCALIDAD'
+      Origin = 'PROVEEDORES.IDLOCALIDAD'
+      Required = True
+    end
+    object ibdsProveedoresTELEFONO_UNO: TIBStringField
+      FieldName = 'TELEFONO_UNO'
+      Origin = 'PROVEEDORES.TELEFONO_UNO'
+      Size = 15
+    end
+    object ibdsProveedoresTELEFONO_DOS: TIBStringField
+      FieldName = 'TELEFONO_DOS'
+      Origin = 'PROVEEDORES.TELEFONO_DOS'
+      Size = 15
+    end
+    object ibdsProveedoresTELEFONO_TRES: TIBStringField
+      FieldName = 'TELEFONO_TRES'
+      Origin = 'PROVEEDORES.TELEFONO_TRES'
+      Size = 15
+    end
+    object ibdsProveedoresNUMERO_FAX: TIBStringField
+      FieldName = 'NUMERO_FAX'
+      Origin = 'PROVEEDORES.NUMERO_FAX'
+      Size = 15
+    end
+    object ibdsProveedoresEMAIL: TIBStringField
+      FieldName = 'EMAIL'
+      Origin = 'PROVEEDORES.EMAIL'
+      Size = 50
+    end
+    object ibdsProveedoresFECHA_BAJA: TDateField
+      FieldName = 'FECHA_BAJA'
+      Origin = 'PROVEEDORES.FECHA_BAJA'
+    end
+    object ibdsProveedoresCUIT: TIBStringField
+      FieldName = 'CUIT'
+      Origin = 'PROVEEDORES.CUIT'
+      Required = True
+      Size = 11
+    end
+    object ibdsProveedoresLOCALIDAD: TIBStringField
+      FieldName = 'LOCALIDAD'
+      Size = 103
+    end
+  end
+  object ibtProveedores: TIBTransaction
+    Active = True
+    DefaultDatabase = dmConexion.IBDatabase
+    Params.Strings = (
+      'read_committed'
+      'rec_version'
+      'nowait')
+    AutoStopAction = saNone
+    Left = 32
+    Top = 8
+  end
+  object ibqValidar: TIBQuery
+    Database = dmConexion.IBDatabase
+    Transaction = ibtProveedores
+    BufferChunks = 1000
+    CachedUpdates = False
+    SQL.Strings = (
+      'SELECT COUNT(*)'
+      'FROM PROVEEDORES'
+      'WHERE UPPER(NOMBRE_FANTASIA) = UPPER(:NOMBRE_FANTASIA)'
+      'AND UPPER(NOMBRE_REAL) = UPPER(:NOMBRE_REAL)'
+      'AND IDPROVEEDOR <> :ID')
+    Left = 104
+    Top = 8
+    ParamData = <
+      item
+        DataType = ftString
+        Name = 'NOMBRE_FANTASIA'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'NOMBRE_REAL'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'ID'
+        ParamType = ptInput
+      end>
+    object ibqValidarCOUNT: TIntegerField
+      FieldName = 'COUNT'
+      Required = True
+    end
+  end
+  object ibqSituaciones: TIBQuery
+    Database = dmConexion.IBDatabase
+    Transaction = ibtProveedores
+    BufferChunks = 1000
+    CachedUpdates = False
+    SQL.Strings = (
+      'SELECT IDSITUACION, DESCRIPCION'
+      'FROM SITUACIONES'
+      'ORDER BY 2')
+    Left = 168
+    Top = 8
+    object ibqSituacionesIDSITUACION: TIntegerField
+      FieldName = 'IDSITUACION'
+      Origin = 'SITUACIONES.IDSITUACION'
+      Required = True
+    end
+    object ibqSituacionesDESCRIPCION: TIBStringField
+      FieldName = 'DESCRIPCION'
+      Origin = 'SITUACIONES.DESCRIPCION'
+      Required = True
+      Size = 50
+    end
+  end
+  object ibqLocalidades: TIBQuery
+    Database = dmConexion.IBDatabase
+    Transaction = ibtProveedores
+    BufferChunks = 1000
+    CachedUpdates = False
+    SQL.Strings = (
+      'SELECT L.IDLOCALIDAD, L.NOMBRE||'#39' - '#39'||P.NOMBRE AS LOCALIDAD'
+      'FROM LOCALIDADES L'
+      'INNER JOIN PROVINCIAS P ON P.IDPROVINCIA = L.IDPROVINCIA'
+      'ORDER BY 2')
+    Left = 168
+    Top = 56
+    object ibqLocalidadesIDLOCALIDAD: TIntegerField
+      FieldName = 'IDLOCALIDAD'
+      Origin = 'LOCALIDADES.IDLOCALIDAD'
+      Required = True
+    end
+    object ibqLocalidadesLOCALIDAD: TIBStringField
+      FieldName = 'LOCALIDAD'
+      Required = True
+      Size = 103
+    end
+  end
+  object ibqEstadoCarga: TIBQuery
+    Database = dmConexion.IBDatabase
+    Transaction = dmConexion.ibTransac
+    BufferChunks = 1000
+    CachedUpdates = False
+    SQL.Strings = (
+      
+        'SELECT R.FECHA_COMPRA, P.NOMBRE_FANTASIA, r.CODIGO_INTERNO, r.DE' +
+        'SCRIPCION, r.STOCK, '
+      
+        '    r.COSTO_UNITARIO, r.PRECIO_PUBLICO, R.COSTO_UNITARIO*R.STOCK' +
+        ' AS TOTAL_COSTO'
+      'FROM ARTICULOS_AUDITORIA r'
+      'INNER JOIN PROVEEDORES P ON P.IDPROVEEDOR = :IDPROVEEDOR'
+      'WHERE R.ACCION = '#39'INSERT'#39
+      'AND R.FECHA_ACTPRECIO BETWEEN :DESDE AND :HASTA')
+    Left = 264
+    Top = 8
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'IDPROVEEDOR'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'DESDE'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'HASTA'
+        ParamType = ptUnknown
+      end>
+    object ibqEstadoCargaFECHA_COMPRA: TDateField
+      DisplayLabel = 'FECHA'
+      FieldName = 'FECHA_COMPRA'
+      Origin = 'ARTICULOS_AUDITORIA.FECHA_COMPRA'
+      Required = True
+    end
+    object ibqEstadoCargaNOMBRE_FANTASIA: TIBStringField
+      DisplayLabel = 'PROVEEDOR'
+      FieldName = 'NOMBRE_FANTASIA'
+      Origin = 'PROVEEDORES.NOMBRE_FANTASIA'
+      Required = True
+      Size = 50
+    end
+    object ibqEstadoCargaCODIGO_INTERNO: TIBStringField
+      DisplayLabel = 'CODIGO'
+      FieldName = 'CODIGO_INTERNO'
+      Origin = 'ARTICULOS_AUDITORIA.CODIGO_INTERNO'
+      Required = True
+    end
+    object ibqEstadoCargaDESCRIPCION: TIBStringField
+      FieldName = 'DESCRIPCION'
+      Origin = 'ARTICULOS_AUDITORIA.DESCRIPCION'
+      Required = True
+      Size = 50
+    end
+    object ibqEstadoCargaSTOCK: TIntegerField
+      DisplayLabel = 'CANTIDAD'
+      FieldName = 'STOCK'
+      Origin = 'ARTICULOS_AUDITORIA.STOCK'
+      Required = True
+    end
+    object ibqEstadoCargaCOSTO_UNITARIO: TIBBCDField
+      DisplayLabel = 'COSTO'
+      FieldName = 'COSTO_UNITARIO'
+      Origin = 'ARTICULOS_AUDITORIA.COSTO_UNITARIO'
+      Required = True
+      DisplayFormat = '$#,##0.00'
+      Precision = 18
+      Size = 4
+    end
+    object ibqEstadoCargaPRECIO_PUBLICO: TIBBCDField
+      DisplayLabel = 'PRECIO'
+      FieldName = 'PRECIO_PUBLICO'
+      Origin = 'ARTICULOS_AUDITORIA.PRECIO_PUBLICO'
+      Required = True
+      DisplayFormat = '$#,##0.00'
+      Precision = 18
+      Size = 4
+    end
+    object ibqEstadoCargaTOTAL_COSTO: TIBBCDField
+      DisplayLabel = 'TOTAL'
+      FieldName = 'TOTAL_COSTO'
+      Required = True
+      DisplayFormat = '$#,##0.00'
+      Precision = 18
+      Size = 4
+    end
+  end
+  object ibqTotalCantidad: TIBQuery
+    Database = dmConexion.IBDatabase
+    Transaction = dmConexion.ibTransac
+    BufferChunks = 1000
+    CachedUpdates = False
+    SQL.Strings = (
+      'SELECT sum(r.STOCK) as CANTIDAD_TOTAL'
+      'FROM ARTICULOS_AUDITORIA r'
+      'INNER JOIN PROVEEDORES P ON P.IDPROVEEDOR = :IDPROVEEDOR'
+      'WHERE R.ACCION = '#39'INSERT'#39
+      'AND R.FECHA_ACTPRECIO BETWEEN :DESDE AND :HASTA')
+    Left = 264
+    Top = 56
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'IDPROVEEDOR'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'DESDE'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'HASTA'
+        ParamType = ptUnknown
+      end>
+    object ibqTotalCantidadCANTIDAD_TOTAL: TLargeintField
+      FieldName = 'CANTIDAD_TOTAL'
+    end
+  end
+end

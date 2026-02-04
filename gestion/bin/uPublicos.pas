@@ -1,0 +1,78 @@
+unit uPublicos;
+
+interface
+
+uses
+  Forms, IniFiles, SysUtils, Dialogs, Windows, StdCtrls, Controls;
+
+type
+  TVectorHoras = array [0..23] of integer;
+
+
+  function LeerIni(Archivo, Seccion, Clave, Default: String): String;
+  function calcularEdad(elNatalicio:string):integer;
+  function validarFechas(desde, hasta : TDate):boolean;
+  procedure GrabarIni(Archivo, Seccion, Clave, Valor: String);
+
+
+implementation
+
+function LeerIni(Archivo, Seccion, Clave, Default: String): String;
+var
+  IFile: TIniFile;
+begin
+  IFile:= TIniFile.Create(Archivo);
+  try
+    if IFile.ValueExists(Seccion, Clave) then
+      Result:= IFile.ReadString(Seccion, Clave, Default)
+    else
+    begin
+      IFile.WriteString(Seccion, Clave, Default);
+      Result:= Default;
+    end;
+  finally
+    IFile.Free;
+  end;
+end;
+
+function calcularEdad(elNatalicio:string):integer;
+var
+  iTemp,iTemp2,Nada:word;
+  Fecha:TDate;
+begin
+  // fuente http://www.clubdelphi.com/foros/showthread.php?t=27658&highlight=edad
+  Fecha:=StrToDate(elNatalicio);
+  DecodeDate(Date,itemp,Nada,Nada);
+  DecodeDate(Fecha,itemp2,Nada,Nada);
+  if FormatDateTime('mmdd',Date) < FormatDateTime('mmdd',Fecha) then
+    Result:=iTemp-iTemp2-1
+  else
+    Result:=iTemp-iTemp2;
+end;
+
+
+procedure GrabarIni(Archivo, Seccion, Clave, Valor: String);
+var
+  IFile: TIniFile;
+begin
+  IFile:= TIniFile.Create(Archivo);
+  try
+      IFile.WriteString(Seccion, Clave, Valor);
+  finally
+    IFile.Free;
+  end;
+end;
+
+function validarFechas(desde, hasta : TDate):boolean;
+begin
+  if desde > hasta then
+    begin
+    application.MessageBox(#13+'Fecha desde no puede ser mayor a fecha hasta',
+      'Atención',MB_OK + MB_ICONINFORMATION);
+    result:=false;
+    end
+  else
+    result:=true;
+end;
+
+end.

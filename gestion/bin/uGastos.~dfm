@@ -1,0 +1,153 @@
+inherited frmGastos: TfrmGastos
+  Left = 381
+  Top = 261
+  Caption = 'Gastos'
+  ClientHeight = 394
+  ClientWidth = 611
+  OldCreateOrder = True
+  OnClose = FormClose
+  PixelsPerInch = 96
+  TextHeight = 13
+  object dbgDatos: TDBGrid [0]
+    Left = 0
+    Top = 80
+    Width = 609
+    Height = 257
+    Ctl3D = True
+    DataSource = dsDatos
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
+    ParentCtl3D = False
+    PopupMenu = PopupMenu
+    TabOrder = 3
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'MS Sans Serif'
+    TitleFont.Style = []
+    OnColEnter = dbgDatosColEnter
+    OnColExit = dbgDatosColExit
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'FECHA'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DESCRIPCION'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'IMPORTE'
+        Width = 64
+        Visible = True
+      end
+      item
+        DropDownRows = 12
+        Expanded = False
+        FieldName = 'FORMAPAGO'
+        Width = 130
+        Visible = True
+      end>
+  end
+  inherited PanelButton: TPanel
+    Top = 337
+    Width = 608
+    ParentCtl3D = False
+    inherited btnAceptar: TSpeedButton
+      Left = 494
+      Visible = False
+    end
+    inherited btnCancelar: TSpeedButton
+      Left = 441
+      Visible = False
+    end
+    inherited btnSalir: TSpeedButton
+      Left = 547
+      OnClick = btnSalirClick
+    end
+    object btnBorrarGasto: TSpeedButton
+      Left = 4
+      Top = 4
+      Width = 50
+      Height = 50
+      Caption = 'Borrar'
+      Flat = True
+      Layout = blGlyphTop
+      OnClick = btnBorrarGastoClick
+    end
+    object btnCancelarGasto: TSpeedButton
+      Left = 57
+      Top = 4
+      Width = 50
+      Height = 50
+      Caption = 'Cancelar'
+      Flat = True
+      Layout = blGlyphTop
+      OnClick = btnCancelarGastoClick
+    end
+    object btnNuevoGasto: TSpeedButton
+      Left = 110
+      Top = 4
+      Width = 50
+      Height = 50
+      Caption = 'Nuevo'
+      Flat = True
+      Layout = blGlyphTop
+      OnClick = btnNuevoGastoClick
+    end
+  end
+  inherited PanelHeader: TPanel
+    inherited lInfo: TLabel
+      Width = 40
+      Caption = 'Gastos'
+    end
+    inherited lRequeridos: TLabel
+      Width = 191
+      Caption = 'Registro de gastos. Seleccione la fecha.'
+    end
+  end
+  object dtpFecha: TDateTimePicker
+    Left = 6
+    Top = 56
+    Width = 145
+    Height = 21
+    CalAlignment = dtaLeft
+    Date = 39820.8040053472
+    Time = 39820.8040053472
+    DateFormat = dfShort
+    DateMode = dmComboBox
+    Kind = dtkDate
+    ParseInput = False
+    TabOrder = 2
+    OnChange = dtpFechaChange
+  end
+  object dsDatos: TDataSource
+    AutoEdit = False
+    DataSet = dmGastos.ibdsGastos
+    Left = 264
+    Top = 152
+  end
+  object PopupMenu: TPopupMenu
+    OnPopup = PopupMenuPopup
+    Left = 408
+    Top = 200
+    object Cancelar1: TMenuItem
+      Caption = 'Cancelar'
+      Enabled = False
+      OnClick = Cancelar1Click
+    end
+    object N1: TMenuItem
+      Caption = '-'
+    end
+    object Nuevo1: TMenuItem
+      Caption = 'Nuevo'
+      OnClick = Nuevo1Click
+    end
+    object Borrar1: TMenuItem
+      Caption = 'Borrar'
+      OnClick = Borrar1Click
+    end
+  end
+end

@@ -1,0 +1,94 @@
+inherited frmAGasto: TfrmAGasto
+  Caption = 'Gasto Nuevo'
+  ClientHeight = 273
+  OldCreateOrder = True
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Label1: TLabel [0]
+    Left = 24
+    Top = 72
+    Width = 56
+    Height = 13
+    Caption = 'Descripci'#243'n'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = 1738751
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label2: TLabel [1]
+    Left = 24
+    Top = 120
+    Width = 35
+    Height = 13
+    Caption = 'Importe'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = 1738751
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label3: TLabel [2]
+    Left = 24
+    Top = 168
+    Width = 72
+    Height = 13
+    Caption = 'Forma de Pago'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = 1738751
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  inherited PanelButton: TPanel
+    Top = 216
+  end
+  object dbeDescrip: TDBEdit
+    Left = 24
+    Top = 88
+    Width = 313
+    Height = 21
+    DataField = 'DESCRIPCION'
+    DataSource = dsDatos
+    TabOrder = 2
+  end
+  object dbeImporte: TDBEdit
+    Left = 24
+    Top = 136
+    Width = 97
+    Height = 21
+    DataField = 'IMPORTE'
+    DataSource = dsDatos
+    TabOrder = 3
+  end
+  object dblcFormaPago: TDBLookupComboBox
+    Left = 24
+    Top = 184
+    Width = 225
+    Height = 21
+    DataField = 'IDFORMAPAGO'
+    DataSource = dsDatos
+    DropDownRows = 20
+    KeyField = 'IDFORMAPAGO'
+    ListField = 'DESCRIPCION'
+    ListSource = dsFormasPagos
+    TabOrder = 4
+    OnClick = dblcFormaPagoClick
+  end
+  object dsDatos: TDataSource
+    AutoEdit = False
+    DataSet = dmGastos.ibdsGastos
+    Left = 304
+    Top = 128
+  end
+  object dsFormasPagos: TDataSource
+    AutoEdit = False
+    DataSet = dmGastos.ibqFormasPagos
+    Left = 208
+    Top = 176
+  end
+end

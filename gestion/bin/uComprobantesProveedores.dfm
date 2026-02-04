@@ -1,0 +1,215 @@
+inherited frmComprobantesProveedores: TfrmComprobantesProveedores
+  Left = 454
+  Top = 256
+  Caption = 'Comprobante Proveedor'
+  ClientHeight = 305
+  ClientWidth = 523
+  OldCreateOrder = True
+  OnDestroy = FormDestroy
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Label1: TLabel [0]
+    Left = 24
+    Top = 64
+    Width = 101
+    Height = 13
+    Caption = 'Tipo de comprobante'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = 1738751
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label2: TLabel [1]
+    Left = 168
+    Top = 64
+    Width = 30
+    Height = 13
+    Caption = 'Fecha'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = 1738751
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label3: TLabel [2]
+    Left = 24
+    Top = 112
+    Width = 73
+    Height = 13
+    Caption = 'Punto de venta'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = 1738751
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label4: TLabel [3]
+    Left = 168
+    Top = 112
+    Width = 37
+    Height = 13
+    Caption = 'N'#250'mero'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = 1738751
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label5: TLabel [4]
+    Left = 24
+    Top = 160
+    Width = 49
+    Height = 13
+    Caption = 'Proveedor'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = 1738751
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label6: TLabel [5]
+    Left = 24
+    Top = 208
+    Width = 35
+    Height = 13
+    Caption = 'Importe'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = 1738751
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label7: TLabel [6]
+    Left = 168
+    Top = 208
+    Width = 85
+    Height = 13
+    Caption = 'Total de unidades'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = 1738751
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  inherited PanelButton: TPanel
+    Top = 248
+    TabOrder = 7
+    inherited btnAceptar: TSpeedButton
+      OnClick = btnAceptarClick
+    end
+    inherited btnSalir: TSpeedButton
+      Left = 225
+      Visible = False
+    end
+  end
+  inherited PanelHeader: TPanel
+    TabOrder = 8
+    inherited lInfo: TLabel
+      Width = 75
+      Caption = 'Comprobante'
+    end
+    inherited lRequeridos: TLabel
+      Width = 212
+      Caption = 'Los campos en color naranja son obligatorios'
+    end
+  end
+  object dblcTipoComprobante: TDBLookupComboBox
+    Left = 24
+    Top = 80
+    Width = 121
+    Height = 21
+    DataField = 'IDTIPOCOMPROBANTE'
+    DataSource = dsDatos
+    DropDownRows = 15
+    KeyField = 'IDTIPOCOMPROBANTE'
+    ListField = 'DESCRIPCION'
+    ListSource = dsTiposComprobantes
+    TabOrder = 0
+  end
+  object dbeSucursal: TDBEdit
+    Left = 24
+    Top = 128
+    Width = 121
+    Height = 21
+    DataField = 'NROSUCURSAL'
+    DataSource = dsDatos
+    TabOrder = 2
+  end
+  object dbeNumero: TDBEdit
+    Left = 168
+    Top = 128
+    Width = 121
+    Height = 21
+    DataField = 'NROCOMPROBANTE'
+    DataSource = dsDatos
+    TabOrder = 3
+  end
+  object dtpFecha: TDateTimePicker
+    Left = 168
+    Top = 80
+    Width = 121
+    Height = 21
+    Date = 40160.792680659710000000
+    Time = 40160.792680659710000000
+    TabOrder = 1
+    OnChange = dtpFechaChange
+  end
+  object dblcProveedor: TDBLookupComboBox
+    Left = 24
+    Top = 176
+    Width = 265
+    Height = 21
+    DataField = 'IDPROVEEDOR'
+    DataSource = dsDatos
+    DropDownRows = 20
+    KeyField = 'IDPROVEEDOR'
+    ListField = 'NOMBRE_FANTASIA'
+    ListSource = dsProveedores
+    TabOrder = 4
+  end
+  object dbeImporte: TDBEdit
+    Left = 24
+    Top = 224
+    Width = 121
+    Height = 21
+    DataField = 'IMPORTE'
+    DataSource = dsDatos
+    TabOrder = 5
+  end
+  object dbeUnidades: TDBEdit
+    Left = 168
+    Top = 224
+    Width = 121
+    Height = 21
+    DataField = 'CANTIDAD_UNIDADES'
+    DataSource = dsDatos
+    TabOrder = 6
+  end
+  object dsDatos: TDataSource
+    AutoEdit = False
+    DataSet = dmEstadoCtasCtesProveedores.ibdsComprobantes
+    Left = 296
+    Top = 120
+  end
+  object dsTiposComprobantes: TDataSource
+    AutoEdit = False
+    DataSet = dmEstadoCtasCtesProveedores.ibqTiposComprobantes
+    Left = 88
+    Top = 80
+  end
+  object dsProveedores: TDataSource
+    AutoEdit = False
+    DataSet = dmEstadoCtasCtesProveedores.ibqProveedores
+    Left = 176
+    Top = 168
+  end
+end

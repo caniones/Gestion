@@ -1,0 +1,186 @@
+unit uRecibosClientes;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, uImputForm, StdCtrls, Buttons, ExtCtrls, Grids, DBGrids, DB,
+  Menus, cxStyles, cxCustomData, cxGraphics, cxFilter, cxData,
+  cxDataStorage, cxEdit, cxDBData, cxGridCustomTableView, cxGridTableView,
+  cxGridDBTableView, cxGridLevel, cxClasses, cxControls, cxGridCustomView,
+  cxGrid;
+
+type
+  TfrmRecibosClientes = class(TfrmImput)
+    dsDatos: TDataSource;
+    PopupMenu: TPopupMenu;
+    Cancelar1: TMenuItem;
+    Nuevo1: TMenuItem;
+    Imprimir1: TMenuItem;
+    Anular1: TMenuItem;
+    N1: TMenuItem;
+    btnNuevoRecibo: TSpeedButton;
+    btnImprimirRecibo: TSpeedButton;
+    btnCancelarRecibo: TSpeedButton;
+    btnAnularRecibo: TSpeedButton;
+    cxGridDBTableView1: TcxGridDBTableView;
+    cxGridLevel1: TcxGridLevel;
+    cxGrid: TcxGrid;
+    cxGridDBTableView1NUMERO: TcxGridDBColumn;
+    cxGridDBTableView1FECHA: TcxGridDBColumn;
+    cxGridDBTableView1IMPORTE: TcxGridDBColumn;
+    cxGridDBTableView1FORMAPAGO: TcxGridDBColumn;
+    cxGridDBTableView1CLIENTE: TcxGridDBColumn;
+    procedure FormCreate(Sender: TObject);
+    procedure PopupMenuPopup(Sender: TObject);
+    procedure Nuevo1Click(Sender: TObject);
+    procedure Cancelar1Click(Sender: TObject);
+    procedure Anular1Click(Sender: TObject);
+    procedure Imprimir1Click(Sender: TObject);
+    procedure btnSalirClick(Sender: TObject);
+    procedure btnNuevoReciboClick(Sender: TObject);
+    procedure btnCancelarReciboClick(Sender: TObject);
+    procedure btnImprimirReciboClick(Sender: TObject);
+    procedure btnAnularReciboClick(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmRecibosClientes: TfrmRecibosClientes;
+
+implementation
+
+uses udmRecibos, uRepRecibos, uAReciboCliente, uAPago, udmPagos;
+
+var
+  dm:TdmRecibos;
+
+{$R *.dfm}
+
+procedure TfrmRecibosClientes.FormCreate(Sender: TObject);
+begin
+  inherited;
+  dm:=TdmRecibos.Create(self);
+  dm.cargarRecibo;
+end;
+
+procedure TfrmRecibosClientes.PopupMenuPopup(Sender: TObject);
+begin
+  inherited;
+  // validación del popup
+  if dsDatos.DataSet.State = dsInsert then
+    begin
+    Cancelar1.Enabled:=true;
+    Nuevo1.Enabled:=false;
+    Imprimir1.Enabled:=false;
+    end
+  else
+    begin
+    Cancelar1.Enabled:=false;
+    Nuevo1.Enabled:=true;
+    Imprimir1.Enabled:=true;
+    end;
+end;
+
+procedure TfrmRecibosClientes.Nuevo1Click(Sender: TObject);
+begin
+  inherited;
+  self.btnNuevoRecibo.Click;
+end;
+
+procedure TfrmRecibosClientes.Cancelar1Click(Sender: TObject);
+begin
+  inherited;
+  dm.cancelarRecibo;
+end;
+
+procedure TfrmRecibosClientes.Anular1Click(Sender: TObject);
+begin
+  self.btnAnularRecibo.Click;
+end;
+
+procedure TfrmRecibosClientes.Imprimir1Click(Sender: TObject);
+begin
+  self.btnImprimirRecibo.Click;
+end;
+
+procedure TfrmRecibosClientes.btnSalirClick(Sender: TObject);
+begin
+  inherited;
+  self.Close;
+end;
+
+procedure TfrmRecibosClientes.btnNuevoReciboClick(Sender: TObject);
+var
+  FInput:TfrmAReciboCliente;
+begin
+  inherited;
+  FInput:=TfrmAReciboCliente.Create(self);
+  try
+    // modifico el grid mode para optimizar el rendimiento de la grilla
+    // cuando tiene muchos registros se vuelve lenta.
+    cxGridDBTableView1.DataController.DataModeController.GridMode:=true;
+    cxGridDBTableView1.DataController.DataModeController.GridModeBufferCount:=50;
+    dm.nuevoRecibo;
+    if FInput.ShowModal = mrOK then
+      begin
+      dm.grabarRecibo;
+      if StrToInt(uPublicos.LeerIni(ChangeFileExt(Application.ExeName,'.INI'),
+        'IMPRESION','COPIAS','0')) > 0 then
+        self.btnImprimirRecibo.Click;
+      end;
+    dm.cancelarRecibo;
+  finally
+    FInput.Free;
+    // reestrablesco las propiedades para que trabaje normalmente
+    cxGridDBTableView1.DataController.DataModeController.GridMode:=false;
+    cxGridDBTableView1.DataController.DataModeController.GridModeBufferCount:=0;
+  end;
+end;
+
+procedure TfrmRecibosClientes.btnCancelarReciboClick(Sender: TObject);
+begin
+  inherited;
+  dm.cancelarRecibo;
+end;
+
+procedure TfrmRecibosClientes.btnImprimirReciboClick(Sender: TObject);
+var
+  FRecibo:TfrmRepRecibos;
+  id:integer;
+begin
+  inherited;
+  id:=dsDatos.DataSet.FieldByName('IDRECIBO').AsInteger;
+  if id > 0 then
+    begin
+    FRecibo:=TfrmRepRecibos.Create(self);
+    try
+      FRecibo.imprimir(id);
+    finally
+      FRecibo.Free;
+    end;
+    end;
+end;
+
+procedure TfrmRecibosClientes.btnAnularReciboClick(Sender: TObject);
+begin
+  inherited;
+  if dsDatos.DataSet.RecordCount > 0 then
+    if Application.MessageBox('¿Desea anular el Recibo seleccionado?'+#13,
+      'Atención',MB_YESNO + MB_ICONWARNING) = 6 Then
+      begin
+      dm.anularRecibo;
+      end;
+end;
+
+procedure TfrmRecibosClientes.FormDestroy(Sender: TObject);
+begin
+  inherited;
+  dm.Free;
+end;
+
+end.

@@ -1,0 +1,47 @@
+inherited frmABMlineas: TfrmABMlineas
+  Left = 520
+  Top = 151
+  Caption = 'Actualizaci'#243'n de L'#237'neas'
+  ClientHeight = 489
+  ClientWidth = 361
+  OldCreateOrder = True
+  OnCreate = FormCreate
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited btnSalir: TSpeedButton
+    Left = 304
+    Top = 432
+  end
+  inherited dbgDatos: TDBGrid
+    Height = 369
+    OnDblClick = dbgDatosDblClick
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'IDLINEA'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'DESCRIPCION'
+        Visible = True
+      end>
+  end
+  inherited Panel1: TPanel
+    inherited btnAlta: TSpeedButton
+      Left = 201
+      OnClick = btnAltaClick
+    end
+    inherited btnBaja: TSpeedButton
+      Left = 254
+      OnClick = btnBajaClick
+    end
+    inherited btnModi: TSpeedButton
+      Left = 307
+      OnClick = btnModiClick
+    end
+  end
+  inherited dsDatos: TDataSource
+    DataSet = dmLineas.ibdsLineas
+  end
+end

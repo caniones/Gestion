@@ -1,0 +1,81 @@
+inherited frmMonedas: TfrmMonedas
+  Left = 491
+  Top = 222
+  Caption = 'Monedas'
+  ClientHeight = 297
+  ClientWidth = 520
+  OldCreateOrder = True
+  OnDestroy = FormDestroy
+  PixelsPerInch = 96
+  TextHeight = 13
+  object SpeedButton1: TSpeedButton [0]
+    Left = 384
+    Top = 184
+    Width = 50
+    Height = 50
+    Caption = 'Actualizar'
+    Flat = True
+    OnClick = SpeedButton1Click
+  end
+  inherited PanelButton: TPanel
+    Top = 240
+    inherited btnAceptar: TSpeedButton
+      Left = 281
+    end
+    inherited btnCancelar: TSpeedButton
+      Left = 334
+    end
+    inherited btnSalir: TSpeedButton
+      Left = 387
+      OnClick = btnSalirClick
+    end
+  end
+  inherited PanelHeader: TPanel
+    Width = 441
+    inherited lInfo: TLabel
+      Width = 52
+      Caption = 'Monedas'
+    end
+    inherited lRequeridos: TLabel
+      Width = 158
+      Caption = 'Todos los campos son requeridos'
+    end
+  end
+  object DBGrid1: TDBGrid
+    Left = 8
+    Top = 56
+    Width = 425
+    Height = 121
+    DataSource = dsMonedas
+    TabOrder = 2
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'MS Sans Serif'
+    TitleFont.Style = []
+    OnColExit = DBGrid1ColExit
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'MONEDA'
+        Width = 200
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'COTIZACION'
+        Width = 80
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'SIGNO'
+        Visible = True
+      end>
+  end
+  object dsMonedas: TDataSource
+    DataSet = dmConexion.ibdsMonedas
+    Left = 192
+    Top = 96
+  end
+end

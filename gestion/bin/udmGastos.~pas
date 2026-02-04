@@ -1,0 +1,88 @@
+unit udmGastos;
+
+interface
+
+uses
+  SysUtils, Classes, DB, IBCustomDataSet, IBDatabase, Provider, Controls,
+  IBQuery;
+
+type
+  TdmGastos = class(TDataModule)
+    dspGastos: TDataSetProvider;
+    ibtGastos: TIBTransaction;
+    ibdsGastos: TIBDataSet;
+    ibqFormasPagos: TIBQuery;
+    ibqFormasPagosIDFORMAPAGO: TIntegerField;
+    ibqFormasPagosDESCRIPCION: TIBStringField;
+    ibdsGastosIDGASTO: TIntegerField;
+    ibdsGastosFECHA: TDateField;
+    ibdsGastosDESCRIPCION: TIBStringField;
+    ibdsGastosIMPORTE: TIBBCDField;
+    ibdsGastosIDFORMAPAGO: TIntegerField;
+    ibdsGastosFORMAPAGO: TStringField;
+    procedure DataModuleCreate(Sender: TObject);
+    procedure ibdsGastosNewRecord(DataSet: TDataSet);
+  private
+    { Private declarations }
+    procedure refrescar();
+  public
+    { Public declarations }
+    procedure buscarPorFecha(const laFecha: TDate);
+    procedure grabar();
+  end;
+
+var
+  dmGastos: TdmGastos;
+
+implementation
+
+uses dmConex;
+
+{$R *.dfm}
+
+procedure TdmGastos.buscarPorFecha(const laFecha: TDate);
+begin
+  ibdsGastos.Close;
+  ibdsGastos.ParamByName('FECHA').AsDate:=laFecha;
+  ibdsGastos.Open;
+end;
+
+procedure TdmGastos.DataModuleCreate(Sender: TObject);
+begin
+  ibdsGastos.ParamByName('FECHA').AsDate:=date;
+  ibdsGastos.Open;
+  self.refrescar;
+end;
+
+procedure TdmGastos.grabar;
+var
+  Marca:TBookmarkStr;
+begin
+  Marca:=ibdsGastos.Bookmark;
+  ibdsGastos.CheckBrowseMode;
+  try
+    ibdsGastos.ApplyUpdates;
+    ibtGastos.Commit;
+  except
+    ibtGastos.Rollback;
+  end;
+  ibdsGastos.Open;
+  ibdsGastos.Bookmark:=Marca;
+  self.refrescar;
+end;
+
+procedure TdmGastos.refrescar;
+begin
+  ibqFormasPagos.Close;
+  ibqFormasPagos.Open;
+  ibqFormasPagos.Last;
+  ibqFormasPagos.First;
+end;
+
+procedure TdmGastos.ibdsGastosNewRecord(DataSet: TDataSet);
+begin
+  ibdsGastosFECHA.AsDateTime:=date;
+  ibdsGastosIMPORTE.AsFloat:=0;
+end;
+
+end.

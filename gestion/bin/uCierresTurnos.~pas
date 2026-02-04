@@ -1,0 +1,82 @@
+unit uCierresTurnos;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, uImputForm, StdCtrls, Buttons, ExtCtrls, DB, Grids, DBGrids,
+  jpeg;
+
+type
+  TfrmCierresTurnos = class(TfrmImput)
+    dsDatos: TDataSource;
+    dbgDatos: TDBGrid;
+    btnVer: TSpeedButton;
+    procedure btnVerClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure dbgDatosDblClick(Sender: TObject);
+    procedure btnSalirClick(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmCierresTurnos: TfrmCierresTurnos;
+
+implementation
+
+uses udmCierreTurno, uRepCierreTurno;
+
+var
+  dm:TdmCierreTurno;
+
+{$R *.dfm}
+
+procedure TfrmCierresTurnos.btnVerClick(Sender: TObject);
+var
+  //RepCierreTurno:TfrmQRCerrarTurno;
+  idCierre:integer;
+  FRepCierreTurno:TfrmRepCierreTurno;
+begin
+  inherited;
+  idCierre:=dbgDatos.Fields[0].AsInteger;
+  FRepCierreTurno:=TfrmRepCierreTurno.Create(self);
+  try
+    FRepCierreTurno.ver(idCierre);
+  finally
+    FRepCierreTurno.Free;
+  end;
+end;
+
+procedure TfrmCierresTurnos.FormCreate(Sender: TObject);
+begin
+  inherited;
+  // creo el datamodule
+  dm:=TdmCierreTurno.Create(self);
+  dsDatos.DataSet.Close;
+  dsDatos.DataSet.Open;
+end;
+
+procedure TfrmCierresTurnos.dbgDatosDblClick(Sender: TObject);
+begin
+  inherited;
+  btnVer.Click;
+end;
+
+procedure TfrmCierresTurnos.btnSalirClick(Sender: TObject);
+begin
+  inherited;
+  self.Close;
+end;
+
+procedure TfrmCierresTurnos.FormDestroy(Sender: TObject);
+begin
+  inherited;
+  // libero el datamodule
+  dm.free;
+end;
+
+end.

@@ -1,0 +1,230 @@
+unit uEstadoCtasCtesProveedores;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Grids, DBGrids, ExtCtrls, Buttons, DB, cxStyles,
+  cxCustomData, cxGraphics, cxFilter, cxData, cxDataStorage, cxEdit,
+  cxDBData, cxGridLevel, cxClasses, cxControls, cxGridCustomView,
+  cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid,
+  DBCtrls;
+
+type
+  TfrmEstadoCtasCtesProveedores = class(TForm)
+    Label1: TLabel;
+    Panel1: TPanel;
+    btnSalir: TSpeedButton;
+    Label2: TLabel;
+    dsProveedores: TDataSource;
+    dsComprobantes: TDataSource;
+    btnNuevoComprobante: TSpeedButton;
+    btnNuevoPago: TSpeedButton;
+    dsEstadoCtasCtes: TDataSource;
+    dsPagos: TDataSource;
+    btnEstadisticas: TSpeedButton;
+    dbgProveedoresDBTableView1: TcxGridDBTableView;
+    dbgProveedoresLevel1: TcxGridLevel;
+    dbgProveedores: TcxGrid;
+    dbgComprobantesDBTableView1: TcxGridDBTableView;
+    dbgComprobantesLevel1: TcxGridLevel;
+    dbgComprobantes: TcxGrid;
+    dbgComprobantesDBTableView1FECHA: TcxGridDBColumn;
+    dbgComprobantesDBTableView1DESCRIPCION: TcxGridDBColumn;
+    dbgComprobantesDBTableView1NUMERO: TcxGridDBColumn;
+    dbgComprobantesDBTableView1IMPORTE: TcxGridDBColumn;
+    dbgComprobantesDBTableView1IDTIPOCOMPROBANTE: TcxGridDBColumn;
+    dbgProveedoresDBTableView1CUIT: TcxGridDBColumn;
+    dbgProveedoresDBTableView1NOMBRE_FANTASIA: TcxGridDBColumn;
+    dbgProveedoresDBTableView1NOMBRE_REAL: TcxGridDBColumn;
+    dbgProveedoresDBTableView1FECHA_BAJA: TcxGridDBColumn;
+    Label3: TLabel;
+    dbtSaldo: TDBText;
+    dsSaldo: TDataSource;
+    procedure FormCreate(Sender: TObject);
+    procedure btnNuevoComprobanteClick(Sender: TObject);
+    procedure btnNuevoPagoClick(Sender: TObject);
+    procedure btnSalirClick(Sender: TObject);
+    procedure dbgProveedoresDBTableView1CustomDrawCell(
+      Sender: TcxCustomGridTableView; ACanvas: TcxCanvas;
+      AViewInfo: TcxGridTableDataCellViewInfo; var ADone: Boolean);
+    procedure FormDestroy(Sender: TObject);
+    procedure dbgComprobantesDBTableView1DblClick(Sender: TObject);
+    procedure btnEstadisticasClick(Sender: TObject);
+    procedure dbgComprobantesDBTableView1CustomDrawCell(
+      Sender: TcxCustomGridTableView; ACanvas: TcxCanvas;
+      AViewInfo: TcxGridTableDataCellViewInfo; var ADone: Boolean);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmEstadoCtasCtesProveedores: TfrmEstadoCtasCtesProveedores;
+
+implementation
+
+uses udmEstadoCtasCtesProveedores, uComprobantesProveedores,
+  uPagosProveedores, uEstadisticasProveedores;
+
+var dm:TdmEstadoCtasCtesProveedores;
+
+{$R *.dfm}
+
+procedure TfrmEstadoCtasCtesProveedores.FormCreate(Sender: TObject);
+begin
+  // creo el modulo de datos
+  dm:=TdmEstadoCtasCtesProveedores.Create(self);
+  dm.cargarProveedores;
+end;
+
+procedure TfrmEstadoCtasCtesProveedores.btnNuevoComprobanteClick(
+  Sender: TObject);
+var
+  FComprobantes:TfrmComprobantesProveedores;
+begin
+  // ingreso de un comprobante por compra a proveedor
+  FComprobantes:=TfrmComprobantesProveedores.Create(self);
+  try
+    dm.nuevoComprobante;
+    if FComprobantes.ShowModal = mrOK then
+      dm.grabarComprobante;
+  finally
+    FComprobantes.Free;
+  end;
+end;
+
+procedure TfrmEstadoCtasCtesProveedores.btnNuevoPagoClick(Sender: TObject);
+var
+  FPagoProveedor:TfrmPagosProveedores;
+begin
+   // ingreso de pago a un proveedor
+  FPagoProveedor:=TfrmPagosProveedores.Create(self);
+  try
+    dm.nuevoPago;
+    if FPagoProveedor.ShowModal = mrOK then
+      dm.grabarPago;
+  finally
+    FPagoProveedor.Free;
+    dsPagos.DataSet.Cancel;
+  end;
+end;
+
+procedure TfrmEstadoCtasCtesProveedores.btnSalirClick(Sender: TObject);
+begin
+  self.Close;
+end;
+
+procedure TfrmEstadoCtasCtesProveedores.dbgProveedoresDBTableView1CustomDrawCell(
+  Sender: TcxCustomGridTableView; ACanvas: TcxCanvas;
+  AViewInfo: TcxGridTableDataCellViewInfo; var ADone: Boolean);
+begin
+  if not AViewInfo.GridRecord.Selected then
+    if(AViewInfo.GridRecord.Values[dbgProveedoresDBTableView1FECHA_BAJA.Index]
+      <> null) then
+      begin
+      // si está dado de baja lo pinto
+      ACanvas.Brush.Color:=$00A4FFFF;
+      ACanvas.Font.Color:=clRed;
+      end;
+end;
+
+procedure TfrmEstadoCtasCtesProveedores.FormDestroy(Sender: TObject);
+begin
+  // libero el modulo de datos
+  dm.Free;
+end;
+
+procedure TfrmEstadoCtasCtesProveedores.dbgComprobantesDBTableView1DblClick(
+  Sender: TObject);
+var
+  FComprobantes:TfrmComprobantesProveedores;
+  FPagoProveedor:TfrmPagosProveedores;
+  iNumero:integer;
+  Marca:TBookmarkStr;
+begin
+  // busco y muestro el comprobande de compra o de pago al proveedor
+  Marca:=dsEstadoCtasCtes.DataSet.Bookmark;
+  if dsEstadoCtasCtes.DataSet.FieldByName('IDTIPOCOMPROBANTE').AsInteger > 0 then
+    begin
+    // ver el comprobante del proveedor
+    iNumero:=dsEstadoCtasCtes.DataSet.FieldByName('ID_NROCOMPROBANTE').AsInteger;
+    FComprobantes:=TfrmComprobantesProveedores.Create(self);
+    try
+      dsComprobantes.DataSet.Open;
+      // busco el comprobante
+      dsComprobantes.DataSet.Locate('ID_NROCOMPROBANTE', iNumero, [loCaseInsensitive]);
+      FComprobantes.ShowModal;
+    finally
+      FComprobantes.Free;
+    end;
+    dsEstadoCtasCtes.DataSet.Bookmark:=Marca;
+    exit;
+    end;
+  if dsEstadoCtasCtes.DataSet.FieldByName('IDTIPOCOMPROBANTE').AsInteger = -1 then
+    begin
+    // ver el pago al proveedor
+    iNumero:=dsEstadoCtasCtes.DataSet.FieldByName('NUMERO').AsInteger;
+    FPagoProveedor:=TfrmPagosProveedores.Create(self);
+    try
+      dsPagos.DataSet.Open;
+      // busco el pago
+      dsPagos.DataSet.Locate('IDPAGO_PROVEEDOR', iNumero, [loCaseInsensitive]);
+      FPAgoProveedor.ShowModal;
+    finally
+      FPAgoProveedor.Free;
+    end;
+    dsEstadoCtasCtes.DataSet.Bookmark:=Marca;
+    exit;
+    end;
+end;
+
+procedure TfrmEstadoCtasCtesProveedores.btnEstadisticasClick(
+  Sender: TObject);
+var
+  FEstadisticasProveedor:TfrmEstadisticasProveedores;
+begin
+   // estadisticas del proveedor
+  FEstadisticasProveedor:=TfrmEstadisticasProveedores.Create(self);
+  try
+    FEstadisticasProveedor.ShowModal;
+  finally
+    FEstadisticasProveedor.Free;
+  end;
+end;
+
+procedure TfrmEstadoCtasCtesProveedores.dbgComprobantesDBTableView1CustomDrawCell(
+  Sender: TcxCustomGridTableView; ACanvas: TcxCanvas;
+  AViewInfo: TcxGridTableDataCellViewInfo; var ADone: Boolean);
+begin
+  if not AViewInfo.GridRecord.Selected then
+    begin
+    if (AViewInfo.GridRecord.Values[4] = -1) then
+      begin
+      // es un Pago
+      ACanvas.Brush.Color:=$0040FF00;
+      ACanvas.Font.Color:=clBlack;
+      end;    if (AViewInfo.GridRecord.Values[4] = 100) then
+      begin
+      // es Remito
+      ACanvas.Brush.Color:=$00FED967;
+      ACanvas.Font.Color:=clBlack;
+      end;
+    if (AViewInfo.GridRecord.Values[4] > 299) and
+      (AViewInfo.GridRecord.Values[4] < 501) then
+      begin
+      // es Factura
+      ACanvas.Brush.Color:=clAqua;
+      ACanvas.Font.Color:=clBlack;
+      end;
+    if (AViewInfo.GridRecord.Values[4] = 600) then
+      begin
+      // es NC
+      ACanvas.Brush.Color:=$0080FFFF;
+      ACanvas.Font.Color:=clBlack;
+      end;
+    end;
+end;
+
+end.

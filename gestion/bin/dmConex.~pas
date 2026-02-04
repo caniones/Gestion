@@ -1,0 +1,143 @@
+unit dmConex;
+
+interface
+
+uses
+  SysUtils, Classes, IBDatabase, DB, IBCustomDataSet, IBQuery, Provider,
+  DBClient, Forms, Dialogs, IB;
+
+type
+  TdmConexion = class(TDataModule)
+    IBDatabase: TIBDatabase;
+    ibTransac: TIBTransaction;
+    ibdsSecuencias: TIBDataSet;
+    ibdsSecuenciasIDSECUENCIA: TIntegerField;
+    ibdsSecuenciasNOMBRE: TIBStringField;
+    ibdsSecuenciasVALOR: TIntegerField;
+    ibdsMonedas: TIBDataSet;
+    ibdsMonedasIDMONEDA: TIntegerField;
+    ibdsMonedasCOTIZACION: TIBBCDField;
+    ibdsMonedasSIGNO: TIBStringField;
+    ibdsMonedasMONEDA: TIBStringField;
+    dsMonedas: TDataSource;
+    ibqActualizarCostos: TIBQuery;
+    procedure DataModuleCreate(Sender: TObject);
+  private
+    { Private declarations }
+    procedure conectarConDDBB();
+  public
+    { Public declarations }
+    function conectarPorUsuario():boolean;
+    function getSecuencia(nombre:string):integer;
+    procedure conectarPorDefecto();
+    procedure actualizarCostos();
+  end;
+
+var
+  dmConexion: TdmConexion;
+
+implementation
+
+uses uPublicos;
+
+{$R *.dfm}
+
+{ TdmConexion }
+
+
+{ TdmConexion }
+
+function TdmConexion.getSecuencia(nombre: string): integer;
+begin
+  ibdsSecuencias.Active:=false;
+  ibdsSecuencias.ParamByName('SUCURSAL').AsInteger:=
+    StrToInt(uPublicos.LeerIni(ChangeFileExt(Application.ExeName,'.INI'),
+    'VENTAS','PUNTODEVENTA','1'));
+  ibdsSecuencias.Active:=true;
+  if ibdsSecuencias.Locate('NOMBRE',nombre,[loCaseInsensitive]) then
+    begin
+    result:=ibdsSecuencias.FieldByName('VALOR').AsInteger;
+    ibdsSecuencias.Edit;
+    ibdsSecuenciasVALOR.AsInteger:=ibdsSecuenciasVALOR.AsInteger+1;
+    ibdsSecuencias.Post;
+    ibdsSecuencias.ApplyUpdates;
+    ibTransac.CommitRetaining;
+    ibdsSecuencias.Close;
+    end
+end;
+
+procedure TdmConexion.DataModuleCreate(Sender: TObject);
+begin
+  // Cuando arranca es con el usuario Vendedor que tiene todos los privilegios
+  self.conectarPorDefecto;
+end;
+
+procedure TdmConexion.conectarPorDefecto;
+begin
+  // procedimiento para conexion por defecto con la DB
+  IBDatabase.Connected:=false;
+  IBDatabase.LoginPrompt:=false;
+  IBDatabase.Params.Clear;
+  // se conecta con el usuario comun para ventas
+  IBDatabase.Params.Values['user_name']:='SYSDBA';
+  IBDatabase.Params.Values['password']:='masterkey';
+  IBDatabase.Params.Values['sql_role_name']:='';
+  self.conectarConDDBB;
+end;
+
+procedure TdmConexion.conectarConDDBB;
+var
+  sDataBase:string;
+begin
+  // procedimiento para la conexion con la DB
+  //ini:=TIniFile.Create(ChangeFileExt(Application.ExeName,'.INI'));
+  try
+    // formo la cadena con el DatabaseName
+    // 127.0.0.1:C:\path_DB
+    sDataBase:=uPublicos.LeerIni(ChangeFileExt(Application.ExeName,'.INI'),
+      'CONF','HOSTNAME','')+':'+uPublicos.LeerIni(ChangeFileExt(
+      Application.ExeName,'.INI'),'CONF','DATABASE','');
+    // asigno la DB
+    IBDatabase.DatabaseName:=sDatabase;
+    // el puerto del servidor de base de tatos no sirve por ahora
+    //IBDatabase.Port:=ini.ReadInteger('CONF1','PORT',3050);
+    IBDatabase.Connected:=true;
+    if IBDatabase.Connected = false then
+      begin
+      Application.MessageBox('Falló la conexión con el servidor','Atención');
+      Application.Terminate;
+      end;
+  except
+    on EIBInterBaseError do
+      Application.MessageBox('Usuario y/o Contraseña invalido','Atención');
+  end;
+end;
+
+function TdmConexion.conectarPorUsuario: boolean;
+begin
+  // procedimiento para canectarse por medio de un usuario registrado
+  // devuelve true si se logro conectar
+  IBDatabase.Connected:=false;
+  IBDatabase.LoginPrompt:=true;
+  IBDatabase.Params.Clear;
+  IBDatabase.Params.Values['sql_role_name']:='USUARIOS';
+  self.conectarConDDBB;
+  result:=IBDatabase.Connected;
+end;
+
+procedure TdmConexion.actualizarCostos;
+begin
+  ibdsMonedas.CheckBrowseMode;
+  ibdsMonedas.ApplyUpdates;
+  ibqActualizarCostos.Close;
+  ibqActualizarCostos.Open;
+  ibqActualizarCostos.Close;
+  try
+    ibTransac.Commit;
+  except
+    ibTransac.Rollback;
+  end;
+  ibdsMonedas.Open;
+end;
+
+end.

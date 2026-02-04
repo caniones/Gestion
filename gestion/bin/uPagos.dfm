@@ -1,0 +1,52 @@
+inherited frmPagos: TfrmPagos
+  Left = 391
+  Top = 262
+  Caption = 'Pagos - '
+  ClientHeight = 402
+  ClientWidth = 681
+  OldCreateOrder = True
+  OnDestroy = FormDestroy
+  PixelsPerInch = 96
+  TextHeight = 13
+  object dbgDatos: TDBGrid [0]
+    Left = 8
+    Top = 59
+    Width = 665
+    Height = 278
+    DataSource = dsDatos
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
+    TabOrder = 2
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'MS Sans Serif'
+    TitleFont.Style = []
+    OnDblClick = dbgDatosDblClick
+  end
+  inherited PanelButton: TPanel
+    Top = 345
+    Width = 665
+    inherited btnAceptar: TSpeedButton
+      Left = 505
+    end
+    inherited btnCancelar: TSpeedButton
+      Left = 558
+    end
+    inherited btnSalir: TSpeedButton
+      Left = 611
+      OnClick = btnSalirClick
+    end
+  end
+  inherited PanelHeader: TPanel
+    Width = 625
+    inherited lRequeridos: TLabel
+      Width = 269
+      Caption = 'Haga doble click sobre el registro para verlo o modificarlo'
+    end
+  end
+  object dsDatos: TDataSource
+    AutoEdit = False
+    Left = 224
+    Top = 136
+  end
+end

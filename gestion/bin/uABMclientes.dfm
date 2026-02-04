@@ -1,0 +1,61 @@
+inherited frmABMclientes: TfrmABMclientes
+  Left = 374
+  Top = 164
+  Caption = 'Actualizaci'#243'n de Clientes'
+  ClientHeight = 489
+  ClientWidth = 848
+  OldCreateOrder = True
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited btnSalir: TSpeedButton
+    Left = 592
+    Top = 432
+  end
+  inherited Panel1: TPanel
+    Width = 649
+    inherited btnAlta: TSpeedButton
+      Left = 489
+      OnClick = btnAltaClick
+    end
+    inherited btnBaja: TSpeedButton
+      Left = 542
+      OnClick = btnBajaClick
+    end
+    inherited btnModi: TSpeedButton
+      Left = 595
+      OnClick = btnModiClick
+    end
+  end
+  inherited cxGrid: TcxGrid
+    inherited cxGridDBTableView1: TcxGridDBTableView
+      OnCustomDrawCell = cxGridDBTableView1CustomDrawCell
+      object cxGridDBTableView1CUIT: TcxGridDBColumn
+        DataBinding.FieldName = 'CUIT'
+        Width = 90
+      end
+      object cxGridDBTableView1NOMBRE: TcxGridDBColumn
+        DataBinding.FieldName = 'NOMBRE'
+        Width = 300
+      end
+      object cxGridDBTableView1DIRECCION: TcxGridDBColumn
+        DataBinding.FieldName = 'DIRECCION'
+        Width = 300
+      end
+      object cxGridDBTableView1LOCALIDAD: TcxGridDBColumn
+        DataBinding.FieldName = 'LOCALIDAD'
+        Width = 300
+      end
+      object cxGridDBTableView1FECHA_BAJA: TcxGridDBColumn
+        DataBinding.FieldName = 'FECHA_BAJA'
+        Visible = False
+      end
+    end
+  end
+  inherited dsDatos: TDataSource
+    DataSet = dmClientes.ibdsClientes
+    Left = 312
+    Top = 200
+  end
+end

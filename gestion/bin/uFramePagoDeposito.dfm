@@ -1,0 +1,143 @@
+object FramePagoDeposito: TFramePagoDeposito
+  Left = 0
+  Top = 0
+  Width = 325
+  Height = 215
+  Color = clWhite
+  ParentColor = False
+  TabOrder = 0
+  object dbtFecha: TDBText
+    Left = 176
+    Top = 32
+    Width = 45
+    Height = 13
+    AutoSize = True
+    DataField = 'FECHA'
+    DataSource = dsDepositos
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlue
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label1: TLabel
+    Left = 8
+    Top = 16
+    Width = 80
+    Height = 13
+    Caption = 'N'#250'mero dep'#243'sito'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = 1738751
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label2: TLabel
+    Left = 8
+    Top = 112
+    Width = 31
+    Height = 13
+    Caption = 'Banco'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = 1738751
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label3: TLabel
+    Left = 8
+    Top = 64
+    Width = 73
+    Height = 13
+    Caption = 'Fecha dep'#243'sito'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = 1738751
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label4: TLabel
+    Left = 176
+    Top = 112
+    Width = 35
+    Height = 13
+    Caption = 'Importe'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = 1738751
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label6: TLabel
+    Left = 8
+    Top = 160
+    Width = 71
+    Height = 13
+    Caption = 'Observaciones'
+  end
+  object lFechaIngreso: TLabel
+    Left = 176
+    Top = 16
+    Width = 82
+    Height = 13
+    Caption = 'Fecha de ingreso'
+  end
+  object dbeNroDeposito: TDBEdit
+    Left = 8
+    Top = 32
+    Width = 121
+    Height = 21
+    DataField = 'NRODEPOSITO'
+    DataSource = dsDepositos
+    TabOrder = 0
+  end
+  object dbeBanco: TDBEdit
+    Left = 8
+    Top = 128
+    Width = 153
+    Height = 21
+    DataField = 'BANCO'
+    DataSource = dsDepositos
+    TabOrder = 2
+  end
+  object dtpFechaDeposito: TDateTimePicker
+    Left = 8
+    Top = 80
+    Width = 137
+    Height = 21
+    Date = 40143.391635011600000000
+    Time = 40143.391635011600000000
+    TabOrder = 1
+    OnChange = dtpFechaDepositoChange
+  end
+  object dbeImporte: TDBEdit
+    Left = 176
+    Top = 128
+    Width = 97
+    Height = 21
+    DataField = 'IMPORTE'
+    DataSource = dsDepositos
+    TabOrder = 3
+  end
+  object dbeObservacion: TDBEdit
+    Left = 8
+    Top = 176
+    Width = 305
+    Height = 21
+    DataField = 'OBSERVACIONES'
+    DataSource = dsDepositos
+    TabOrder = 4
+  end
+  object dsDepositos: TDataSource
+    AutoEdit = False
+    DataSet = dmPagos.ibdsDepositos
+    OnStateChange = dsDepositosStateChange
+    Left = 232
+    Top = 72
+  end
+end

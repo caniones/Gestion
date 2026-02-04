@@ -1,0 +1,83 @@
+program Gestion;
+
+uses
+  Forms,
+  uMain in 'uMain.pas' {frmMain},
+  uABMbase in '..\Inherited\uABMbase.pas' {frmABMbase},
+  uImputForm in '..\Inherited\uImputForm.pas' {frmImput},
+  dmConex in 'dmConex.pas' {dmConexion: TDataModule},
+  uAMrubro in 'uAMrubro.pas' {frmImputRubro},
+  udmRubros in 'udmRubros.pas' {dmRubros: TDataModule},
+  uABMrubros in 'uABMrubros.pas' {frmABMrubros},
+  uAMlinea in 'uAMlinea.pas' {frmImputLinea},
+  uABMlineas in 'uABMlineas.pas' {frmABMlineas},
+  udmLineas in 'udmLineas.pas' {dmLineas: TDataModule},
+  uABMarticulos in 'uABMarticulos.pas' {frmABMarticulos},
+  uAMarticulo in 'uAMarticulo.pas' {frmImputArticulo},
+  udmArticulos in 'udmArticulos.pas' {dmArticulos: TDataModule},
+  uABMproveedores in 'uABMproveedores.pas' {frmABMproveedores},
+  uAMproveedor in 'uAMproveedor.pas' {frmImputProveedor},
+  udmProveedores in 'udmProveedores.pas' {dmProveedores: TDataModule},
+  uABMclientes in 'uABMclientes.pas' {frmABMclientes},
+  uAMcliente in 'uAMcliente.pas' {frmImputCliente},
+  udmClientes in 'udmClientes.pas' {dmClientes: TDataModule},
+  uAcerca in 'uAcerca.pas' {frmAcerca},
+  uRepRecibos in 'uRepRecibos.pas' {frmRepRecibos},
+  udmRecibos in 'udmRecibos.pas' {dmRecibos: TDataModule},
+  uGastos in 'uGastos.pas' {frmGastos},
+  udmGastos in 'udmGastos.pas' {dmGastos: TDataModule},
+  uABMtitulos in 'uABMtitulos.pas' {frmABMtitulos},
+  uAMtitulo in 'uAMtitulo.pas' {frmImputTitulo},
+  udmTitulos in 'udmTitulos.pas' {dmTitulos: TDataModule},
+  uComprobantesVentas in 'uComprobantesVentas.pas' {frmComprobantesVentas},
+  udmComprobantesVentas in 'udmComprobantesVentas.pas' {dmComprobantesVentas: TDataModule},
+  uFormaPagoVenta in 'uFormaPagoVenta.pas' {frmFormaPagoVenta},
+  uBuscarArtVenta in 'uBuscarArtVenta.pas' {frmBuscarArtVenta},
+  uRecibosClientes in 'uRecibosClientes.pas' {frmRecibosClientes},
+  uEstadoCtasCtesClientes in 'uEstadoCtasCtesClientes.pas' {frmEstadoCtasCtesClientes},
+  udmEstadoCtasCtesClientes in 'udmEstadoCtasCtesClientes.pas' {dmEstadoCtasCtesClientes: TDataModule},
+  uBuscarClienteCtasCtes in 'uBuscarClienteCtasCtes.pas' {frmBuscarClienteCtasCtes},
+  uRepSaldos in 'uRepSaldos.pas' {frmRepSaldos},
+  uRepComprobantes in 'uRepComprobantes.pas' {frmRepComprobantes},
+  udmCierreTurno in 'udmCierreTurno.pas' {dmCierreTurno: TDataModule},
+  uCierresTurnos in 'uCierresTurnos.pas' {frmCierresTurnos},
+  uRepBase in '..\Inherited\uRepBase.pas' {frmRepBase},
+  uRepCierreTurno in 'uRepCierreTurno.pas' {frmRepCierreTurno},
+  uRepEstadoCtasClientes in 'uRepEstadoCtasClientes.pas' {frmRepEstadoCtasClientes},
+  uFiltroArticulos in 'uFiltroArticulos.pas' {frmFiltroArticulos},
+  uRepListaPrecioArt in 'uRepListaPrecioArt.pas' {frmRepListaPrecioArt},
+  uRepStockArt in 'uRepStockArt.pas' {frmRepStockArt},
+  uComprobantesAdmin in 'uComprobantesAdmin.pas' {frmComprobantesAdmin},
+  udmComprobantesAdmin in 'udmComprobantesAdmin.pas' {dmComprobantesAdmin: TDataModule},
+  uAReciboCliente in 'uAReciboCliente.pas' {frmAReciboCliente},
+  uAGasto in 'uAGasto.pas' {frmAGasto},
+  uFiltroFecha in 'uFiltroFecha.pas' {frmFiltroFecha},
+  uRepGastos in 'uRepGastos.pas' {frmRepGastos},
+  uRepPagosClientes in 'uRepPagosClientes.pas' {frmRepPagosClientes},
+  uAPago in 'uAPago.pas' {frmImputPago},
+  udmPagos in 'udmPagos.pas' {dmPagos: TDataModule},
+  uFramePagoCheque in 'uFramePagoCheque.pas' {FramePagoCheque: TFrame},
+  uPagos in 'uPagos.pas' {frmPagos},
+  uEstadisticasVentas in 'uEstadisticasVentas.pas' {frmEstadisticasVentas},
+  uFramePagoDeposito in 'uFramePagoDeposito.pas' {FramePagoDeposito: TFrame},
+  udmEstadoCtasCtesProveedores in 'udmEstadoCtasCtesProveedores.pas' {dmEstadoCtasCtesProveedores: TDataModule},
+  uEstadoCtasCtesProveedores in 'uEstadoCtasCtesProveedores.pas' {frmEstadoCtasCtesProveedores},
+  uComprobantesProveedores in 'uComprobantesProveedores.pas' {frmComprobantesProveedores},
+  uPagosProveedores in 'uPagosProveedores.pas' {frmPagosProveedores},
+  uEstadisticasProveedores in 'uEstadisticasProveedores.pas' {frmEstadisticasProveedores},
+  uPublicos in 'uPublicos.pas',
+  uEstadoCargaArticulos in 'uEstadoCargaArticulos.pas' {frmEstadoCargaArticulos},
+  udmBuscarArtVenta in 'udmBuscarArtVenta.pas' {dmBuscarArtVenta: TDataModule},
+  uMonedas in 'uMonedas.pas' {frmMonedas},
+  uRepDetalleCtasClientes in 'uRepDetalleCtasClientes.pas' {frmRepDetalleCtasClientes};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.HintHidePause:=5000;  // hace que duren mas los hints
+  Application.Title := '.: Sistema de Gestión :. 4Cuatros Sistemas.';
+  Application.CreateForm(TfrmMain, frmMain);
+  Application.CreateForm(TdmConexion, dmConexion);
+  Application.Run;
+end.

@@ -1,0 +1,143 @@
+unit uFiltroFecha;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, uImputForm, StdCtrls, Buttons, ExtCtrls, ComCtrls;
+
+type
+  TfrmFiltroFecha = class(TfrmImput)
+    dtpDesde: TDateTimePicker;
+    dtpHasta: TDateTimePicker;
+    Label1: TLabel;
+    Label2: TLabel;
+    btnVer: TSpeedButton;
+    procedure FormCreate(Sender: TObject);
+    procedure btnVerClick(Sender: TObject);
+    procedure btnAceptarClick(Sender: TObject);
+  private
+    FfechaDesde: TDate;
+    FfechaHasta: TDate;
+    FrepPara: string;
+    procedure SetfechaDesde(const Value: TDate);
+    procedure SetfechaHasta(const Value: TDate);
+    function validarFechas():boolean;
+    procedure SetrepPara(const Value: string);
+    { Private declarations }
+  public
+    { Public declarations }
+    property fechaDesde:TDate read FfechaDesde write SetfechaDesde;
+    property fechaHasta:TDate read FfechaHasta write SetfechaHasta;
+    property repPara:string read FrepPara write SetrepPara;
+    procedure verComo(como:string);
+  end;
+
+var
+  frmFiltroFecha: TfrmFiltroFecha;
+
+implementation
+
+uses uRepGastos, uRepPagosClientes;
+
+{$R *.dfm}
+
+procedure TfrmFiltroFecha.FormCreate(Sender: TObject);
+begin
+  inherited;
+  dtpDesde.Date:=date;
+  dtpHasta.Date:=date;
+end;
+
+procedure TfrmFiltroFecha.SetfechaDesde(const Value: TDate);
+begin
+  FfechaDesde := Value;
+end;
+
+procedure TfrmFiltroFecha.SetfechaHasta(const Value: TDate);
+begin
+  FfechaHasta := Value;
+end;
+
+procedure TfrmFiltroFecha.btnVerClick(Sender: TObject);
+var
+  FRepPagosClientes:TfrmRepPagosClientes;
+  FRepGasto:TfrmRepGastos;
+begin
+  inherited;
+  if self.validarFechas then
+    begin
+    // las fechas estan correctas
+    if FRepPara = 'PAGO' then
+      begin
+      FRepPagosClientes:=TfrmRepPagosClientes.Create(self);
+      try
+        FRepPagosClientes.prepararImpresion(FFechaDesde, FFechaHasta);
+        FRepPagosClientes.ver;
+      finally
+        FRepPagosClientes.Free;
+      end;
+      end;
+    if FRepPara = 'GASTO' then
+      begin
+      FRepGasto:=TfrmRepGastos.Create(self);
+      try
+        FRepGasto.prepararImpresion(FFechaDesde, FFechaHasta);
+        FRepGasto.ver;
+      finally
+        FRepGasto.Free;
+      end;
+      end;
+    end;
+end;
+
+function TfrmFiltroFecha.validarFechas : boolean;
+begin
+  if dtpDesde.Date <= dtpHasta.Date then
+    begin
+    SetfechaDesde(dtpDesde.Date);
+    SetfechaHasta(dtpHasta.Date);
+    result:=true;
+    end
+  else
+    begin
+    application.MessageBox('¡La fecha desde no puede ser mayor a la fecha'+
+    ' hasta!'+#13#10+#13#10+' - Por favor corrija este error',
+    'Atención',MB_ICONERROR);
+    //  igualo las fechas para que desde no sea mayor a hasta
+    dtpHasta.Date:=dtpDesde.Date;
+    result:=false
+    end;
+end;
+
+procedure TfrmFiltroFecha.SetrepPara(const Value: string);
+begin
+  FrepPara := Value;
+end;
+
+procedure TfrmFiltroFecha.verComo(como: string);
+begin
+  if como = 'PAGO' then
+    begin
+    lRequeridos.Caption:=lRequeridos.Caption+'pagos';
+    FrepPara:=como;
+    btnVer.Visible:=true;
+    end;
+  if como = 'GASTO' then
+    begin
+    lRequeridos.Caption:=lRequeridos.Caption+'gastos';
+    FrepPara:=como;
+    btnVer.Visible:=true;
+    end;
+end;
+
+procedure TfrmFiltroFecha.btnAceptarClick(Sender: TObject);
+begin
+  inherited;
+  if self.validarFechas then
+    begin
+    ModalResult:=mrOK;
+    end;
+end;
+
+end.

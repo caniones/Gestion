@@ -1,0 +1,75 @@
+unit uRepSaldos;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, ExtCtrls, QuickRpt, DB, IBCustomDataSet, IBQuery, QRCtrls;
+
+type
+  TfrmRepSaldos = class(TForm)
+    qrSaldo: TQuickRep;
+    PageHeaderBand1: TQRBand;
+    SummaryBand1: TQRBand;
+    ibqMaestro: TIBQuery;
+    qrlRenglon1: TQRLabel;
+    QRLabel3: TQRLabel;
+    QRLabel1: TQRLabel;
+    QRSysData1: TQRSysData;
+    QRLabel4: TQRLabel;
+    QRLabel6: TQRLabel;
+    ibqMaestroFECHA: TDateTimeField;
+    ibqMaestroNOMBRE: TIBStringField;
+    ibqMaestroSALDO: TIBBCDField;
+    QRDBText1: TQRDBText;
+    QRDBText2: TQRDBText;
+    QRDBText3: TQRDBText;
+    QRLabel5: TQRLabel;
+    qrlRenglon2: TQRLabel;
+    qrlRenglon3: TQRLabel;
+    procedure qrSaldoBeforePrint(Sender: TCustomQuickRep;
+      var PrintReport: Boolean);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    procedure imprimir(const idCliente: integer);
+  end;
+
+var
+  frmRepSaldos: TfrmRepSaldos;
+
+implementation
+
+uses udmEstadoCtasCtesClientes, uPublicos;
+
+{$R *.dfm}
+
+{ TfrmRepRecibos }
+
+procedure TfrmRepSaldos.imprimir(const idCliente: integer);
+begin
+  ibqMaestro.Close;
+  ibqMaestro.ParamByName('IDCLIENTE').AsInteger:=idCliente;
+  ibqMaestro.Open;
+  qrSaldo.PrinterSetup;
+  qrSaldo.Prepare;
+  if qrSaldo.PrinterSettings.Copies > 0 then
+    qrSaldo.Print;
+end;
+
+procedure TfrmRepSaldos.qrSaldoBeforePrint(Sender: TCustomQuickRep;
+  var PrintReport: Boolean);
+begin
+  // cargo los datos del negocio desde el .ini
+  qrlRenglon1.Caption:=uPublicos.LeerIni(ChangeFileExt(Application.ExeName,
+    '.INI'), 'IMPRESION', 'RENGLON1', 'NEGOCIO');
+  qrlRenglon2.Caption:=uPublicos.LeerIni(ChangeFileExt(Application.ExeName,
+    '.INI'), 'IMPRESION', 'RENGLON2', 'TEL');
+  qrlRenglon3.Caption:=uPublicos.LeerIni(ChangeFileExt(Application.ExeName,
+    '.INI'), 'IMPRESION', 'RENGLON3', 'DIRECCION');
+  // titulo del reporte
+  qrSaldo.ReportTitle:=qrSaldo.ReportTitle+' - '+QRSysData1.Caption;
+end;
+
+end.

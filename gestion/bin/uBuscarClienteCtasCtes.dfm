@@ -1,0 +1,59 @@
+inherited frmBuscarClienteCtasCtes: TfrmBuscarClienteCtasCtes
+  Left = 487
+  Top = 246
+  Caption = 'Buscar Cliente Ctas. Ctes.'
+  ClientWidth = 442
+  OldCreateOrder = True
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Label1: TLabel [0]
+    Left = 24
+    Top = 88
+    Width = 37
+    Height = 13
+    Caption = 'Nombre'
+  end
+  inherited PanelButton: TPanel
+    TabOrder = 1
+    inherited btnAceptar: TSpeedButton
+      Left = 281
+    end
+    inherited btnCancelar: TSpeedButton
+      Left = 334
+    end
+    inherited btnSalir: TSpeedButton
+      Left = 387
+      OnClick = btnSalirClick
+    end
+  end
+  inherited PanelHeader: TPanel
+    Width = 449
+    TabOrder = 2
+    inherited lInfo: TLabel
+      Width = 40
+      Caption = 'Cliente'
+    end
+    inherited lRequeridos: TLabel
+      Width = 156
+      Caption = 'B'#250'squeda por nombre del Cliente'
+    end
+  end
+  object dblcClientes: TDBLookupComboBox
+    Left = 24
+    Top = 112
+    Width = 329
+    Height = 21
+    DropDownRows = 20
+    KeyField = 'IDCLIENTE'
+    ListField = 'NOMBRE'
+    ListSource = dsDatos
+    TabOrder = 0
+  end
+  object dsDatos: TDataSource
+    AutoEdit = False
+    DataSet = dmEstadoCtasCtesClientes.ibqClientes
+    Left = 200
+    Top = 104
+  end
+end

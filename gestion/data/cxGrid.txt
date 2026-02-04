@@ -1,0 +1,23 @@
+GridLevel -> OptionsBehavior -> incSearch
+	  -> OptionsData -> Editing
+	  -> OptionsView -> GroupByBox
+
+// para mejorar el rendimiento de la grilla cuando tiene muchos registros
+// activo y desactivo porque pierda las funciones de filtrado
+TableView -> DataController -> DataModeController -> GridMode
+						  -> GridModeBufferCount
+
+// ejemplo de como colorear un rengón
+procedure TfrmEstadoCtasCtesProveedores.dbgProveedoresDBTableView1CustomDrawCell(
+  Sender: TcxCustomGridTableView; ACanvas: TcxCanvas;
+  AViewInfo: TcxGridTableDataCellViewInfo; var ADone: Boolean);
+begin
+  if not AViewInfo.GridRecord.Selected then
+    if(AViewInfo.GridRecord.Values[dbgProveedoresDBTableView1FECHA_BAJA.Index]
+      <> null) then
+      begin
+      // si está dado de baja lo pinto
+      ACanvas.Brush.Color:=$00A4FFFF;
+      ACanvas.Font.Color:=clRed;
+      end;
+end;

@@ -1,0 +1,1066 @@
+inherited frmRepCierreTurno: TfrmRepCierreTurno
+  Width = 1035
+  Height = 605
+  Caption = 'frmRepCierreTurno'
+  OldCreateOrder = True
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited qrBase: TQuickRep
+    DataSet = ibqDetalle
+    Functions.DATA = (
+      '0'
+      '0'
+      #39#39)
+    Page.Values = (
+      1385.000000000000000000
+      2970.000000000000000000
+      200.000000000000000000
+      2100.000000000000000000
+      200.000000000000000000
+      100.000000000000000000
+      0.000000000000000000)
+    ReportTitle = 'Cierre de turno'
+    inherited PageHeaderBand1: TQRBand
+      Height = 85
+      Size.Values = (
+        224.895833333333300000
+        1801.812500000000000000)
+      inherited QRLabel3: TQRLabel
+        Top = 40
+        Size.Values = (
+          44.979166666666670000
+          994.833333333333400000
+          105.833333333333300000
+          378.354166666666700000)
+        FontSize = 10
+      end
+      inherited QRSysData1: TQRSysData
+        Top = 40
+        Size.Values = (
+          44.979166666666670000
+          1397.000000000000000000
+          105.833333333333300000
+          179.916666666666700000)
+        FontSize = 10
+      end
+      inherited QRLabel1: TQRLabel
+        Size.Values = (
+          79.375000000000000000
+          21.166666666666670000
+          2.645833333333333000
+          513.291666666666800000)
+        FontSize = 18
+      end
+      inherited QRLabel2: TQRLabel
+        Size.Values = (
+          44.979166666666670000
+          21.166666666666670000
+          76.729166666666680000
+          238.125000000000000000)
+        FontSize = 10
+      end
+      inherited QRLabel40: TQRLabel
+        Size.Values = (
+          44.979166666666670000
+          21.166666666666670000
+          124.354166666666700000
+          447.145833333333400000)
+        FontSize = 10
+      end
+      object QRLabel4: TQRLabel
+        Left = 249
+        Top = 1
+        Width = 182
+        Height = 30
+        Frame.Color = clBlack
+        Frame.DrawTop = False
+        Frame.DrawBottom = False
+        Frame.DrawLeft = False
+        Frame.DrawRight = False
+        Size.Values = (
+          79.375000000000000000
+          658.812500000000000000
+          2.645833333333333000
+          481.541666666666700000)
+        Alignment = taLeftJustify
+        AlignToBand = False
+        AutoSize = True
+        AutoStretch = False
+        Caption = 'CIERRE TURNO'
+        Color = clWhite
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -24
+        Font.Name = 'Arial'
+        Font.Style = [fsBold]
+        ParentFont = False
+        Transparent = False
+        WordWrap = True
+        FontSize = 18
+      end
+      object QRLabel14: TQRLabel
+        Left = 392
+        Top = 60
+        Width = 126
+        Height = 17
+        Frame.Color = clBlack
+        Frame.DrawTop = False
+        Frame.DrawBottom = False
+        Frame.DrawLeft = False
+        Frame.DrawRight = False
+        Size.Values = (
+          44.979166666666670000
+          1037.166666666667000000
+          158.750000000000000000
+          333.375000000000000000)
+        Alignment = taLeftJustify
+        AlignToBand = False
+        AutoSize = True
+        AutoStretch = False
+        Caption = 'FECHA DEL CIERRE'
+        Color = clWhite
+        Transparent = False
+        WordWrap = True
+        FontSize = 10
+      end
+      object QRDBText6: TQRDBText
+        Left = 528
+        Top = 60
+        Width = 45
+        Height = 17
+        Frame.Color = clBlack
+        Frame.DrawTop = False
+        Frame.DrawBottom = False
+        Frame.DrawLeft = False
+        Frame.DrawRight = False
+        Size.Values = (
+          44.979166666666670000
+          1397.000000000000000000
+          158.750000000000000000
+          119.062500000000000000)
+        Alignment = taLeftJustify
+        AlignToBand = False
+        AutoSize = True
+        AutoStretch = False
+        Color = clWhite
+        DataSet = ibqMaestro
+        DataField = 'FECHA'
+        Transparent = False
+        WordWrap = True
+        FontSize = 10
+      end
+    end
+    inherited PageFooterBand2: TQRBand
+      Top = 284
+      Size.Values = (
+        74.083333333333340000
+        1801.812500000000000000)
+      inherited QRLabel12: TQRLabel
+        Width = 1
+        Size.Values = (
+          44.979166666666670000
+          1553.104166666667000000
+          34.395833333333340000
+          2.645833333333333000)
+        Caption = ''
+        FontSize = 10
+      end
+      inherited QRSysData4: TQRSysData
+        Size.Values = (
+          44.979166666666670000
+          1714.500000000000000000
+          34.395833333333340000
+          121.708333333333300000)
+        FontSize = 10
+      end
+      object QRLabel13: TQRLabel
+        Left = 587
+        Top = 13
+        Width = 50
+        Height = 17
+        Frame.Color = clBlack
+        Frame.DrawTop = False
+        Frame.DrawBottom = False
+        Frame.DrawLeft = False
+        Frame.DrawRight = False
+        Size.Values = (
+          44.979166666666670000
+          1553.104166666667000000
+          34.395833333333340000
+          132.291666666666700000)
+        Alignment = taLeftJustify
+        AlignToBand = False
+        AutoSize = True
+        AutoStretch = False
+        Caption = 'PAGINA'
+        Color = clWhite
+        Transparent = False
+        WordWrap = True
+        FontSize = 10
+      end
+    end
+    object ColumnHeaderBand1: TQRBand
+      Left = 76
+      Top = 161
+      Width = 681
+      Height = 32
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      AlignToBottom = False
+      Color = clWhite
+      ForceNewColumn = False
+      ForceNewPage = False
+      Size.Values = (
+        84.666666666666680000
+        1801.812500000000000000)
+      BandType = rbColumnHeader
+      object QRLabel5: TQRLabel
+        Left = 8
+        Top = 8
+        Width = 89
+        Height = 17
+        Frame.Color = clBlack
+        Frame.DrawTop = False
+        Frame.DrawBottom = True
+        Frame.DrawLeft = False
+        Frame.DrawRight = False
+        Size.Values = (
+          44.979166666666670000
+          21.166666666666670000
+          21.166666666666670000
+          235.479166666666700000)
+        Alignment = taLeftJustify
+        AlignToBand = False
+        AutoSize = True
+        AutoStretch = False
+        Caption = 'DESCRIPCION'
+        Color = clWhite
+        Transparent = False
+        WordWrap = True
+        FontSize = 10
+      end
+      object QRLabel6: TQRLabel
+        Left = 130
+        Top = 8
+        Width = 64
+        Height = 17
+        Frame.Color = clBlack
+        Frame.DrawTop = False
+        Frame.DrawBottom = True
+        Frame.DrawLeft = False
+        Frame.DrawRight = False
+        Size.Values = (
+          44.979166666666670000
+          343.958333333333400000
+          21.166666666666670000
+          169.333333333333300000)
+        Alignment = taLeftJustify
+        AlignToBand = False
+        AutoSize = True
+        AutoStretch = False
+        Caption = 'CONTADO'
+        Color = clWhite
+        Transparent = False
+        WordWrap = True
+        FontSize = 10
+      end
+      object QRLabel7: TQRLabel
+        Left = 220
+        Top = 8
+        Width = 48
+        Height = 17
+        Frame.Color = clBlack
+        Frame.DrawTop = False
+        Frame.DrawBottom = True
+        Frame.DrawLeft = False
+        Frame.DrawRight = False
+        Size.Values = (
+          44.979166666666670000
+          582.083333333333400000
+          21.166666666666670000
+          127.000000000000000000)
+        Alignment = taLeftJustify
+        AlignToBand = False
+        AutoSize = True
+        AutoStretch = False
+        Caption = 'DEBITO'
+        Color = clWhite
+        Transparent = False
+        WordWrap = True
+        FontSize = 10
+      end
+      object QRLabel8: TQRLabel
+        Left = 295
+        Top = 8
+        Width = 57
+        Height = 17
+        Frame.Color = clBlack
+        Frame.DrawTop = False
+        Frame.DrawBottom = True
+        Frame.DrawLeft = False
+        Frame.DrawRight = False
+        Size.Values = (
+          44.979166666666670000
+          780.520833333333400000
+          21.166666666666670000
+          150.812500000000000000)
+        Alignment = taLeftJustify
+        AlignToBand = False
+        AutoSize = True
+        AutoStretch = False
+        Caption = 'CREDITO'
+        Color = clWhite
+        Transparent = False
+        WordWrap = True
+        FontSize = 10
+      end
+      object QRLabel9: TQRLabel
+        Left = 377
+        Top = 8
+        Width = 56
+        Height = 17
+        Frame.Color = clBlack
+        Frame.DrawTop = False
+        Frame.DrawBottom = True
+        Frame.DrawLeft = False
+        Frame.DrawRight = False
+        Size.Values = (
+          44.979166666666670000
+          997.479166666666900000
+          21.166666666666670000
+          148.166666666666700000)
+        Alignment = taLeftJustify
+        AlignToBand = False
+        AutoSize = True
+        AutoStretch = False
+        Caption = 'CHEQUE'
+        Color = clWhite
+        Transparent = False
+        WordWrap = True
+        FontSize = 10
+      end
+      object QRLabel10: TQRLabel
+        Left = 460
+        Top = 8
+        Width = 63
+        Height = 17
+        Frame.Color = clBlack
+        Frame.DrawTop = False
+        Frame.DrawBottom = True
+        Frame.DrawLeft = False
+        Frame.DrawRight = False
+        Size.Values = (
+          44.979166666666670000
+          1217.083333333333000000
+          21.166666666666670000
+          166.687500000000000000)
+        Alignment = taLeftJustify
+        AlignToBand = False
+        AutoSize = True
+        AutoStretch = False
+        Caption = 'CTA. CTE.'
+        Color = clWhite
+        Transparent = False
+        WordWrap = True
+        FontSize = 10
+      end
+      object QRLabel11: TQRLabel
+        Left = 550
+        Top = 8
+        Width = 45
+        Height = 17
+        Frame.Color = clBlack
+        Frame.DrawTop = False
+        Frame.DrawBottom = True
+        Frame.DrawLeft = False
+        Frame.DrawRight = False
+        Size.Values = (
+          44.979166666666670000
+          1455.208333333333000000
+          21.166666666666670000
+          119.062500000000000000)
+        Alignment = taLeftJustify
+        AlignToBand = False
+        AutoSize = True
+        AutoStretch = False
+        Caption = 'TICKET'
+        Color = clWhite
+        Transparent = False
+        WordWrap = True
+        FontSize = 10
+      end
+      object QRLabel15: TQRLabel
+        Left = 607
+        Top = 8
+        Width = 59
+        Height = 17
+        Frame.Color = clBlack
+        Frame.DrawTop = False
+        Frame.DrawBottom = True
+        Frame.DrawLeft = False
+        Frame.DrawRight = False
+        Size.Values = (
+          44.979166666666670000
+          1606.020833333333000000
+          21.166666666666670000
+          156.104166666666700000)
+        Alignment = taLeftJustify
+        AlignToBand = False
+        AutoSize = True
+        AutoStretch = False
+        Caption = 'TOTALES'
+        Color = clWhite
+        Transparent = False
+        WordWrap = True
+        FontSize = 10
+      end
+    end
+    object SummaryBand1: TQRBand
+      Left = 76
+      Top = 217
+      Width = 681
+      Height = 67
+      Frame.Color = clBlack
+      Frame.DrawTop = True
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      AlignToBottom = False
+      Color = clWhite
+      ForceNewColumn = False
+      ForceNewPage = False
+      Size.Values = (
+        177.270833333333300000
+        1801.812500000000000000)
+      BandType = rbSummary
+      object QRDBText8: TQRDBText
+        Left = 118
+        Top = 8
+        Width = 60
+        Height = 17
+        Frame.Color = clBlack
+        Frame.DrawTop = False
+        Frame.DrawBottom = False
+        Frame.DrawLeft = False
+        Frame.DrawRight = False
+        Size.Values = (
+          44.979166666666670000
+          312.208333333333400000
+          21.166666666666670000
+          158.750000000000000000)
+        Alignment = taRightJustify
+        AlignToBand = False
+        AutoSize = True
+        AutoStretch = False
+        Color = clWhite
+        DataSet = ibqTotales
+        DataField = 'CONTADO'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Arial'
+        Font.Style = []
+        ParentFont = False
+        Transparent = False
+        WordWrap = True
+        FontSize = 9
+      end
+      object QRDBText1: TQRDBText
+        Left = 208
+        Top = 8
+        Width = 45
+        Height = 17
+        Frame.Color = clBlack
+        Frame.DrawTop = False
+        Frame.DrawBottom = False
+        Frame.DrawLeft = False
+        Frame.DrawRight = False
+        Size.Values = (
+          44.979166666666670000
+          550.333333333333400000
+          21.166666666666670000
+          119.062500000000000000)
+        Alignment = taRightJustify
+        AlignToBand = False
+        AutoSize = True
+        AutoStretch = False
+        Color = clWhite
+        DataSet = ibqTotales
+        DataField = 'DEBITO'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Arial'
+        Font.Style = []
+        ParentFont = False
+        Transparent = False
+        WordWrap = True
+        FontSize = 9
+      end
+      object QRDBText2: TQRDBText
+        Left = 280
+        Top = 8
+        Width = 55
+        Height = 17
+        Frame.Color = clBlack
+        Frame.DrawTop = False
+        Frame.DrawBottom = False
+        Frame.DrawLeft = False
+        Frame.DrawRight = False
+        Size.Values = (
+          44.979166666666670000
+          740.833333333333400000
+          21.166666666666670000
+          145.520833333333300000)
+        Alignment = taRightJustify
+        AlignToBand = False
+        AutoSize = True
+        AutoStretch = False
+        Color = clWhite
+        DataSet = ibqTotales
+        DataField = 'CREDITO'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Arial'
+        Font.Style = []
+        ParentFont = False
+        Transparent = False
+        WordWrap = True
+        FontSize = 9
+      end
+      object QRDBText3: TQRDBText
+        Left = 364
+        Top = 8
+        Width = 53
+        Height = 17
+        Frame.Color = clBlack
+        Frame.DrawTop = False
+        Frame.DrawBottom = False
+        Frame.DrawLeft = False
+        Frame.DrawRight = False
+        Size.Values = (
+          44.979166666666670000
+          963.083333333333400000
+          21.166666666666670000
+          140.229166666666700000)
+        Alignment = taRightJustify
+        AlignToBand = False
+        AutoSize = True
+        AutoStretch = False
+        Color = clWhite
+        DataSet = ibqTotales
+        DataField = 'CHEQUE'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Arial'
+        Font.Style = []
+        ParentFont = False
+        Transparent = False
+        WordWrap = True
+        FontSize = 9
+      end
+      object QRDBText4: TQRDBText
+        Left = 455
+        Top = 8
+        Width = 50
+        Height = 17
+        Frame.Color = clBlack
+        Frame.DrawTop = False
+        Frame.DrawBottom = False
+        Frame.DrawLeft = False
+        Frame.DrawRight = False
+        Size.Values = (
+          44.979166666666670000
+          1203.854166666667000000
+          21.166666666666670000
+          132.291666666666700000)
+        Alignment = taRightJustify
+        AlignToBand = False
+        AutoSize = True
+        AutoStretch = False
+        Color = clWhite
+        DataSet = ibqTotales
+        DataField = 'CUENTA'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Arial'
+        Font.Style = []
+        ParentFont = False
+        Transparent = False
+        WordWrap = True
+        FontSize = 9
+      end
+      object QRDBText5: TQRDBText
+        Left = 537
+        Top = 8
+        Width = 43
+        Height = 17
+        Frame.Color = clBlack
+        Frame.DrawTop = False
+        Frame.DrawBottom = False
+        Frame.DrawLeft = False
+        Frame.DrawRight = False
+        Size.Values = (
+          44.979166666666670000
+          1420.812500000000000000
+          21.166666666666670000
+          113.770833333333300000)
+        Alignment = taRightJustify
+        AlignToBand = False
+        AutoSize = True
+        AutoStretch = False
+        Color = clWhite
+        DataSet = ibqTotales
+        DataField = 'TICKET'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Arial'
+        Font.Style = []
+        ParentFont = False
+        Transparent = False
+        WordWrap = True
+        FontSize = 9
+      end
+    end
+    object QRSubDetail1: TQRSubDetail
+      Left = 76
+      Top = 193
+      Width = 681
+      Height = 24
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      AlignToBottom = False
+      Color = clWhite
+      ForceNewColumn = False
+      ForceNewPage = False
+      Size.Values = (
+        63.500000000000000000
+        1801.812500000000000000)
+      Master = qrBase
+      DataSet = ibqDetalle
+      PrintBefore = False
+      PrintIfEmpty = True
+      object QRDBText9: TQRDBText
+        Left = 8
+        Top = 2
+        Width = 67
+        Height = 17
+        Frame.Color = clBlack
+        Frame.DrawTop = False
+        Frame.DrawBottom = False
+        Frame.DrawLeft = False
+        Frame.DrawRight = False
+        Size.Values = (
+          44.979166666666670000
+          21.166666666666670000
+          5.291666666666667000
+          177.270833333333300000)
+        Alignment = taLeftJustify
+        AlignToBand = False
+        AutoSize = True
+        AutoStretch = False
+        Color = clWhite
+        DataSet = ibqDetalle
+        DataField = 'DESCRIPCION'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Arial'
+        Font.Style = []
+        ParentFont = False
+        Transparent = False
+        WordWrap = True
+        FontSize = 8
+      end
+      object QRDBText10: TQRDBText
+        Left = 126
+        Top = 0
+        Width = 60
+        Height = 17
+        Frame.Color = clBlack
+        Frame.DrawTop = False
+        Frame.DrawBottom = False
+        Frame.DrawLeft = False
+        Frame.DrawRight = False
+        Size.Values = (
+          44.979166666666670000
+          333.375000000000000000
+          0.000000000000000000
+          158.750000000000000000)
+        Alignment = taRightJustify
+        AlignToBand = False
+        AutoSize = True
+        AutoStretch = False
+        Color = clWhite
+        DataSet = ibqDetalle
+        DataField = 'CONTADO'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Arial'
+        Font.Style = []
+        ParentFont = False
+        Transparent = False
+        WordWrap = True
+        FontSize = 9
+      end
+      object QRDBText11: TQRDBText
+        Left = 216
+        Top = 0
+        Width = 45
+        Height = 17
+        Frame.Color = clBlack
+        Frame.DrawTop = False
+        Frame.DrawBottom = False
+        Frame.DrawLeft = False
+        Frame.DrawRight = False
+        Size.Values = (
+          44.979166666666670000
+          571.500000000000000000
+          0.000000000000000000
+          119.062500000000000000)
+        Alignment = taRightJustify
+        AlignToBand = False
+        AutoSize = True
+        AutoStretch = False
+        Color = clWhite
+        DataSet = ibqDetalle
+        DataField = 'DEBITO'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Arial'
+        Font.Style = []
+        ParentFont = False
+        Transparent = False
+        WordWrap = True
+        FontSize = 9
+      end
+      object QRDBText12: TQRDBText
+        Left = 288
+        Top = 0
+        Width = 55
+        Height = 17
+        Frame.Color = clBlack
+        Frame.DrawTop = False
+        Frame.DrawBottom = False
+        Frame.DrawLeft = False
+        Frame.DrawRight = False
+        Size.Values = (
+          44.979166666666670000
+          762.000000000000000000
+          0.000000000000000000
+          145.520833333333300000)
+        Alignment = taRightJustify
+        AlignToBand = False
+        AutoSize = True
+        AutoStretch = False
+        Color = clWhite
+        DataSet = ibqDetalle
+        DataField = 'CREDITO'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Arial'
+        Font.Style = []
+        ParentFont = False
+        Transparent = False
+        WordWrap = True
+        FontSize = 9
+      end
+      object QRDBText13: TQRDBText
+        Left = 372
+        Top = 0
+        Width = 53
+        Height = 17
+        Frame.Color = clBlack
+        Frame.DrawTop = False
+        Frame.DrawBottom = False
+        Frame.DrawLeft = False
+        Frame.DrawRight = False
+        Size.Values = (
+          44.979166666666670000
+          984.249999999999900000
+          0.000000000000000000
+          140.229166666666700000)
+        Alignment = taRightJustify
+        AlignToBand = False
+        AutoSize = True
+        AutoStretch = False
+        Color = clWhite
+        DataSet = ibqDetalle
+        DataField = 'CHEQUE'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Arial'
+        Font.Style = []
+        ParentFont = False
+        Transparent = False
+        WordWrap = True
+        FontSize = 9
+      end
+      object QRDBText14: TQRDBText
+        Left = 463
+        Top = 0
+        Width = 50
+        Height = 17
+        Frame.Color = clBlack
+        Frame.DrawTop = False
+        Frame.DrawBottom = False
+        Frame.DrawLeft = False
+        Frame.DrawRight = False
+        Size.Values = (
+          44.979166666666670000
+          1225.020833333333000000
+          0.000000000000000000
+          132.291666666666700000)
+        Alignment = taRightJustify
+        AlignToBand = False
+        AutoSize = True
+        AutoStretch = False
+        Color = clWhite
+        DataSet = ibqDetalle
+        DataField = 'CUENTA'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Arial'
+        Font.Style = []
+        ParentFont = False
+        Transparent = False
+        WordWrap = True
+        FontSize = 9
+      end
+      object QRDBText15: TQRDBText
+        Left = 545
+        Top = 0
+        Width = 43
+        Height = 17
+        Frame.Color = clBlack
+        Frame.DrawTop = False
+        Frame.DrawBottom = False
+        Frame.DrawLeft = False
+        Frame.DrawRight = False
+        Size.Values = (
+          44.979166666666670000
+          1441.979166666667000000
+          0.000000000000000000
+          113.770833333333300000)
+        Alignment = taRightJustify
+        AlignToBand = False
+        AutoSize = True
+        AutoStretch = False
+        Color = clWhite
+        DataSet = ibqDetalle
+        DataField = 'TICKET'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Arial'
+        Font.Style = []
+        ParentFont = False
+        Transparent = False
+        WordWrap = True
+        FontSize = 9
+      end
+      object qreTotalesDetalles: TQRExpr
+        Left = 595
+        Top = 0
+        Width = 70
+        Height = 17
+        Frame.Color = clBlack
+        Frame.DrawTop = False
+        Frame.DrawBottom = False
+        Frame.DrawLeft = False
+        Frame.DrawRight = False
+        Size.Values = (
+          44.979166666666670000
+          1574.270833333333000000
+          0.000000000000000000
+          185.208333333333300000)
+        Alignment = taRightJustify
+        AlignToBand = False
+        AutoSize = False
+        AutoStretch = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Arial'
+        Font.Style = []
+        Color = clWhite
+        Master = QRSubDetail1
+        ParentFont = False
+        ResetAfterPrint = False
+        Transparent = False
+        WordWrap = True
+        Expression = 
+          'ibqDetalle.CONTADO+ibqDetalle.DEBITO+ibqDetalle.CREDITO+ibqDetal' +
+          'le.CHEQUE+ibqDetalle.CUENTA+ibqDetalle.TICKET'
+        Mask = '$0.##'
+        FontSize = 9
+      end
+    end
+  end
+  object ibqDetalle: TIBQuery
+    Database = dmConexion.IBDatabase
+    Transaction = dmConexion.ibTransac
+    BufferChunks = 1000
+    CachedUpdates = False
+    SQL.Strings = (
+      
+        'SELECT PSDESCRIPCION AS DESCRIPCION, SUM(PSCONTADO) AS CONTADO, ' +
+        'SUM(PSDEBITO) AS DEBITO, SUM(PSCREDITO) AS CREDITO, SUM(PSCHEQUE' +
+        ') AS CHEQUE, SUM(PSCUENTACORRIENTE) AS CUENTA, SUM(PSTICKET) AS ' +
+        'TICKET'
+      'FROM SP_CIERRE_TURNO(:IDCIERRE)'
+      'WHERE PSIDTIPOCOMPROBANTE NOT IN (200)'
+      'GROUP BY 1'
+      'ORDER BY 1 DESC')
+    Left = 40
+    Top = 192
+    ParamData = <
+      item
+        DataType = ftInteger
+        Name = 'IDCIERRE'
+        ParamType = ptInput
+      end>
+    object ibqDetalleDESCRIPCION: TIBStringField
+      FieldName = 'DESCRIPCION'
+      Size = 30
+    end
+    object ibqDetalleCONTADO: TIBBCDField
+      FieldName = 'CONTADO'
+      DisplayFormat = '$0.##'
+      EditFormat = '0.##'
+      Precision = 18
+      Size = 4
+    end
+    object ibqDetalleDEBITO: TIBBCDField
+      FieldName = 'DEBITO'
+      DisplayFormat = '$0.##'
+      EditFormat = '0.##'
+      Precision = 18
+      Size = 4
+    end
+    object ibqDetalleCREDITO: TIBBCDField
+      FieldName = 'CREDITO'
+      DisplayFormat = '$0.##'
+      EditFormat = '0.##'
+      Precision = 18
+      Size = 4
+    end
+    object ibqDetalleCHEQUE: TIBBCDField
+      FieldName = 'CHEQUE'
+      DisplayFormat = '$0.##'
+      EditFormat = '0.##'
+      Precision = 18
+      Size = 4
+    end
+    object ibqDetalleCUENTA: TIBBCDField
+      FieldName = 'CUENTA'
+      DisplayFormat = '$0.##'
+      EditFormat = '0.##'
+      Precision = 18
+      Size = 4
+    end
+    object ibqDetalleTICKET: TIBBCDField
+      FieldName = 'TICKET'
+      DisplayFormat = '$0.##'
+      EditFormat = '0.##'
+      Precision = 18
+      Size = 4
+    end
+  end
+  object ibqTotales: TIBQuery
+    Database = dmConexion.IBDatabase
+    Transaction = dmConexion.ibTransac
+    BufferChunks = 1000
+    CachedUpdates = False
+    SQL.Strings = (
+      
+        'SELECT SUM(PSCONTADO) AS CONTADO, SUM(PSDEBITO) AS DEBITO, SUM(P' +
+        'SCREDITO) AS CREDITO, SUM(PSCHEQUE) AS CHEQUE, SUM(PSCUENTACORRI' +
+        'ENTE) AS CUENTA, SUM(PSTICKET) AS TICKET'
+      'FROM SP_CIERRE_TURNO(:IDCIERRE)'
+      'WHERE PSIDTIPOCOMPROBANTE NOT IN (200)')
+    Left = 40
+    Top = 240
+    ParamData = <
+      item
+        DataType = ftInteger
+        Name = 'IDCIERRE'
+        ParamType = ptInput
+      end>
+    object ibqTotalesCONTADO: TIBBCDField
+      FieldName = 'CONTADO'
+      DisplayFormat = '$0.##'
+      EditFormat = '0.##'
+      Precision = 18
+      Size = 4
+    end
+    object ibqTotalesDEBITO: TIBBCDField
+      FieldName = 'DEBITO'
+      DisplayFormat = '$0.##'
+      EditFormat = '0.##'
+      Precision = 18
+      Size = 4
+    end
+    object ibqTotalesCREDITO: TIBBCDField
+      FieldName = 'CREDITO'
+      DisplayFormat = '$0.##'
+      EditFormat = '0.##'
+      Precision = 18
+      Size = 4
+    end
+    object ibqTotalesCHEQUE: TIBBCDField
+      FieldName = 'CHEQUE'
+      DisplayFormat = '$0.##'
+      EditFormat = '0.##'
+      Precision = 18
+      Size = 4
+    end
+    object ibqTotalesCUENTA: TIBBCDField
+      FieldName = 'CUENTA'
+      DisplayFormat = '$0.##'
+      EditFormat = '0.##'
+      Precision = 18
+      Size = 4
+    end
+    object ibqTotalesTICKET: TIBBCDField
+      FieldName = 'TICKET'
+      DisplayFormat = '$0.##'
+      EditFormat = '0.##'
+      Precision = 18
+      Size = 4
+    end
+  end
+  object ibqMaestro: TIBQuery
+    Database = dmConexion.IBDatabase
+    Transaction = dmConexion.ibTransac
+    BufferChunks = 1000
+    CachedUpdates = False
+    SQL.Strings = (
+      'SELECT r.FECHA'
+      'FROM CIERRES_TURNOS r'
+      'WHERE r.IDCIERRE = :IDCIERRE')
+    Left = 40
+    Top = 144
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'IDCIERRE'
+        ParamType = ptUnknown
+      end>
+  end
+end

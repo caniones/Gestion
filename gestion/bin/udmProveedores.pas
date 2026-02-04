@@ -1,0 +1,167 @@
+unit udmProveedores;
+
+interface
+
+uses
+  SysUtils, Classes, IBDatabase, DB, IBCustomDataSet, Provider, IBQuery;
+
+type
+  TdmProveedores = class(TDataModule)
+    dspProveedores: TDataSetProvider;
+    ibdsProveedores: TIBDataSet;
+    ibtProveedores: TIBTransaction;
+    ibqValidar: TIBQuery;
+    ibqValidarCOUNT: TIntegerField;
+    ibdsProveedoresIDPROVEEDOR: TIntegerField;
+    ibdsProveedoresIDSITUACION: TIntegerField;
+    ibdsProveedoresNOMBRE_FANTASIA: TIBStringField;
+    ibdsProveedoresNOMBRE_REAL: TIBStringField;
+    ibdsProveedoresDIRECCION: TIBStringField;
+    ibdsProveedoresCODIGO_POSTAL: TIBStringField;
+    ibdsProveedoresIDLOCALIDAD: TIntegerField;
+    ibdsProveedoresTELEFONO_UNO: TIBStringField;
+    ibdsProveedoresTELEFONO_DOS: TIBStringField;
+    ibdsProveedoresTELEFONO_TRES: TIBStringField;
+    ibdsProveedoresNUMERO_FAX: TIBStringField;
+    ibdsProveedoresEMAIL: TIBStringField;
+    ibqSituaciones: TIBQuery;
+    ibqSituacionesIDSITUACION: TIntegerField;
+    ibqSituacionesDESCRIPCION: TIBStringField;
+    ibqLocalidades: TIBQuery;
+    ibdsProveedoresFECHA_BAJA: TDateField;
+    ibqLocalidadesIDLOCALIDAD: TIntegerField;
+    ibqLocalidadesLOCALIDAD: TIBStringField;
+    ibdsProveedoresCUIT: TIBStringField;
+    ibqEstadoCarga: TIBQuery;
+    ibqEstadoCargaFECHA_COMPRA: TDateField;
+    ibqEstadoCargaNOMBRE_FANTASIA: TIBStringField;
+    ibqEstadoCargaCODIGO_INTERNO: TIBStringField;
+    ibqEstadoCargaCOSTO_UNITARIO: TIBBCDField;
+    ibqEstadoCargaPRECIO_PUBLICO: TIBBCDField;
+    ibqTotalCantidad: TIBQuery;
+    ibdsProveedoresLOCALIDAD: TIBStringField;
+    ibqEstadoCargaDESCRIPCION: TIBStringField;
+    ibqEstadoCargaSTOCK: TIBBCDField;
+    ibqTotalCantidadCANTIDAD_TOTAL: TIBBCDField;
+    ibqEstadoCargaTOTAL_COSTO: TFloatField;
+    procedure DataModuleCreate(Sender: TObject);
+  private
+    { Private declarations }
+    procedure refrescar();
+  public
+    { Public declarations }
+    procedure grabar();
+    procedure buscarEstadoCargaArticulos(desde, hasta: TDateTime; elProveedor: integer);
+    function validar():boolean;
+  end;
+
+var
+  dmProveedores: TdmProveedores;
+
+implementation
+
+uses dmConex;
+
+{$R *.dfm}
+
+{ TdmProveedores }
+
+procedure TdmProveedores.buscarEstadoCargaArticulos(desde,
+  hasta: TDateTime; elProveedor: integer);
+var
+  elSQL: string;
+begin
+  // procedimiento para buscar los articulos cargados
+  // si elProveedor = -1 no se filtra el proveedor
+  ibqEstadoCarga.Close;
+  ibqEstadoCarga.SQL.Clear;
+  ibqEstadoCarga.SQL.Add('SELECT R.FECHA_COMPRA, P.NOMBRE_FANTASIA,');
+  ibqEstadoCarga.SQL.Add('r.CODIGO_INTERNO, r.DESCRIPCION, r.STOCK,');
+  ibqEstadoCarga.SQL.Add('r.COSTO_UNITARIO, r.PRECIO_PUBLICO,');
+  ibqEstadoCarga.SQL.Add('R.COSTO_UNITARIO*R.STOCK AS TOTAL_COSTO');
+  ibqEstadoCarga.SQL.Add('FROM ARTICULOS_AUDITORIA r');
+  ibqEstadoCarga.SQL.Add('INNER JOIN PROVEEDORES P ON P.IDPROVEEDOR = R.IDPROVEEDOR');
+  ibqEstadoCarga.SQL.Add('WHERE R.ACCION = :ACCION');
+  ibqEstadoCarga.SQL.Add('AND R.FECHA_ACTPRECIO BETWEEN :DESDE AND :HASTA');
+  if elProveedor > 0 then
+    ibqEstadoCarga.SQL.Add('AND R.IDPROVEEDOR IN ('+IntToStr(elProveedor)+')');
+  ibqEstadoCarga.SQL.Add('ORDER BY 1 DESC');
+  ibqEstadoCarga.ParamByName('ACCION').AsString:='INSERT';
+  ibqEstadoCarga.ParamByName('DESDE').AsDateTime:=desde;
+  ibqEstadoCarga.ParamByName('HASTA').AsDateTime:=hasta;
+  ibqEstadoCarga.Open;
+  // Estados total
+  ibqTotalCantidad.Close;
+  ibqTotalCantidad.SQL.Clear;
+  ibqTotalCantidad.SQL.Add('SELECT sum(r.STOCK) as CANTIDAD_TOTAL');
+  ibqTotalCantidad.SQL.Add('FROM ARTICULOS_AUDITORIA r');
+  ibqTotalCantidad.SQL.Add('INNER JOIN PROVEEDORES P ON P.IDPROVEEDOR = R.IDPROVEEDOR');
+  ibqTotalCantidad.SQL.Add('WHERE R.ACCION = :ACCION');
+  ibqTotalCantidad.SQL.Add('AND R.FECHA_ACTPRECIO BETWEEN :DESDE AND :HASTA');
+  if elProveedor > 0 then
+    ibqTotalCantidad.SQL.Add('AND R.IDPROVEEDOR IN ('+IntToStr(elProveedor)+')');
+  ibqTotalCantidad.SQL.Add('ORDER BY 1 DESC');
+  ibqTotalCantidad.ParamByName('ACCION').AsString:='INSERT';
+  ibqTotalCantidad.ParamByName('DESDE').AsDateTime:=desde;
+  ibqTotalCantidad.ParamByName('HASTA').AsDateTime:=hasta;
+  ibqTotalCantidad.Open;
+  end;
+
+procedure TdmProveedores.DataModuleCreate(Sender: TObject);
+begin
+  ibdsProveedores.Close;
+  ibdsProveedores.Open;
+  ibdsProveedores.Last;
+  ibdsProveedores.First;
+  ibqSituaciones.Close;
+  ibqSituaciones.Open;
+  ibqSituaciones.Last;
+  ibqLocalidades.Close;
+  ibqLocalidades.Open;
+  ibqLocalidades.Last;
+end;
+
+procedure TdmProveedores.grabar;
+var
+  Marca:TBookmarkStr;
+begin
+  Marca:=ibdsProveedores.Bookmark;
+  ibdsProveedores.CheckBrowseMode;
+  try
+    ibdsProveedores.ApplyUpdates;
+    ibtProveedores.Commit;
+  except
+    ibtProveedores.Rollback;
+  end;
+  ibdsProveedores.Open;
+  ibdsProveedores.Bookmark:=Marca;
+  self.refrescar;
+end;
+
+procedure TdmProveedores.refrescar;
+begin
+  ibqSituaciones.Close;
+  ibqSituaciones.Open;
+  ibqSituaciones.Last;
+  ibqLocalidades.Close;
+  ibqLocalidades.Open;
+  ibqLocalidades.Last;
+end;
+
+function TdmProveedores.validar: boolean;
+begin
+  // valida que no exista un mismo nombre con distinto id, asi no hay duplicado
+  ibqValidar.Close;
+  ibqValidar.ParamByName('ID').AsInteger:=ibdsProveedoresIDPROVEEDOR.AsInteger;
+  ibqValidar.ParamByName('NOMBRE_FANTASIA').AsString:=
+    ibdsProveedoresNOMBRE_FANTASIA.AsString;
+  ibqValidar.ParamByName('NOMBRE_REAL').AsString:=
+    ibdsProveedoresNOMBRE_REAL.AsString;
+  ibqValidar.Open;
+  if ibqValidar.Fields[0].AsInteger >= 1 then
+    result:=True
+  else
+    result:=False;
+end;
+
+end.

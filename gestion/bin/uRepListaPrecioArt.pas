@@ -1,0 +1,123 @@
+unit uRepListaPrecioArt;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, uRepBase, QRCtrls, QuickRpt, ExtCtrls, DB, IBCustomDataSet,
+  IBQuery, DBClient, QRExport;
+
+type
+  TfrmRepListaPrecioArt = class(TfrmRepBase)
+    ibqDetalle: TIBQuery;
+    SummaryBand1: TQRBand;
+    QRSubDetail1: TQRSubDetail;
+    QRDBText1: TQRDBText;
+    QRDBText2: TQRDBText;
+    QRDBText3: TQRDBText;
+    QRDBText4: TQRDBText;
+    ibqMaster: TIBQuery;
+    dsMaster: TDataSource;
+    ibqMasterTITULO: TIBStringField;
+    ibqMasterLINEA: TIBStringField;
+    ibqMasterRUBRO: TIBStringField;
+    ibqMasterIDTITULO: TIntegerField;
+    ibqMasterIDLINEA: TIntegerField;
+    ibqMasterIDRUBRO: TIntegerField;
+    ibqDetalleCODIGO_INTERNO: TIBStringField;
+    ibqDetallePRECIO_PUBLICO: TIBBCDField;
+    ibqDetalleFECHA: TDateField;
+    QRGroup1: TQRGroup;
+    DetailBand1: TQRBand;
+    QRLabel4: TQRLabel;
+    QRLabel5: TQRLabel;
+    QRLabel6: TQRLabel;
+    QRLabel7: TQRLabel;
+    QRDBText5: TQRDBText;
+    QRDBText6: TQRDBText;
+    QRDBText7: TQRDBText;
+    QRExpr1: TQRExpr;
+    ibqDetalleFECHA_BAJA: TDateField;
+    QRLabel9: TQRLabel;
+    QRLabel10: TQRLabel;
+    ibqDetalleDESCRIPCION: TIBStringField;
+    procedure QRSubDetail1BeforePrint(Sender: TQRCustomBand;
+      var PrintBand: Boolean);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    procedure imprimir(laLinea, elRubro, elProveedor, elTitulo, laFecha,
+    elCodigo : string);
+  end;
+
+var
+  frmRepListaPrecioArt: TfrmRepListaPrecioArt;
+
+implementation
+
+uses dmConex;
+
+{$R *.dfm}
+
+{ TfrmRepListaPrecioArt }
+
+procedure TfrmRepListaPrecioArt.imprimir(laLinea, elRubro, elProveedor,
+  elTitulo, laFecha, elCodigo: string);
+begin
+  // imprimo el reporte
+  ibqMaster.Close;
+  {SELECT DISTINCT T.DESCRIPCION AS TITULO, L.DESCRIPCION AS LINEA,
+   R.DESCRIPCION AS RUBRO, A.IDTITULO, A.IDLINEA, A.IDRUBRO
+   FROM ARTICULOS A, LINEAS L, RUBROS R, TITULOS T
+   WHERE A.IDLINEA = L.IDLINEA
+   AND A.IDRUBRO = R.IDRUBRO
+   AND A.IDTITULO = T.IDTITULO}
+  if laLinea <> '' then
+    ibqMaster.SQL.Add('AND A.IDLINEA IN ('+laLinea+')');
+  if elRubro <> '' then
+    ibqMaster.SQL.Add('AND A.IDRUBRO IN ('+elRubro+')');
+  if elTitulo <> '' then
+    ibqMaster.SQL.Add('AND A.IDTITULO IN ('+elTitulo+')');
+  // ordeno la consulta
+  ibqMaster.SQL.Add('ORDER BY T.DESCRIPCION, L.DESCRIPCION, R.DESCRIPCION, '+
+                    'A.DESCRIPCION');
+  ibqMaster.Open;
+  if ibqMaster.IsEmpty then
+    begin
+    application.MessageBox('No hay Artículos que coincidan con los parámetros'+
+    ' seleccionados','Atención',MB_ICONWARNING);
+    exit; // salgo si no hay renglones en el reporte
+    end;
+  ibqDetalle.Close;
+  {SELECT A.CODIGO_INTERNO, A.DESCRIPCION, A.PRECIO_PUBLICO,
+   A.FECHA_ACTPRECIO AS FECHA
+   FROM ARTICULOS A
+   WHERE A.IDLINEA = :IDLINEA
+   AND A.IDRUBRO = :IDRUBRO
+   AND A.IDTITULO = :IDTITULO}
+  if elProveedor <> '' then
+    ibqDetalle.SQL.Add('AND A.IDPROVEEDOR IN ('+elProveedor+')');
+  if lafecha <> '' then
+    ibqDetalle.SQL.Add('AND A.FECHA_ACTPRECIO IN ('+laFecha+')');
+  if elCodigo <> '' then
+    ibqDetalle.SQL.Add('AND A.CODIGO_INTERNO IN ('+elCodigo+')');
+  // ordeno la consulta
+  ibqDetalle.SQL.Add('ORDER BY A.DESCRIPCION ');
+  ibqDetalle.Open;
+  qrBase.Prepare;
+  qrBase.PreviewModal;
+end;
+
+procedure TfrmRepListaPrecioArt.QRSubDetail1BeforePrint(
+  Sender: TQRCustomBand; var PrintBand: Boolean);
+begin
+  inherited;
+  Sender.Font.Style:=[];
+  if not ibqDetalle.FieldByName('FECHA_BAJA').IsNull then
+    begin
+    Sender.Font.Style:=[fsStrikeOut];
+    end;
+end;
+
+end.

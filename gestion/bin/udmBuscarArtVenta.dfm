@@ -1,0 +1,83 @@
+object dmBuscarArtVenta: TdmBuscarArtVenta
+  OldCreateOrder = False
+  Left = 597
+  Top = 243
+  Height = 150
+  Width = 215
+  object ibqArticulosBusqueda: TIBQuery
+    Database = dmConexion.IBDatabase
+    Transaction = dmConexion.ibTransac
+    BufferChunks = 1000
+    CachedUpdates = False
+    SQL.Strings = (
+      
+        'SELECT A.IDARTICULO, A.CODIGO_INTERNO, A.DESCRIPCION, A.PRECIO_P' +
+        'UBLICO, A.IVA, L.DESCRIPCION AS LINEA, '
+      '    R.DESCRIPCION AS RUBRO, P.NOMBRE_FANTASIA AS PROVEEDOR'
+      'FROM ARTICULOS A'
+      'INNER JOIN LINEAS L ON L.IDLINEA = A.IDLINEA'
+      'INNER JOIN RUBROS R ON R.IDRUBRO = A.IDRUBRO'
+      'INNER JOIN PROVEEDORES P ON P.IDPROVEEDOR = A.IDPROVEEDOR'
+      'WHERE A.FECHA_BAJA IS NULL'
+      'AND UPPER (A.DESCRIPCION) LIKE UPPER (:CADENA)'
+      'ORDER BY A.DESCRIPCION')
+    Left = 48
+    Top = 16
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'CADENA'
+        ParamType = ptUnknown
+      end>
+    object ibqArticulosBusquedaIDARTICULO: TIntegerField
+      FieldName = 'IDARTICULO'
+      Origin = 'ARTICULOS.IDARTICULO'
+      Required = True
+    end
+    object ibqArticulosBusquedaCODIGO_INTERNO: TIBStringField
+      FieldName = 'CODIGO_INTERNO'
+      Origin = 'ARTICULOS.CODIGO_INTERNO'
+      Required = True
+    end
+    object ibqArticulosBusquedaDESCRIPCION: TIBStringField
+      FieldName = 'DESCRIPCION'
+      Origin = 'ARTICULOS.DESCRIPCION'
+      Required = True
+      Size = 200
+    end
+    object ibqArticulosBusquedaPRECIO_PUBLICO: TIBBCDField
+      FieldName = 'PRECIO_PUBLICO'
+      Origin = 'ARTICULOS.PRECIO_PUBLICO'
+      Required = True
+      DisplayFormat = '$#,##0.00'
+      EditFormat = '#,##0.00'
+      Precision = 18
+      Size = 4
+    end
+    object ibqArticulosBusquedaIVA: TIBBCDField
+      FieldName = 'IVA'
+      Origin = 'ARTICULOS.IVA'
+      Required = True
+      Precision = 18
+      Size = 4
+    end
+    object ibqArticulosBusquedaLINEA: TIBStringField
+      FieldName = 'LINEA'
+      Origin = 'LINEAS.DESCRIPCION'
+      Required = True
+      Size = 50
+    end
+    object ibqArticulosBusquedaRUBRO: TIBStringField
+      FieldName = 'RUBRO'
+      Origin = 'RUBROS.DESCRIPCION'
+      Required = True
+      Size = 50
+    end
+    object ibqArticulosBusquedaPROVEEDOR: TIBStringField
+      FieldName = 'PROVEEDOR'
+      Origin = 'PROVEEDORES.NOMBRE_FANTASIA'
+      Required = True
+      Size = 50
+    end
+  end
+end

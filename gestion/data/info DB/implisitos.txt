@@ -1,0 +1,3 @@
+id de comprobantes para cuando hacen falta
+RECIBOS		-1
+GASTOS		-2

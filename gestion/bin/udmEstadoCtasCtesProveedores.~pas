@@ -1,0 +1,210 @@
+unit udmEstadoCtasCtesProveedores;
+
+interface
+
+uses
+  SysUtils, Classes, DB, IBCustomDataSet, IBQuery, IBDatabase, IBStoredProc;
+
+type
+  TdmEstadoCtasCtesProveedores = class(TDataModule)
+    ibtCtaCteProveedores: TIBTransaction;
+    ibqProveedores: TIBQuery;
+    dsProveedores: TDataSource;
+    ibdsComprobantes: TIBDataSet;
+    ibdsPagos: TIBDataSet;
+    ibdsComprobantesID_NROCOMPROBANTE: TIntegerField;
+    ibdsComprobantesIDTIPOCOMPROBANTE: TIntegerField;
+    ibdsComprobantesNROSUCURSAL: TIntegerField;
+    ibdsComprobantesNROCOMPROBANTE: TIntegerField;
+    ibdsComprobantesFECHA: TDateField;
+    ibdsComprobantesIDPROVEEDOR: TIntegerField;
+    ibdsComprobantesIMPORTE: TIBBCDField;
+    ibdsComprobantesCANTIDAD_UNIDADES: TIntegerField;
+    ibdsComprobantesANULADO: TIntegerField;
+    ibqTiposComprobantes: TIBQuery;
+    ibqTiposComprobantesIDTIPOCOMPROBANTE: TIntegerField;
+    ibqTiposComprobantesDESCRIPCION: TIBStringField;
+    ibqTiposComprobantesLETRA: TIBStringField;
+    ibspControlCtaCte: TIBStoredProc;
+    ibqEstadoCtasCtes: TIBQuery;
+    ibqComprasXmes: TIBQuery;
+    ibdsPagosIDPAGO_PROVEEDOR: TIntegerField;
+    ibdsPagosFECHA: TDateField;
+    ibdsPagosIDPROVEEDOR: TIntegerField;
+    ibdsPagosIDPAGO: TIntegerField;
+    ibdsPagosIDFORMAPAGO: TIntegerField;
+    ibdsPagosIMPORTE: TIBBCDField;
+    ibqFormasPagos: TIBQuery;
+    ibqFormasPagosIDFORMAPAGO: TIntegerField;
+    ibqFormasPagosDESCRIPCION: TIBStringField;
+    ibqFormasPagosCOEFICIENTE: TIBBCDField;
+    ibqVentasXmes: TIBQuery;
+    ibqComprasXtemporada: TIBQuery;
+    ibqVentasXtemporada: TIBQuery;
+    ibqComprasXtemporadaPSANIO: TIBStringField;
+    ibqComprasXtemporadaPSVERANO: TIBBCDField;
+    ibqComprasXtemporadaPSINVIERNO: TIBBCDField;
+    ibqVentasXtemporadaPSANIO: TIBStringField;
+    ibqVentasXtemporadaPSVERANO: TIBBCDField;
+    ibqVentasXtemporadaPSINVIERNO: TIBBCDField;
+    ibqProveedoresIDPROVEEDOR: TIntegerField;
+    ibqProveedoresCUIT: TIBStringField;
+    ibqProveedoresNOMBRE_FANTASIA: TIBStringField;
+    ibqProveedoresNOMBRE_REAL: TIBStringField;
+    ibqProveedoresFECHA_BAJA: TDateField;
+    ibqEstadoCtasCtesFECHA: TDateField;
+    ibqEstadoCtasCtesID_NROCOMPROBANTE: TIntegerField;
+    ibqEstadoCtasCtesDESCRIPCION: TIBStringField;
+    ibqEstadoCtasCtesNUMERO: TIBStringField;
+    ibqEstadoCtasCtesIMPORTE: TIBBCDField;
+    ibqEstadoCtasCtesIDTIPOCOMPROBANTE: TIntegerField;
+    ibqSaldo: TIBQuery;
+    ibqSaldoSALDO: TIBBCDField;
+    ibqComprasXmesMES: TIBStringField;
+    ibqComprasXmesTOTAL: TIBBCDField;
+    ibqVentasXmesMES: TIBStringField;
+    ibqVentasXmesTOTAL: TIBBCDField;
+    ibqComprasXtemporadaTOTAL: TIBBCDField;
+    ibqVentasXtemporadaTOTAL: TIBBCDField;
+    ibqVentasXmesUNIDADES: TIBBCDField;
+    ibqVentasXtemporadaPSUNIDADESVERANO: TIBBCDField;
+    ibqVentasXtemporadaPSUNIDADESINVIERNO: TIBBCDField;
+    ibqComprasXmesUNIDADES: TIBBCDField;
+    procedure ibqProveedoresAfterOpen(DataSet: TDataSet);
+  private
+    { Private declarations }
+    procedure refrescar();
+  public
+    { Public declarations }
+    procedure cargarProveedores();
+    procedure grabarComprobante();
+    procedure grabarPago();
+    procedure nuevoComprobante();
+    procedure nuevoPago();
+  end;
+
+var
+  dmEstadoCtasCtesProveedores: TdmEstadoCtasCtesProveedores;
+
+implementation
+
+uses dmConex;
+
+{$R *.dfm}
+
+procedure TdmEstadoCtasCtesProveedores.ibqProveedoresAfterOpen(
+  DataSet: TDataSet);
+begin
+  // cargo los comprobantes
+  ibqEstadoCtasCtes.Close;
+  ibqEstadoCtasCtes.Open;
+  // calculo el saldo
+  ibqSaldo.close;
+  ibqSaldo.Open;
+end;
+
+procedure TdmEstadoCtasCtesProveedores.grabarComprobante;
+var
+  Marca:TBookmarkStr;
+begin
+  Marca:=ibqProveedores.Bookmark;
+  // grabo el comprobante del proveeedor
+  ibdsComprobantes.CheckBrowseMode;
+  ibspControlCtaCte.Close;
+  ibspControlCtaCte.ParamByName('PEID_NROCOMPROBANTE').AsInteger:=
+    ibdsComprobantesID_NROCOMPROBANTE.AsInteger;
+  ibspControlCtacte.ParamByName('PEIDPAGO_PROVEEDOR').AsInteger:=0;
+  ibspControlCtaCte.ParamByName('PEIDPROVEEDOR').AsInteger:=
+    ibdsComprobantesIDPROVEEDOR.AsInteger;
+  ibspControlCtaCte.Prepare;
+  try
+    ibspControlCtaCte.ExecProc;
+    ibdsComprobantes.ApplyUpdates;
+    ibtCtaCteProveedores.Commit;
+  except
+    ibtCtaCteProveedores.Rollback;
+  end;
+  // actualizo el estado de las cuentas correntes
+  self.refrescar;
+  ibqProveedores.Bookmark:=Marca;
+end;
+
+procedure TdmEstadoCtasCtesProveedores.refrescar;
+begin
+  ibqProveedores.Close;
+  ibqProveedores.Open;
+  ibqEstadoCtasCtes.Close;
+  ibqEstadoCtasCtes.Open;
+  ibqSaldo.close;
+  ibqSaldo.Open;
+end;
+
+procedure TdmEstadoCtasCtesProveedores.grabarPago;
+var
+  Marca:TBookmarkStr;
+begin
+  Marca:=ibqProveedores.Bookmark;
+  // grabo el pago al proveedor
+  ibdsPagos.CheckBrowseMode;
+  ibspControlCtaCte.Close;
+  ibspControlCtaCte.ParamByName('PEID_NROCOMPROBANTE').AsInteger:=0;
+  ibspControlCtacte.ParamByName('PEIDPAGO_PROVEEDOR').AsInteger:=
+    ibdsPagosIDPAGO_PROVEEDOR.AsInteger;
+  ibspControlCtaCte.ParamByName('PEIDPROVEEDOR').AsInteger:=
+    ibdsPagosIDPROVEEDOR.AsInteger;
+  ibspControlCtaCte.Prepare;
+  try
+    ibspControlCtaCte.ExecProc;
+    ibdsPagos.ApplyUpdates;
+    ibtCtaCteProveedores.Commit;
+  except
+    ibtCtaCteProveedores.Rollback;
+  end;
+  // actualizo el estado de las cuentas corrientes
+  self.refrescar;
+  ibqProveedores.Bookmark:=Marca;
+end;
+
+procedure TdmEstadoCtasCtesProveedores.nuevoComprobante;
+var
+  elProveedor:integer;
+begin
+  // nuevo comprobante proveedores
+  elProveedor:=ibqProveedoresIDPROVEEDOR.AsInteger;
+  ibdsComprobantes.Open;
+  ibdsComprobantes.Insert;
+  // valores para el nuevo comprobante
+  ibdsComprobantesIDTIPOCOMPROBANTE.AsInteger:=300; // factura A
+  ibdsComprobantesNROSUCURSAL.AsInteger:=1;
+  ibdsComprobantesNROCOMPROBANTE.AsInteger:=0;
+  ibdsComprobantesFECHA.AsDateTime:=date; // hoy
+  ibdsComprobantesIDPROVEEDOR.AsInteger:=elProveedor;
+  ibdsComprobantesIMPORTE.AsFloat:=0;
+  ibdsComprobantesCANTIDAD_UNIDADES.AsInteger:=0;
+  ibdsComprobantesANULADO.AsInteger:=0; // actvo por defecto
+end;
+
+procedure TdmEstadoCtasCtesProveedores.nuevoPago;
+var
+  elProveedor:integer;
+begin
+  // nuevo pago proveedores
+  elProveedor:=ibqProveedoresIDPROVEEDOR.AsInteger;
+  ibdsPagos.Open;
+  ibdsPagos.Insert;
+  // valores por defecto para un nuevo registro
+  ibdsPagosFECHA.AsDateTime:=date;
+  ibdsPagosIDPROVEEDOR.AsInteger:=elProveedor;
+  ibdsPagosIMPORTE.AsInteger:=0;
+end;
+
+procedure TdmEstadoCtasCtesProveedores.cargarProveedores;
+begin
+  // cargo los proveedores
+  ibqProveedores.Close;
+  ibqProveedores.Open;
+  ibqProveedores.Last;
+  ibqProveedores.First;
+end;
+
+end.
