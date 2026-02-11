@@ -70,6 +70,15 @@ Debes indicarle al programa dónde encontrar la base de datos:
 
 ---
 
+## ⚙️ Instalación explicado con un video
+<p align="left">
+  <a href="https://youtu.be/i2jVIPp6ifM">
+    <img src="https://img.shields.io/badge/Ver_Tutorial_de_Instalación-red?style=for-the-badge&logo=youtube&logoColor=white" alt="Gestión - Instalación">
+  </a>
+</p>
+
+---
+
 ## ✅ ¡Listo!
 
 El sistema ya está operativo. Ahora puedes iniciar sesión con los usuarios creados y comenzar la gestión.
