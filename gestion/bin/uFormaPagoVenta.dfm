@@ -2,8 +2,8 @@ inherited frmFormaPagoVenta: TfrmFormaPagoVenta
   Left = 436
   Top = 220
   Caption = 'Pago de Venta'
-  ClientHeight = 322
-  ClientWidth = 361
+  ClientHeight = 323
+  ClientWidth = 558
   OldCreateOrder = True
   OnShow = FormShow
   PixelsPerInch = 96
