@@ -21,6 +21,12 @@ type
     ibqMasterFECHA: TDateField;
     ibqMasterDESCRIPCION: TIBStringField;
     ibqMasterIMPORTE: TFloatField;
+    ibqSaldo: TIBQuery;
+    ibqSaldoFECHA: TDateTimeField;
+    ibqSaldoNOMBRE: TIBStringField;
+    ibqSaldoSALDO: TIBBCDField;
+    QRDBText4: TQRDBText;
+    QRLabel5: TQRLabel;
   private
     { Private declarations }
   public
@@ -49,6 +55,9 @@ begin
   ibqMaster.ParamByName('IDCLIENTE').AsInteger:=elCliente;
   ibqMaster.Open;
   ibqMaster.RecordCount;
+  ibqSaldo.Close;
+  ibqSaldo.ParamByName('IDCLIENTE').AsInteger:=elCliente;
+  ibqSaldo.Open;
   qrBase.PreviewModal;
 end;
 

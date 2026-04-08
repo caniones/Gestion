@@ -63,6 +63,57 @@ inherited frmRepDetalleCtasClientes: TfrmRepDetalleCtasClientes
           232.833333333333300000)
         FontSize = 10
       end
+      object QRDBText4: TQRDBText
+        Left = 528
+        Top = 48
+        Width = 45
+        Height = 17
+        Frame.Color = clBlack
+        Frame.DrawTop = False
+        Frame.DrawBottom = False
+        Frame.DrawLeft = False
+        Frame.DrawRight = False
+        Size.Values = (
+          44.979166666666670000
+          1397.000000000000000000
+          127.000000000000000000
+          119.062500000000000000)
+        Alignment = taLeftJustify
+        AlignToBand = False
+        AutoSize = True
+        AutoStretch = False
+        Color = clWhite
+        DataSet = ibqSaldo
+        DataField = 'SALDO'
+        Transparent = False
+        WordWrap = True
+        FontSize = 10
+      end
+      object QRLabel5: TQRLabel
+        Left = 472
+        Top = 48
+        Width = 49
+        Height = 17
+        Frame.Color = clBlack
+        Frame.DrawTop = False
+        Frame.DrawBottom = False
+        Frame.DrawLeft = False
+        Frame.DrawRight = False
+        Size.Values = (
+          44.979166666666670000
+          1248.833333333333000000
+          127.000000000000000000
+          129.645833333333300000)
+        Alignment = taLeftJustify
+        AlignToBand = False
+        AutoSize = True
+        AutoStretch = False
+        Caption = 'SALDO:'
+        Color = clWhite
+        Transparent = False
+        WordWrap = True
+        FontSize = 10
+      end
     end
     inherited PageFooterBand2: TQRBand
       Top = 201
@@ -372,6 +423,47 @@ inherited frmRepDetalleCtasClientes: TfrmRepDetalleCtasClientes
     object ibqMasterIMPORTE: TFloatField
       FieldName = 'IMPORTE'
       Required = True
+    end
+  end
+  object ibqSaldo: TIBQuery
+    Database = dmConexion.IBDatabase
+    Transaction = dmConexion.ibTransac
+    BufferChunks = 1000
+    CachedUpdates = False
+    SQL.Strings = (
+      'SELECT CC.FECHA, C.NOMBRE, CC.SALDO'
+      'FROM CUENTASCORRIENTES_CLIENTES CC, CLIENTES C'
+      'WHERE CC.IDCLIENTE = C.IDCLIENTE'
+      'AND CC.IDTRANSACCION = (SELECT MAX(CC.IDTRANSACCION)'
+      '                        FROM CUENTASCORRIENTES_CLIENTES CC'
+      '                        WHERE CC.IDCLIENTE = :IDCLIENTE)')
+    Left = 40
+    Top = 160
+    ParamData = <
+      item
+        DataType = ftInteger
+        Name = 'IDCLIENTE'
+        ParamType = ptInput
+      end>
+    object ibqSaldoFECHA: TDateTimeField
+      FieldName = 'FECHA'
+      Origin = 'CUENTASCORRIENTES_CLIENTES.FECHA'
+      Required = True
+    end
+    object ibqSaldoNOMBRE: TIBStringField
+      FieldName = 'NOMBRE'
+      Origin = 'CLIENTES.NOMBRE'
+      Required = True
+      Size = 50
+    end
+    object ibqSaldoSALDO: TIBBCDField
+      FieldName = 'SALDO'
+      Origin = 'CUENTASCORRIENTES_CLIENTES.SALDO'
+      Required = True
+      DisplayFormat = '$,0.##'
+      EditFormat = ',0.##'
+      Precision = 18
+      Size = 4
     end
   end
 end

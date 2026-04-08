@@ -1,11 +1,11 @@
 object frmEstadoCtasCtesClientes: TfrmEstadoCtasCtesClientes
-  Left = 273
-  Top = 66
+  Left = 215
+  Top = 135
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'Estado Ctas. Ctes. Clientes'
-  ClientHeight = 588
-  ClientWidth = 913
+  ClientHeight = 643
+  ClientWidth = 1081
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -48,7 +48,7 @@ object frmEstadoCtasCtesClientes: TfrmEstadoCtasCtesClientes
   end
   object Label3: TLabel
     Left = 8
-    Top = 344
+    Top = 432
     Width = 60
     Height = 16
     Caption = 'DETALLE'
@@ -60,7 +60,7 @@ object frmEstadoCtasCtesClientes: TfrmEstadoCtasCtesClientes
     ParentFont = False
   end
   object Label4: TLabel
-    Left = 704
+    Left = 880
     Top = 8
     Width = 94
     Height = 16
@@ -74,9 +74,9 @@ object frmEstadoCtasCtesClientes: TfrmEstadoCtasCtesClientes
   end
   object dbgDetalles: TDBGrid
     Left = 0
-    Top = 360
-    Width = 897
-    Height = 145
+    Top = 448
+    Width = 1073
+    Height = 129
     DataSource = dsDetalles
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
     TabOrder = 0
@@ -124,8 +124,8 @@ object frmEstadoCtasCtesClientes: TfrmEstadoCtasCtesClientes
   object dbgComprobantes: TDBGrid
     Left = 0
     Top = 192
-    Width = 897
-    Height = 145
+    Width = 1073
+    Height = 233
     DataSource = dsComprobantes
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -156,11 +156,13 @@ object frmEstadoCtasCtesClientes: TfrmEstadoCtasCtesClientes
         Alignment = taRightJustify
         Expanded = False
         FieldName = 'COMPROBANTE'
+        Width = 64
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'IMPORTE_COMPROBANTE'
+        Width = 64
         Visible = True
       end
       item
@@ -171,18 +173,20 @@ object frmEstadoCtasCtesClientes: TfrmEstadoCtasCtesClientes
       item
         Expanded = False
         FieldName = 'IMPORTE_RECIBO'
+        Width = 64
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'SALDO'
+        Width = 64
         Visible = True
       end>
   end
   object dbgClientes: TDBGrid
     Left = 0
     Top = 24
-    Width = 689
+    Width = 857
     Height = 145
     DataSource = dsClientes
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
@@ -206,23 +210,26 @@ object frmEstadoCtasCtesClientes: TfrmEstadoCtasCtesClientes
       item
         Expanded = False
         FieldName = 'DIRECCION'
+        Width = 64
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'LOCALIDAD'
+        Width = 64
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'LIMITE_CREDITO'
+        Width = 64
         Visible = True
       end>
   end
   object Panel1: TPanel
-    Left = 0
-    Top = 512
-    Width = 897
+    Left = 1
+    Top = 584
+    Width = 1072
     Height = 58
     BevelOuter = bvLowered
     TabOrder = 3
@@ -352,7 +359,7 @@ object frmEstadoCtasCtesClientes: TfrmEstadoCtasCtesClientes
       OnClick = btnImprimirSaldoClick
     end
     object btnSalir: TSpeedButton
-      Left = 843
+      Left = 1019
       Top = 4
       Width = 50
       Height = 50
@@ -1143,7 +1150,7 @@ object frmEstadoCtasCtesClientes: TfrmEstadoCtasCtesClientes
     end
   end
   object DBGrid1: TDBGrid
-    Left = 696
+    Left = 872
     Top = 24
     Width = 201
     Height = 145
@@ -1185,12 +1192,12 @@ object frmEstadoCtasCtesClientes: TfrmEstadoCtasCtesClientes
     AutoEdit = False
     DataSet = dmEstadoCtasCtesClientes.ibqDetalles
     Left = 216
-    Top = 400
+    Top = 512
   end
   object dsAcumulados: TDataSource
     AutoEdit = False
     DataSet = dmEstadoCtasCtesClientes.ibqAcumuladosXmes
-    Left = 792
+    Left = 968
     Top = 88
   end
 end
