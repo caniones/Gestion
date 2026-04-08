@@ -83,6 +83,25 @@ type
     ibqArticulosCONTROL_STOCK: TIntegerField;
     ibqBusquedaArtDESCRIPCION: TIBStringField;
     ibdsItemsCODIGO_INTERNO: TIBStringField;
+    ibqVerificarStock: TIBQuery;
+    ibqVerificarStockIDARTICULO: TIntegerField;
+    ibqVerificarStockCODIGO_INTERNO: TIBStringField;
+    ibqVerificarStockDESCRIPCION: TIBStringField;
+    ibqVerificarStockSTOCK: TIBBCDField;
+    ibqVerificarStockPUNTO_REPOSICION: TIBBCDField;
+    ibqVerificarStockIDLINEA: TIntegerField;
+    ibqVerificarStockIDRUBRO: TIntegerField;
+    ibqVerificarStockIDTITULO: TIntegerField;
+    ibqVerificarStockIDPROVEEDOR: TIntegerField;
+    ibqVerificarStockFECHA_BAJA: TDateField;
+    ibqVerificarStockFECHA_ACTPRECIO: TDateField;
+    ibqVerificarStockFECHA_COMPRA: TDateField;
+    ibqVerificarStockCOSTO_UNITARIO: TIBBCDField;
+    ibqVerificarStockUTILIDAD: TIBBCDField;
+    ibqVerificarStockIVA: TIBBCDField;
+    ibqVerificarStockPRECIO_PUBLICO: TIBBCDField;
+    ibqVerificarStockCONTROL_STOCK: TIntegerField;
+    ibqVerificarStockIDMONEDA: TIntegerField;
     procedure DataModuleCreate(Sender: TObject);
     procedure ibdsItemsCalcFields(DataSet: TDataSet);
     procedure ibdsItemsNewRecord(DataSet: TDataSet);
@@ -483,6 +502,7 @@ end;
 procedure TdmComprobantesVentas.comprobarStock;
 begin
   // comprueba el stock del artículo
+  ibqVerificarStock.Close
   if ibqArticulosCONTROL_STOCK.AsInteger = 1 then
     begin
     if ibqArticulosSTOCK.AsFloat <= 0 then

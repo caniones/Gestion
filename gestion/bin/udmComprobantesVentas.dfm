@@ -1,8 +1,8 @@
 object dmComprobantesVentas: TdmComprobantesVentas
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Left = 371
-  Top = 181
+  Left = 461
+  Top = 227
   Height = 423
   Width = 651
   object dspComprobantes: TDataSetProvider
@@ -15,7 +15,7 @@ object dmComprobantesVentas: TdmComprobantesVentas
     Top = 64
   end
   object ibtComprobantes: TIBTransaction
-    Active = False
+    Active = True
     DefaultDatabase = dmConexion.IBDatabase
     Params.Strings = (
       'read_committed'
@@ -728,6 +728,136 @@ object dmComprobantesVentas: TdmComprobantesVentas
       Required = True
       Precision = 18
       Size = 4
+    end
+  end
+  object ibqVerificarStock: TIBQuery
+    Database = dmConexion.IBDatabase
+    Transaction = ibtComprobantes
+    BufferChunks = 1000
+    CachedUpdates = False
+    DataSource = dsItems
+    SQL.Strings = (
+      'SELECT r.IDARTICULO, r.CODIGO_INTERNO, r.DESCRIPCION, r.STOCK,'
+      
+        '    r.PUNTO_REPOSICION, r.IDLINEA, r.IDRUBRO, r.IDTITULO, r.IDPR' +
+        'OVEEDOR,'
+      
+        '    r.FECHA_BAJA, r.FECHA_ACTPRECIO, r.FECHA_COMPRA, r.COSTO_UNI' +
+        'TARIO,'
+      
+        '    r.UTILIDAD, r.IVA, r.PRECIO_PUBLICO, r.CONTROL_STOCK, r.IDMO' +
+        'NEDA'
+      'FROM ARTICULOS r'
+      'WHERE R.IDARTICULO = :IDARTICULO')
+    Left = 144
+    Top = 304
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'IDARTICULO'
+        ParamType = ptUnknown
+      end>
+    object ibqVerificarStockIDARTICULO: TIntegerField
+      FieldName = 'IDARTICULO'
+      Origin = 'ARTICULOS.IDARTICULO'
+      Required = True
+    end
+    object ibqVerificarStockCODIGO_INTERNO: TIBStringField
+      FieldName = 'CODIGO_INTERNO'
+      Origin = 'ARTICULOS.CODIGO_INTERNO'
+      Required = True
+    end
+    object ibqVerificarStockDESCRIPCION: TIBStringField
+      FieldName = 'DESCRIPCION'
+      Origin = 'ARTICULOS.DESCRIPCION'
+      Required = True
+      Size = 200
+    end
+    object ibqVerificarStockSTOCK: TIBBCDField
+      FieldName = 'STOCK'
+      Origin = 'ARTICULOS.STOCK'
+      Required = True
+      Precision = 9
+      Size = 4
+    end
+    object ibqVerificarStockPUNTO_REPOSICION: TIBBCDField
+      FieldName = 'PUNTO_REPOSICION'
+      Origin = 'ARTICULOS.PUNTO_REPOSICION'
+      Required = True
+      Precision = 9
+      Size = 4
+    end
+    object ibqVerificarStockIDLINEA: TIntegerField
+      FieldName = 'IDLINEA'
+      Origin = 'ARTICULOS.IDLINEA'
+      Required = True
+    end
+    object ibqVerificarStockIDRUBRO: TIntegerField
+      FieldName = 'IDRUBRO'
+      Origin = 'ARTICULOS.IDRUBRO'
+      Required = True
+    end
+    object ibqVerificarStockIDTITULO: TIntegerField
+      FieldName = 'IDTITULO'
+      Origin = 'ARTICULOS.IDTITULO'
+      Required = True
+    end
+    object ibqVerificarStockIDPROVEEDOR: TIntegerField
+      FieldName = 'IDPROVEEDOR'
+      Origin = 'ARTICULOS.IDPROVEEDOR'
+      Required = True
+    end
+    object ibqVerificarStockFECHA_BAJA: TDateField
+      FieldName = 'FECHA_BAJA'
+      Origin = 'ARTICULOS.FECHA_BAJA'
+    end
+    object ibqVerificarStockFECHA_ACTPRECIO: TDateField
+      FieldName = 'FECHA_ACTPRECIO'
+      Origin = 'ARTICULOS.FECHA_ACTPRECIO'
+      Required = True
+    end
+    object ibqVerificarStockFECHA_COMPRA: TDateField
+      FieldName = 'FECHA_COMPRA'
+      Origin = 'ARTICULOS.FECHA_COMPRA'
+      Required = True
+    end
+    object ibqVerificarStockCOSTO_UNITARIO: TIBBCDField
+      FieldName = 'COSTO_UNITARIO'
+      Origin = 'ARTICULOS.COSTO_UNITARIO'
+      Required = True
+      Precision = 18
+      Size = 4
+    end
+    object ibqVerificarStockUTILIDAD: TIBBCDField
+      FieldName = 'UTILIDAD'
+      Origin = 'ARTICULOS.UTILIDAD'
+      Required = True
+      Precision = 18
+      Size = 4
+    end
+    object ibqVerificarStockIVA: TIBBCDField
+      FieldName = 'IVA'
+      Origin = 'ARTICULOS.IVA'
+      Required = True
+      Precision = 18
+      Size = 4
+    end
+    object ibqVerificarStockPRECIO_PUBLICO: TIBBCDField
+      FieldName = 'PRECIO_PUBLICO'
+      Origin = 'ARTICULOS.PRECIO_PUBLICO'
+      Required = True
+      Precision = 18
+      Size = 4
+    end
+    object ibqVerificarStockCONTROL_STOCK: TIntegerField
+      FieldName = 'CONTROL_STOCK'
+      Origin = 'ARTICULOS.CONTROL_STOCK'
+      Required = True
+    end
+    object ibqVerificarStockIDMONEDA: TIntegerField
+      FieldName = 'IDMONEDA'
+      Origin = 'ARTICULOS.IDMONEDA'
+      Required = True
     end
   end
 end

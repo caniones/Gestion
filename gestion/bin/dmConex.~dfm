@@ -7,8 +7,8 @@ object dmConexion: TdmConexion
   Width = 322
   object IBDatabase: TIBDatabase
     DatabaseName = 
-      'C:\Users\isidoro\Desktop\Desarrollos\Sistemas\facturacion\data\0' +
-      '.9\gestion.fdb'
+      'C:\Users\Usuario\Desktop\Desarrollo\Sistemas\facturacion\data\0.' +
+      '9\GESTION.FDB'
     Params.Strings = (
       'user_name=SYSDBA'
       'password=masterkey')

@@ -1,6 +1,6 @@
 object frmComprobantesVentas: TfrmComprobantesVentas
-  Left = 368
-  Top = 190
+  Left = 439
+  Top = 192
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'Comprobante -'
@@ -2211,6 +2211,6 @@ object frmComprobantesVentas: TfrmComprobantesVentas
     AutoEdit = False
     DataSet = dmComprobantesVentas.ibqBusquedaArt
     Left = 560
-    Top = 168
+    Top = 160
   end
 end

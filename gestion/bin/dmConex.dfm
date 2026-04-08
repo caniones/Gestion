@@ -7,7 +7,9 @@ object dmConexion: TdmConexion
   Width = 322
   object IBDatabase: TIBDatabase
     Connected = True
-    DatabaseName = 'C:\Desarrollos\Sistemas\facturacion\data\0.9\GESTION.FDB'
+    DatabaseName = 
+      'localhost:C:\Users\Usuario\Desktop\Desarrollo\Sistemas\facturaci' +
+      'on\data\0.9\GESTION.FDB'
     Params.Strings = (
       'user_name=SYSDBA'
       'password=masterkey')
@@ -19,7 +21,7 @@ object dmConexion: TdmConexion
     Top = 16
   end
   object ibTransac: TIBTransaction
-    Active = True
+    Active = False
     DefaultDatabase = IBDatabase
     Params.Strings = (
       'read_committed'

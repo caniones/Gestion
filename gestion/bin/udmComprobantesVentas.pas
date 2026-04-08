@@ -83,6 +83,25 @@ type
     ibqArticulosCONTROL_STOCK: TIntegerField;
     ibqBusquedaArtDESCRIPCION: TIBStringField;
     ibdsItemsCODIGO_INTERNO: TIBStringField;
+    ibqVerificarStock: TIBQuery;
+    ibqVerificarStockIDARTICULO: TIntegerField;
+    ibqVerificarStockCODIGO_INTERNO: TIBStringField;
+    ibqVerificarStockDESCRIPCION: TIBStringField;
+    ibqVerificarStockSTOCK: TIBBCDField;
+    ibqVerificarStockPUNTO_REPOSICION: TIBBCDField;
+    ibqVerificarStockIDLINEA: TIntegerField;
+    ibqVerificarStockIDRUBRO: TIntegerField;
+    ibqVerificarStockIDTITULO: TIntegerField;
+    ibqVerificarStockIDPROVEEDOR: TIntegerField;
+    ibqVerificarStockFECHA_BAJA: TDateField;
+    ibqVerificarStockFECHA_ACTPRECIO: TDateField;
+    ibqVerificarStockFECHA_COMPRA: TDateField;
+    ibqVerificarStockCOSTO_UNITARIO: TIBBCDField;
+    ibqVerificarStockUTILIDAD: TIBBCDField;
+    ibqVerificarStockIVA: TIBBCDField;
+    ibqVerificarStockPRECIO_PUBLICO: TIBBCDField;
+    ibqVerificarStockCONTROL_STOCK: TIntegerField;
+    ibqVerificarStockIDMONEDA: TIntegerField;
     procedure DataModuleCreate(Sender: TObject);
     procedure ibdsItemsCalcFields(DataSet: TDataSet);
     procedure ibdsItemsNewRecord(DataSet: TDataSet);
@@ -483,15 +502,17 @@ end;
 procedure TdmComprobantesVentas.comprobarStock;
 begin
   // comprueba el stock del artículo
-  if ibqArticulosCONTROL_STOCK.AsInteger = 1 then
+  ibqVerificarStock.Close;
+  ibqVerificarStock.Open;
+  if ibqVerificarStockCONTROL_STOCK.AsInteger = 1 then
     begin
-    if ibqArticulosSTOCK.AsFloat <= 0 then
+    if ibqVerificarStockSTOCK.AsFloat <= 0 then
       // no quedan en stock
       application.MessageBox('El artículo no cuenta con stock disponible',
         'Atención',MB_ICONWARNING)
     else
-      if (ibqArticulosSTOCK.AsFloat-ibdsItemsCANTIDAD.AsFloat)
-        <= ibqArticulosPUNTO_REPOSICION.AsFloat then
+      if (ibqVerificarStockSTOCK.AsFloat-ibdsItemsCANTIDAD.AsFloat)
+        <= ibqVerificarStockPUNTO_REPOSICION.AsFloat then
         // alcanzó el punto de reposición
         application.MessageBox('El artículo alcanzó su punto de reposición',
           'Atención',MB_ICONINFORMATION);
