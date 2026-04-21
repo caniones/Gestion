@@ -371,6 +371,7 @@ inherited frmRepDetalleCtasClientes: TfrmRepDetalleCtasClientes
       
         '                                AND R.FECHA BETWEEN :DESDE AND :' +
         'HASTA)'
+      'AND C.ANULADO = 0'
       'UNION'
       'SELECT FECHA, '#39'PAGO NUMERO '#39'||r.NUMERO, r.IMPORTE*-1'
       'FROM RECIBOS r'
